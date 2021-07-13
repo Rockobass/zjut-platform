@@ -15,7 +15,7 @@ public class LogInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        String requestId= UUID.randomUUID().toString();
+        String requestId = UUID.randomUUID().toString();
         MDC.put("requestId",requestId );
         request.setAttribute("requestId", requestId);
         log.info(requestId+":"+request.getRequestURI());
