@@ -2,7 +2,7 @@ package org.whatever.aha.zjut.base.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.whatever.aha.zjut.base.consts.ResponseCode;
+import org.whatever.aha.zjut.base.constant.ResponseCode;
 
 @Data
 @AllArgsConstructor

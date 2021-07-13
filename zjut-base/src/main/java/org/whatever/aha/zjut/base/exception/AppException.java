@@ -1,7 +1,7 @@
 package org.whatever.aha.zjut.base.exception;
 
 import lombok.Getter;
-import org.whatever.aha.zjut.base.consts.ErrorCode;
+import org.whatever.aha.zjut.base.constant.ErrorCode;
 
 import java.util.Map;
 

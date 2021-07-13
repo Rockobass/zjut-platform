@@ -1,4 +1,4 @@
-package org.whatever.aha.zjut.base.consts;
+package org.whatever.aha.zjut.base.constant;
 
 import lombok.Getter;
 
