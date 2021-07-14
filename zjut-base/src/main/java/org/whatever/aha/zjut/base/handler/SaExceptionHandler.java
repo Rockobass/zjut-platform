@@ -1,31 +1,31 @@
 package org.whatever.aha.zjut.base.handler;
 
+import cn.dev33.satoken.exception.SaTokenException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.whatever.aha.zjut.base.constant.ErrorCode;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.base.dto.ErrorDetail;
-import org.whatever.aha.zjut.base.exception.AppException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 
 @ControllerAdvice
+@Order(10)
 @Slf4j
-@Order(1)
-public class CustomExceptionHandler {
+public class SaExceptionHandler {
 
-    @ExceptionHandler(AppException.class)
+    @ExceptionHandler(SaTokenException.class)
     @ResponseBody
-    public AjaxResult<Object> handleAppException(AppException e, HttpServletRequest request) {
-        ErrorDetail errorDetail = ErrorDetail.builder().code(e.getCode())
+    public AjaxResult<Object> handleSaTokenException(SaTokenException e, HttpServletRequest request) {
+        ErrorDetail errorDetail = ErrorDetail.builder()
                 .requestId(request.getAttribute("requestId").toString())
-                .data(e.getData()).path(request.getRequestURI())
+                .data(e.getMessage()).path(request.getRequestURI())
                 .timestamp(Instant.now()).build();
         log.error(errorDetail.toString());
-        return AjaxResult.FAIL("发生错误", errorDetail);
+        return AjaxResult.FAIL("token验证失败", errorDetail);
     }
-
 }
