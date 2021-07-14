@@ -8,9 +8,9 @@ import java.util.Map;
 @Getter
 public abstract class AppException extends RuntimeException{
     private final ErrorCode code;
-    private final Map<String, Object> data;
+    private final Object data;
 
-    protected AppException(ErrorCode code, Map<String, Object> data) {
+    protected AppException(ErrorCode code, Object data) {
         this.code = code;
         this.data = data;
     }

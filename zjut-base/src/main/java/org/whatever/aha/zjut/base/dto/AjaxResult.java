@@ -11,9 +11,11 @@ public class AjaxResult<T> {
     private String message;
     private T data;
 
-    public static <N> AjaxResult<N> OK(N data) {
-        return new AjaxResult<>(ResponseCode.OK.getCode(), "success", data);
-    }
+    public static <N> AjaxResult<N> OK(N data) { return new AjaxResult<>(ResponseCode.OK.getCode(), "success", data); }
+
+    public static <N> AjaxResult<N> OK(String msg, N data) { return new AjaxResult<>(ResponseCode.OK.getCode(), msg, data); }
 
     public static <N> AjaxResult<N> FAIL(N data) { return new AjaxResult<>(ResponseCode.FAIL.getCode(), "fail", data); }
+
+    public static <N> AjaxResult<N> FAIL(String msg, N data) { return new AjaxResult<>(ResponseCode.FAIL.getCode(), msg, data); }
 }

@@ -9,7 +9,7 @@ import org.whatever.aha.zjut.base.interceptor.LogInterceptor;
 
 @Configuration
 @AllArgsConstructor
-public class CustomWebMvcConfig implements WebMvcConfigurer {
+public class CustomWebMvcConfigure implements WebMvcConfigurer {
     private final LogInterceptor logInterceptor;
 
     @Override

@@ -16,10 +16,10 @@ public final class ErrorDetail {
     private final String requestId;
     private final String path;
     private final Instant timestamp;
-    private final Map<String, Object> data;
+    private final Object data;
 
 
-    public ErrorDetail(ErrorCode code, String requestId, String path, Instant timestamp, Map<String, Object> data) {
+    public ErrorDetail(ErrorCode code, String requestId, String path, Instant timestamp, Object data) {
         this.code = code;
         this.requestId = requestId;
         this.path = path;
