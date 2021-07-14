@@ -6,7 +6,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.whatever.aha.zjut.base.constant.ErrorCode;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.base.dto.ErrorDetail;
 
