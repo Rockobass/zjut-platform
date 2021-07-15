@@ -7,7 +7,8 @@ public enum ErrorCode {
 
     INVALID_CREDENTIAL(1000, "身份认证失败"),
     NOT_PERMITTED(1001, "无此权限"),
-    ACCOUNT_BLOCKED(1002, "账号被封禁");
+    ACCOUNT_BLOCKED(1002, "账号被封禁"),
+    INVALID_VERIFYING_CODE(2001, "验证码错误");
 
     private final Integer code;
     private final String message;
