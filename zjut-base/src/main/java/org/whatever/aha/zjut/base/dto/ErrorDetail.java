@@ -4,9 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import org.whatever.aha.zjut.base.constant.ErrorCode;
-
 import java.time.Instant;
-import java.util.Map;
 
 @Getter
 @Builder
