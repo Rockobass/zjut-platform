@@ -21,17 +21,18 @@
         <java.version>11</java.version>
         <maven.compiler.source>12</maven.compiler.source>
         <maven.compiler.target>12</maven.compiler.target>
-        <springboot.version>2.5.2</springboot.version>
+        <springboot.version>2.3.4.RELEASE</springboot.version>
         <mysql.connector.java.version>8.0.21</mysql.connector.java.version>
         <alibaba.druid.version>1.0.29</alibaba.druid.version>
         <lombok.version>1.18.12</lombok.version>
         <sa-token-spring-boot-starter.version>1.22.0</sa-token-spring-boot-starter.version>
         <springfox-boot-starter.version>3.0.0</springfox-boot-starter.version>
-        <flyway.version>7.10.0</flyway.version>
+        <flyway.version>6.5.7</flyway.version>
         <druid.version>1.1.20</druid.version>
         <slf4j.version>1.7.21</slf4j.version>
         <logback.version>1.1.7</logback.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
+        <mybatis-plus.version>3.3.2</mybatis-plus.version>
     </properties>
 
     <dependencyManagement>
@@ -115,6 +116,11 @@
                 <artifactId>easy-captcha</artifactId>
                 <version>${easy-captcha.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -139,7 +145,7 @@
                     <artifactId>flyway-maven-plugin</artifactId>
                     <version>${flyway.version}</version>
                     <configuration>
-                        <url>jdbc:mysql://localhost:3306/aha_zjut?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=GMT</url>
+                        <url>jdbc:mysql://localhost:3306/aha_zjut?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=UTC</url>
                         <user>root</user>
                         <password>123456</password>
                         <driver>com.mysql.cj.jdbc.Driver</driver>

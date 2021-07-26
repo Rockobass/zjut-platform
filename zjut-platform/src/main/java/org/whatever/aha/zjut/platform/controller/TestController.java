@@ -9,12 +9,17 @@ import org.springframework.web.bind.annotation.RestController;
 import org.whatever.aha.zjut.base.config.ProfileConfig;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.base.exception.app.AccountBlockedException;
+import org.whatever.aha.zjut.platform.mapper.UserMapper;
+
+import javax.annotation.Resource;
 
 @RestController
 public class TestController {
 
     @Autowired
     ProfileConfig profileConfig;
+    @Resource
+    UserMapper userMapper;
 
     @PostMapping("/sa")
     AjaxResult<Object> test(@RequestParam int a){
@@ -24,6 +29,6 @@ public class TestController {
 
     @PostMapping("/tt")
     AjaxResult<Object> t(){
-        return AjaxResult.OK(profileConfig.getActiveProfile());
+        return AjaxResult.OK(userMapper.selectList(null));
     }
 }

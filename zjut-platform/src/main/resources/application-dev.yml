@@ -16,6 +16,6 @@ spring:
     baseline-on-migrate: true
 
   datasource:
-    url: jdbc:mysql://localhost:3306/aha_zjut?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=GMT
+    url: jdbc:mysql://localhost:3306/aha_zjut?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     username: root
     password: 123456
