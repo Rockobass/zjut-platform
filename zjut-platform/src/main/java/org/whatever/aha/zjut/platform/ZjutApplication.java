@@ -5,7 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication(scanBasePackages = "org.whatever.aha.zjut.platform")
 @ComponentScan(value = {"org.whatever.aha.zjut.platform", "org.whatever.aha.zjut.base"})
@@ -16,4 +19,10 @@ public class ZjutApplication {
         SpringApplication.run(ZjutApplication.class, args);
         log.info("启动成功：Sa-Token配置如下：" + SaManager.getConfig().toString());
     }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 }

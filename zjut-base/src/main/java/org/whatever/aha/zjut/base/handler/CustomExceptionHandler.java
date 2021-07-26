@@ -10,7 +10,6 @@ import org.whatever.aha.zjut.base.config.ProfileConfig;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.base.dto.ErrorDetail;
 import org.whatever.aha.zjut.base.exception.AppException;
-
 import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 
@@ -37,7 +36,7 @@ public class CustomExceptionHandler {
                     .timestamp(Instant.now()).build();
         }
 
-        return AjaxResult.FAIL("发生错误", errorDetail);
+        return AjaxResult.FAIL(errorDetail);
     }
 
 }

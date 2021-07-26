@@ -1,28 +1,43 @@
 package org.whatever.aha.zjut.platform.controller;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+import org.whatever.aha.zjut.base.dto.AjaxResult;
+import org.whatever.aha.zjut.base.exception.app.AccountBlockedException;
+import org.whatever.aha.zjut.base.exception.app.InvalidCredentialException;
+import org.whatever.aha.zjut.platform.entity.User;
+import org.whatever.aha.zjut.platform.service.UserService;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user/")
 public class SaController {
+    @Autowired
+    UserService userService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
-    // 测试登录，浏览器访问： http://localhost:8081/user/doLogin?username=zhang&password=123456
-    @RequestMapping("doLogin")
-    public Object doLogin(String u, String p) {
-        // 此处仅作模拟示例，真实项目需要从数据库中查询数据进行比对
-        if(true) {
-            StpUtil.login(10001);
+    @PostMapping("passwordLogin")
+    public Object doLogin(@RequestParam String username, @RequestParam String password) {
+        User user = userService.getUserByUsername(username);
+        if (user == null || !passwordEncoder.matches(password, user.getPassword()))
+            throw new InvalidCredentialException();
+        if(user.getDisabled())
+            throw new AccountBlockedException(Map.of("username", username, "untie_time", user.getUntieTime()));
 
-            return StpUtil.getTokenInfo();
-        }
-        return "登录失败";
+        StpUtil.login(user.getId());
+        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+        return AjaxResult.OK(Map.of("token_name", tokenInfo.getTokenName(),
+                "token_value", tokenInfo.getTokenValue(), "login_device", tokenInfo.getLoginDevice()));
     }
 
-    // 查询登录状态，浏览器访问： http://localhost:8081/user/isLogin
-    @RequestMapping("isLogin")
+    @GetMapping("isLogin")
     public String isLogin(String username, String password) {
         return "当前会话是否登录：" + StpUtil.isLogin();
     }
+
 }

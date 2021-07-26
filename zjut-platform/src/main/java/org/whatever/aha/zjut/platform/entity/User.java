@@ -9,6 +9,7 @@ public class User {
     Integer id;
     String username;
     String phoneNumber;
+    String password;
     Boolean disabled;
     Date untieTime;
 }
