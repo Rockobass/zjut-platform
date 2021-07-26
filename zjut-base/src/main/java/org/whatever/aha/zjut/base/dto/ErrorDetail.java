@@ -1,16 +1,16 @@
 package org.whatever.aha.zjut.base.dto;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.ToString;
 import org.whatever.aha.zjut.base.constant.ErrorCode;
 import java.time.Instant;
 
-@Getter
+@Data
 @Builder
-@ToString
 public final class ErrorDetail {
-    private final ErrorCode code;
+    private ErrorCode code;
     private final String requestId;
     private final String path;
     private final Instant timestamp;

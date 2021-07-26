@@ -10,9 +10,9 @@ public class SaController {
 
     // 测试登录，浏览器访问： http://localhost:8081/user/doLogin?username=zhang&password=123456
     @RequestMapping("doLogin")
-    public Object doLogin(String username, String password) {
+    public Object doLogin(String u, String p) {
         // 此处仅作模拟示例，真实项目需要从数据库中查询数据进行比对
-        if("u".equals(username) && "123".equals(password)) {
+        if(true) {
             StpUtil.login(10001);
 
             return StpUtil.getTokenInfo();

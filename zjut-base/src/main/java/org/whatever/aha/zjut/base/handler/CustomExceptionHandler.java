@@ -1,10 +1,12 @@
 package org.whatever.aha.zjut.base.handler;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.whatever.aha.zjut.base.config.ProfileConfig;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.base.dto.ErrorDetail;
 import org.whatever.aha.zjut.base.exception.AppException;
@@ -17,14 +19,24 @@ import java.time.Instant;
 @Order(1)
 public class CustomExceptionHandler {
 
+    @Autowired
+    ProfileConfig profileConfig;
+
     @ExceptionHandler(AppException.class)
     @ResponseBody
     public AjaxResult<Object> handleAppException(AppException e, HttpServletRequest request) {
-        ErrorDetail errorDetail = ErrorDetail.builder().code(e.getCode())
-                .requestId(request.getAttribute("requestId").toString())
-                .data(e.getData()).path(request.getRequestURI())
-                .timestamp(Instant.now()).build();
-        log.error(errorDetail.toString());
+        ErrorDetail errorDetail;
+        if (profileConfig.getActiveProfile().equals("dev")) {
+            errorDetail = ErrorDetail.builder().code(e.getCode())
+                    .requestId(request.getAttribute("requestId").toString())
+                    .data(e.getData()).path(request.getRequestURI())
+                    .timestamp(Instant.now()).build();
+            log.error(errorDetail.toString());
+        } else {
+            errorDetail = ErrorDetail.builder().code(e.getCode())
+                    .timestamp(Instant.now()).build();
+        }
+
         return AjaxResult.FAIL("发生错误", errorDetail);
     }
 
