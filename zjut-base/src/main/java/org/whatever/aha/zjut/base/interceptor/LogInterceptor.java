@@ -1,17 +1,19 @@
 package org.whatever.aha.zjut.base.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Component
 @Slf4j
+/*
+ * 生成唯一请求id，并记录日志
+ */
 public class LogInterceptor implements HandlerInterceptor {
 
     @Override

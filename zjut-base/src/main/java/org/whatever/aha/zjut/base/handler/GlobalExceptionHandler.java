@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.whatever.aha.zjut.base.config.ProfileConfig;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.base.dto.ErrorDetail;
-import org.whatever.aha.zjut.base.exception.AppException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
@@ -28,17 +27,12 @@ public class GlobalExceptionHandler {
                     .requestId(request.getAttribute("requestId").toString())
                     .data(e.getMessage()).path(request.getRequestURI())
                     .timestamp(Instant.now()).build();
-
-            if (e instanceof AppException)
-                errorDetail.setCode(((AppException) e).getCode());
             e.printStackTrace();
             return AjaxResult.FAIL("全局异常", errorDetail);
         } else { // 其他环境时返回的异常信息
             ErrorDetail errorDetail = ErrorDetail.builder()
                     .timestamp(Instant.now()).build();
 
-            if (e instanceof AppException)
-                errorDetail.setCode(((AppException) e).getCode());
             return AjaxResult.FAIL("请求失败", errorDetail);
         }
 
