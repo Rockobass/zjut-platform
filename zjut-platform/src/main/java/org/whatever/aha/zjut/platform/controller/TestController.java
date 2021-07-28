@@ -2,6 +2,7 @@ package org.whatever.aha.zjut.platform.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,8 +27,9 @@ public class TestController {
         return AjaxResult.OK("成功");
     }
 
+    @Cacheable(value = "common")
     @PostMapping("/tt")
-    AjaxResult<Object> t(){
+    public AjaxResult<Object> t(int a){
         return AjaxResult.OK(userMapper.selectList(null));
     }
 }

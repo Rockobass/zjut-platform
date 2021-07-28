@@ -18,6 +18,13 @@ sa-token:
   # 是否输出操作日志
   is-log: false
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+
 spring:
   profiles:
     active: dev
