@@ -29,7 +29,7 @@ public class TestController {
 
     @Cacheable(value = "common")
     @PostMapping("/tt")
-    public AjaxResult<Object> t(int a){
+    public AjaxResult<Object> t(){
         return AjaxResult.OK(userMapper.selectList(null));
     }
 }
