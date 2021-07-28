@@ -26,13 +26,15 @@ public class CustomExceptionHandler {
     public AjaxResult<Object> handleAppException(AppException e, HttpServletRequest request) {
         ErrorDetail errorDetail;
         if (profileConfig.getActiveProfile().equals("dev")) {
-            errorDetail = ErrorDetail.builder().code(e.getCode())
+            errorDetail = ErrorDetail.builder().code(e.getCode().getCode())
+                    .message(e.getCode().getMessage())
                     .requestId(request.getAttribute("requestId").toString())
                     .data(e.getData()).path(request.getRequestURI())
                     .timestamp(Instant.now()).build();
             log.error(errorDetail.toString());
         } else {
-            errorDetail = ErrorDetail.builder().code(e.getCode())
+            errorDetail = ErrorDetail.builder().code(e.getCode().getCode())
+                    .message(e.getCode().getMessage())
                     .timestamp(Instant.now()).build();
         }
 

@@ -4,11 +4,16 @@ import lombok.Getter;
 import org.whatever.aha.zjut.base.constant.ErrorCode;
 
 @Getter
-public abstract class AppException extends RuntimeException{
+public class AppException extends RuntimeException{
     private final ErrorCode code;
     private final Object data;
 
-    protected AppException(ErrorCode code, Object data) {
+    public AppException(ErrorCode code) {
+        this.code = code;
+        this.data = null;
+    }
+
+    public AppException(ErrorCode code, Object data) {
         this.code = code;
         this.data = data;
     }

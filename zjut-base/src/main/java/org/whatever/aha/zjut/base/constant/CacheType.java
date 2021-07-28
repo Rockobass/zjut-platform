@@ -6,9 +6,12 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum CacheType {
-    common(100, 500, 30);
+    NoExpire(100, 3000, false,-1),
+    Captcha(100, 10000, true, 60),
+    SMS(100, 10000, true, 60);
 
     private final int initialCapacity;
     private final int maximumSize;
-    private final int expires;
+    private final boolean expires;
+    private final int expireTime;
 }

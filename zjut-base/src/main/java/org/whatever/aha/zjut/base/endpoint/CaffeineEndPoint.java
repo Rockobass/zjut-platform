@@ -33,7 +33,7 @@ public class CaffeineEndPoint {
             map.put("load_success_count", stat.loadSuccessCount());
             map.put("load_failure_count", stat.loadFailureCount());
             map.put("total_load_time", stat.totalLoadTime());
-            map.put("request_count",stat.requestCount());
+            map.put("request_count", stat.requestCount());
             map.put("eviction_weight", stat.evictionWeight());
             map.put("eviction_count", stat.evictionCount());
             stats.add(map);

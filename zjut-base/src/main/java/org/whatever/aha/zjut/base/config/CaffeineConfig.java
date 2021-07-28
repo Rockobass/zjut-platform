@@ -1,7 +1,7 @@
 package org.whatever.aha.zjut.base.config;
 
-import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.cache.support.SimpleCacheManager;
@@ -22,17 +22,26 @@ public class CaffeineConfig {
         List<CaffeineCache> caffeineCaches = new ArrayList<>();
 
         for (CacheType cacheType : CacheType.values()) {
-            caffeineCaches.add(new CaffeineCache(cacheType.name(),
-                    Caffeine.newBuilder()
-                            .initialCapacity(cacheType.getInitialCapacity())
-                            .maximumSize(cacheType.getMaximumSize())
-                            .expireAfterWrite(cacheType.getExpires(), TimeUnit.SECONDS)
-                            .recordStats()
-                            .build()));
+            if (cacheType.isExpires())
+                caffeineCaches.add(new CaffeineCache(cacheType.name(),
+                        Caffeine.newBuilder()
+                                .initialCapacity(cacheType.getInitialCapacity())
+                                .maximumSize(cacheType.getMaximumSize())
+                                .expireAfterWrite(cacheType.getExpireTime(), TimeUnit.SECONDS)
+                                .recordStats()
+                                .build()));
+            else
+                caffeineCaches.add(new CaffeineCache(cacheType.name(),
+                        Caffeine.newBuilder()
+                                .initialCapacity(cacheType.getInitialCapacity())
+                                .maximumSize(cacheType.getMaximumSize())
+                                .recordStats()
+                                .build()));
         }
 
         cacheManager.setCaches(caffeineCaches);
 
         return cacheManager;
     }
+
 }
