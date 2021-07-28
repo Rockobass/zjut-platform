@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Caffeine缓存配置类
+ */
 @Configuration
 public class CaffeineConfig {
     @Bean

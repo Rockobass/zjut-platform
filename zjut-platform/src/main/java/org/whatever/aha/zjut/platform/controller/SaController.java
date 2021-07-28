@@ -24,6 +24,11 @@ public class SaController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    /**
+     * 密码登录
+     * @param code 验证码
+     * @param fingerPrint 设备或浏览器指纹
+     */
     @PostMapping("/passwordLogin")
     public Object doLogin(@RequestParam String username, @RequestParam String password, @RequestParam String code, @RequestParam String fingerPrint) {
         captchaService.verify(fingerPrint, code);
@@ -44,6 +49,10 @@ public class SaController {
         return AjaxResult.OK(StpUtil.isLogin());
     }
 
+    /**
+     * 获取base64格式验证码图片
+     * @param fingerPrint 设备或浏览器指纹
+     */
     @GetMapping("/verifyCode")
     public String getVerifyCode(@RequestParam String fingerPrint) {
         return captchaService.getBase64(fingerPrint);

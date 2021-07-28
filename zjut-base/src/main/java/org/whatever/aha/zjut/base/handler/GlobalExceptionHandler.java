@@ -12,6 +12,9 @@ import org.whatever.aha.zjut.base.dto.ErrorDetail;
 import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 
+/**
+ * 未被其余handler处理，则最终进入该handler处理，处理Exception子类
+ */
 @ControllerAdvice
 @Order(100)
 public class GlobalExceptionHandler {

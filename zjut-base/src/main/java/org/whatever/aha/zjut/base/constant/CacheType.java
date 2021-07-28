@@ -3,6 +3,9 @@ package org.whatever.aha.zjut.base.constant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * 缓存枚举类
+ */
 @Getter
 @AllArgsConstructor
 public enum CacheType {

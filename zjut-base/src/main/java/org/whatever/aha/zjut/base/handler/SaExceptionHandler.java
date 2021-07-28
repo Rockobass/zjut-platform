@@ -18,6 +18,9 @@ import java.time.Instant;
 @Order(10)
 @Slf4j
 /*拜托帮我抽取一下if判断公共逻辑*/
+/**
+ * 处理token有关的异常，第二个执行
+ */
 public class SaExceptionHandler {
 
     @Autowired

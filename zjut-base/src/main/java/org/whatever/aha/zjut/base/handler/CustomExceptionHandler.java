@@ -16,6 +16,9 @@ import java.time.Instant;
 @ControllerAdvice
 @Slf4j
 @Order(1)
+/**
+ * 处理AppException及其子类，最先执行
+ */
 public class CustomExceptionHandler {
 
     @Autowired

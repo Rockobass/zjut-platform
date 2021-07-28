@@ -3,6 +3,9 @@ package org.whatever.aha.zjut.base.exception;
 import lombok.Getter;
 import org.whatever.aha.zjut.base.constant.ErrorCode;
 
+/**
+ * 自定义异常
+ */
 @Getter
 public class AppException extends RuntimeException{
     private final ErrorCode code;

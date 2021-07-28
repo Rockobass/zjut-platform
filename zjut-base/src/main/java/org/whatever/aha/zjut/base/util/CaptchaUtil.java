@@ -2,10 +2,9 @@ package org.whatever.aha.zjut.base.util;
 
 import com.wf.captcha.SpecCaptcha;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.whatever.aha.zjut.base.constant.ErrorCode;
 import org.whatever.aha.zjut.base.exception.AppException;
-import org.whatever.aha.zjut.base.exception.app.InvalidVerifyingCodeException;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,6 +13,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Base64;
 
+/**
+ * 验证码生成工具类
+ */
 @Slf4j
 public class CaptchaUtil extends SpecCaptcha {
 

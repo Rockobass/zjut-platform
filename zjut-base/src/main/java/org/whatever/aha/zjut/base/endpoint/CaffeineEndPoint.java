@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * caffeine监控端点 /actuator/caffeine
+ */
 @Component
 @Endpoint(id = "caffeine")
 public class CaffeineEndPoint {
@@ -37,7 +40,6 @@ public class CaffeineEndPoint {
             map.put("eviction_weight", stat.evictionWeight());
             map.put("eviction_count", stat.evictionCount());
             stats.add(map);
-//            stats.add(((CaffeineCache)caffeineCacheManager.getCache(e)).getNativeCache().stats().toString());
         });
         return stats;
     }

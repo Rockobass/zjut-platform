@@ -2,6 +2,9 @@ package org.whatever.aha.zjut.base.constant;
 
 import lombok.Getter;
 
+/**
+ * 错误类型枚举类
+ */
 @Getter
 public enum ErrorCode {
 
