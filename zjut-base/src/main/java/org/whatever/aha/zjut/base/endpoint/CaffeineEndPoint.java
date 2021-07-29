@@ -1,5 +1,6 @@
 package org.whatever.aha.zjut.base.endpoint;
 
+import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
@@ -27,7 +28,9 @@ public class CaffeineEndPoint {
         List<Object> stats = new ArrayList<>();
         caffeineCacheManager.getCacheNames().forEach(e -> {
             Map<String, Object> map = new HashMap<>();
-            CacheStats stat = ((CaffeineCache) caffeineCacheManager.getCache(e)).getNativeCache().stats();
+            Cache<Object, Object> nativeCache = ((CaffeineCache) caffeineCacheManager.getCache(e)).getNativeCache();
+            CacheStats stat = nativeCache.stats();
+            map.put("estimated_size", nativeCache.estimatedSize());
             map.put("cache_name", e);
             map.put("hit_count", stat.hitCount());
             map.put("miss_count", stat.missCount());
