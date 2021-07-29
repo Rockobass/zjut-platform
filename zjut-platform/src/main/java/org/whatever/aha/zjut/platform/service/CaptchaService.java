@@ -14,7 +14,10 @@ public class CaptchaService {
     @Autowired
     CacheManager caffeineCacheManager;
 
-    public String getBase64(String fingerPrint){
+    /**
+     * 生成base64验证码
+     */
+    public String getBase64(String fingerPrint) {
         CaptchaUtil captchaUtil = new CaptchaUtil(200, 80, 6, 0, "#365700");
         captchaUtil.setCharType(Captcha.TYPE_DEFAULT);
         String verifyCode = captchaUtil.text().toLowerCase();
@@ -25,6 +28,9 @@ public class CaptchaService {
         return base64Img;
     }
 
+    /**
+     * 校对验证码
+     */
     public void verify(String fingerPrint, String code) {
         Cache cache = caffeineCacheManager.getCache("Captcha");
         Cache.ValueWrapper value = cache.get(fingerPrint);
