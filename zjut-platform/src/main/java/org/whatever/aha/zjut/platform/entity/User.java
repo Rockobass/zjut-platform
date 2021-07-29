@@ -6,10 +6,11 @@ import java.util.Date;
 
 @Data
 public class User {
-    Integer id;
+    int userId;
     String username;
     String phoneNumber;
     String password;
     Boolean disabled;
+    int loginType;
     Date untieTime;
 }

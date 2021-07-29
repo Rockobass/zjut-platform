@@ -1,8 +1,8 @@
 package org.whatever.aha.zjut.platform.controller;
 
+import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,15 +23,14 @@ public class TestController {
     UserMapper userMapper;
 
     @PostMapping("/sa")
-    AjaxResult<Object> test(@RequestParam int a){
-        StpUtil.logoutByLoginId(10001);
-        StpUtil.disable(10001, 86400);
+    AjaxResult<Object> test(@RequestParam int a) {
+        StpUtil.login(1);
         return AjaxResult.OK("成功");
     }
 
-    @Cacheable(value = "common")
     @PostMapping("/tt")
-    public AjaxResult<Object> t(){
+    @SaCheckRole("aa")
+    public AjaxResult<Object> t() {
         return AjaxResult.OK(userMapper.selectList(null));
     }
 }

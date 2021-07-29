@@ -1,5 +1,6 @@
 package org.whatever.aha.zjut.base.config;
 
+import cn.dev33.satoken.interceptor.SaAnnotationInterceptor;
 import cn.dev33.satoken.interceptor.SaRouteInterceptor;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
@@ -18,5 +19,7 @@ public class SaTokenConfig implements WebMvcConfigurer {
             SaRouter.match("/v1/**", StpUtil::checkLogin);
 
         })).addPathPatterns("/v1/**").excludePathPatterns("/v1/sa/**", "/v1/test/**");
+
+        registry.addInterceptor(new SaAnnotationInterceptor()).addPathPatterns("/**");
     }
 }

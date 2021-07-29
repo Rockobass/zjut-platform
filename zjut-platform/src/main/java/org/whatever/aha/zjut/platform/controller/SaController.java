@@ -14,6 +14,9 @@ import org.whatever.aha.zjut.platform.service.UserService;
 
 import java.util.Map;
 
+/**
+ * 登录和token分发相关接口
+ */
 @RestController
 @RequestMapping("/v1/sa")
 public class SaController {
@@ -26,19 +29,24 @@ public class SaController {
 
     /**
      * 密码登录
-     * @param code 验证码
+     *
+     * @param username    用户名、学号或手机号
+     * @param code        验证码
+     * @param loginType   用户类型 0 学生、1 评委、2 院级管理员、3 校级管理员
      * @param fingerPrint 设备或浏览器指纹
      */
     @PostMapping("/passwordLogin")
-    public Object doLogin(@RequestParam String username, @RequestParam String password, @RequestParam String code, @RequestParam String fingerPrint) {
+    public Object doLogin(@RequestParam String username, @RequestParam String password, @RequestParam int loginType, @RequestParam String code, @RequestParam String fingerPrint) {
+
         captchaService.verify(fingerPrint, code);
         User user = userService.getUserByUsername(username);
-        if (user == null || !passwordEncoder.matches(password, user.getPassword()))
+
+        if (user == null || !passwordEncoder.matches(password, user.getPassword()) || loginType != user.getLoginType())
             throw new InvalidCredentialException();
-        if(user.getDisabled())
+        if (user.getDisabled())
             throw new AccountBlockedException(Map.of("username", username, "untie_time", user.getUntieTime()));
 
-        StpUtil.login(user.getId());
+        StpUtil.login(user.getUserId());
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
         return AjaxResult.OK(Map.of("token_name", tokenInfo.getTokenName(),
                 "token_value", tokenInfo.getTokenValue(), "login_device", tokenInfo.getLoginDevice()));
@@ -49,8 +57,15 @@ public class SaController {
         return AjaxResult.OK(StpUtil.isLogin());
     }
 
+    @GetMapping("/logout")
+    public Object logout() {
+        StpUtil.logout();
+        return AjaxResult.OK("注销成功");
+    }
+
     /**
      * 获取base64格式验证码图片
+     *
      * @param fingerPrint 设备或浏览器指纹
      */
     @GetMapping("/verifyCode")
