@@ -29,6 +29,7 @@ public class TestController {
     }
 
     @PostMapping("/tt")
+    @SaCheckRole("dasd")
     public AjaxResult<Object> t() {
         return AjaxResult.OK(userMapper.selectList(null));
     }

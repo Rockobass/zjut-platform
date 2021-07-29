@@ -1,5 +1,6 @@
 package org.whatever.aha.zjut.platform.controller;
 
+import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.annotations.Api;
