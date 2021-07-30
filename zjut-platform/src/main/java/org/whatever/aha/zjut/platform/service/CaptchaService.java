@@ -1,6 +1,7 @@
 package org.whatever.aha.zjut.platform.service;
 
 import com.wf.captcha.base.Captcha;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -10,9 +11,10 @@ import org.whatever.aha.zjut.base.exception.AppException;
 import org.whatever.aha.zjut.base.util.CaptchaUtil;
 
 @Service
+@RequiredArgsConstructor
 public class CaptchaService {
-    @Autowired
-    CacheManager caffeineCacheManager;
+
+    final CacheManager caffeineCacheManager;
 
     /**
      * 生成base64验证码

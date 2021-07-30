@@ -2,6 +2,7 @@ package org.whatever.aha.zjut.base.endpoint;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
@@ -19,9 +20,10 @@ import java.util.Map;
  */
 @Component
 @Endpoint(id = "caffeine")
+@RequiredArgsConstructor
 public class CaffeineEndPoint {
-    @Autowired
-    CacheManager caffeineCacheManager;
+
+    final CacheManager caffeineCacheManager;
 
     @ReadOperation
     public Object getStats() {

@@ -1,13 +1,12 @@
 package org.whatever.aha.zjut.platform.controller;
 
-import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
@@ -22,13 +21,12 @@ import java.util.Map;
 @Api(tags = "登录和token分发相关接口")
 @RestController
 @RequestMapping("/v1/sa")
+@RequiredArgsConstructor
 public class SaController {
-    @Autowired
-    UserService userService;
-    @Autowired
-    CaptchaService captchaService;
-    @Autowired
-    PasswordEncoder passwordEncoder;
+
+    final UserService userService;
+    final CaptchaService captchaService;
+    final PasswordEncoder passwordEncoder;
 
 
     @ApiOperation("通过密码登录")

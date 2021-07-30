@@ -1,5 +1,6 @@
 package org.whatever.aha.zjut.base.handler;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -13,16 +14,16 @@ import org.whatever.aha.zjut.base.exception.AppException;
 import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 
-@ControllerAdvice
-@Slf4j
-@Order(1)
 /**
  * 处理AppException及其子类，最先执行
  */
+@ControllerAdvice
+@Slf4j
+@Order(1)
+@RequiredArgsConstructor
 public class CustomExceptionHandler {
 
-    @Autowired
-    ProfileConfig profileConfig;
+    final ProfileConfig profileConfig;
 
     @ExceptionHandler(AppException.class)
     @ResponseBody

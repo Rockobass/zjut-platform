@@ -1,6 +1,7 @@
 package org.whatever.aha.zjut.base.handler;
 
 import cn.dev33.satoken.exception.SaTokenException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -13,18 +14,17 @@ import org.whatever.aha.zjut.base.dto.ErrorDetail;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
-
-@ControllerAdvice
-@Order(10)
-@Slf4j
-/*拜托帮我抽取一下if判断公共逻辑*/
 /**
  * 处理token有关的异常，第二个执行
  */
+/*拜托帮我抽取一下if判断公共逻辑*/
+@ControllerAdvice
+@Order(10)
+@Slf4j
+@RequiredArgsConstructor
 public class SaExceptionHandler {
 
-    @Autowired
-    ProfileConfig profileConfig;
+    final ProfileConfig profileConfig;
 
     @ExceptionHandler(SaTokenException.class)
     @ResponseBody

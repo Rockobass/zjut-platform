@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
-@Component
-@Slf4j
 /*
  * 生成唯一请求id，并记录日志
  */
+@Component
+@Slf4j
 public class LogInterceptor implements HandlerInterceptor {
 
     @Override

@@ -1,5 +1,6 @@
 package org.whatever.aha.zjut.base.handler;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,10 +18,11 @@ import java.time.Instant;
  */
 @ControllerAdvice
 @Order(100)
+@RequiredArgsConstructor
 public class GlobalExceptionHandler {
 
-    @Autowired
-    ProfileConfig profileConfig;
+
+    final ProfileConfig profileConfig;
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
