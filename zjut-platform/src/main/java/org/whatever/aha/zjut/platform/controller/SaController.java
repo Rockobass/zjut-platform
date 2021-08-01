@@ -90,6 +90,11 @@ public class SaController {
 
     @ApiOperation("短信验证码登陆")
     @PostMapping("/phoneLogin")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "phoneNumber", value = "手机号"),
+            @ApiImplicitParam(name = "code", value = "验证码"),
+            @ApiImplicitParam(name = "loginType", value = "用户类型 0 学生、1 评委、2 院级管理员、3 校级管理员")
+    })
     public Object doLogin(@RequestParam String phoneNumber, @RequestParam int loginType, @RequestParam String code) {
 
         smsService.verify(phoneNumber, code);
