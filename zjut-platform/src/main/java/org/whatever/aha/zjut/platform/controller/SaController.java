@@ -9,11 +9,14 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.whatever.aha.zjut.base.constant.ErrorCode;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
+import org.whatever.aha.zjut.base.exception.AppException;
 import org.whatever.aha.zjut.base.exception.app.AccountBlockedException;
 import org.whatever.aha.zjut.base.exception.app.InvalidCredentialException;
 import org.whatever.aha.zjut.platform.entity.User;
 import org.whatever.aha.zjut.platform.service.CaptchaService;
+import org.whatever.aha.zjut.platform.service.SMSService;
 import org.whatever.aha.zjut.platform.service.UserService;
 
 import java.util.Map;
@@ -27,6 +30,7 @@ public class SaController {
     final UserService userService;
     final CaptchaService captchaService;
     final PasswordEncoder passwordEncoder;
+    final SMSService smsService;
 
 
     @ApiOperation("通过密码登录")
@@ -72,5 +76,33 @@ public class SaController {
     @GetMapping("/verifyCode")
     public String getVerifyCode(@RequestParam String fingerPrint) {
         return captchaService.getBase64(fingerPrint);
+    }
+
+    @ApiOperation("获取短信验证码")
+    @ApiImplicitParam(name = "phoneNumber", value = "手机号码")
+    @PostMapping("/getSmsCode")
+    public Object getSMSCode(@RequestParam String phoneNumber) {
+        if (!userService.exist(phoneNumber))
+            throw new AppException(ErrorCode.INVALID_PHONE_NUMBER);
+        smsService.sendMessage(phoneNumber);
+        return AjaxResult.OK(null);
+    }
+
+    @ApiOperation("短信验证码登陆")
+    @PostMapping("/phoneLogin")
+    public Object doLogin(@RequestParam String phoneNumber, @RequestParam int loginType, @RequestParam String code) {
+
+        smsService.verify(phoneNumber, code);
+        User user = userService.getUserByUsername(phoneNumber);
+
+        if (user == null || loginType != user.getLoginType())
+            throw new InvalidCredentialException();
+        if (user.getDisabled())
+            throw new AccountBlockedException(Map.of("username", phoneNumber, "untie_time", user.getUntieTime()));
+
+        StpUtil.login(user.getUserId());
+        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+        return AjaxResult.OK(Map.of("token_name", tokenInfo.getTokenName(),
+                "token_value", tokenInfo.getTokenValue(), "login_device", tokenInfo.getLoginDevice()));
     }
 }

@@ -19,8 +19,8 @@
 
     <properties>
         <java.version>11</java.version>
-        <maven.compiler.source>12</maven.compiler.source>
-        <maven.compiler.target>12</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <springboot.version>2.3.4.RELEASE</springboot.version>
         <mysql.connector.java.version>8.0.21</mysql.connector.java.version>
         <alibaba.druid.version>1.0.29</alibaba.druid.version>
@@ -142,6 +142,12 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-actuator</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
                 <version>${springboot.version}</version>
             </dependency>
         </dependencies>

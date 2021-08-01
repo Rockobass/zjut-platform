@@ -1,8 +1,6 @@
 package org.whatever.aha.zjut.platform.service;
 
 import com.wf.captcha.base.Captcha;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
@@ -11,10 +9,15 @@ import org.whatever.aha.zjut.base.exception.AppException;
 import org.whatever.aha.zjut.base.util.CaptchaUtil;
 
 @Service
-@RequiredArgsConstructor
 public class CaptchaService {
 
     final CacheManager caffeineCacheManager;
+    final Cache captchaCache;
+
+    public CaptchaService(CacheManager caffeineCacheManager) {
+        this.caffeineCacheManager = caffeineCacheManager;
+        this.captchaCache = caffeineCacheManager.getCache("Captcha");
+    }
 
     /**
      * 生成base64验证码
@@ -25,8 +28,7 @@ public class CaptchaService {
         String verifyCode = captchaUtil.text().toLowerCase();
         String base64Img = captchaUtil.toBase64();
 
-        Cache captcha = caffeineCacheManager.getCache("Captcha");
-        captcha.put(fingerPrint, verifyCode);
+        captchaCache.put(fingerPrint, verifyCode);
         return base64Img;
     }
 
@@ -34,15 +36,14 @@ public class CaptchaService {
      * 校对验证码
      */
     public void verify(String fingerPrint, String code) {
-        Cache cache = caffeineCacheManager.getCache("Captcha");
-        Cache.ValueWrapper value = cache.get(fingerPrint);
+        Cache.ValueWrapper value = captchaCache.get(fingerPrint);
         if (value == null)
             throw new AppException(ErrorCode.EXPIRED_VERIFYING_CODE);
         String cachedCode = (String) value.get();
         if (!code.toLowerCase().equals(cachedCode)) {
-            cache.evict(fingerPrint);
+            captchaCache.evict(fingerPrint);
             throw new AppException(ErrorCode.UNMATCHED_VERIFYING_CODE);
         }
-        cache.evict(fingerPrint);
+        captchaCache.evict(fingerPrint);
     }
 }

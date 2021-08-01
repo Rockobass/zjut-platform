@@ -13,9 +13,15 @@ public class UserService {
     @Resource
     UserMapper userMapper;
 
-    @Cacheable(value = "ExpireOneMin", key = "'user'+#username")
+    @Cacheable(value = "ExpireOneMin", key = "'user_'+#username")
     public User getUserByUsername(String username) {
         return userMapper.selectOne(new QueryWrapper<User>().eq("username", username).or().eq("phone_number", username));
+    }
+
+    @Cacheable(value = "ExpireOneMin", key = "'not_exist_'+#phoneNumber")
+    public boolean exist(String phoneNumber) {
+        int count = userMapper.selectCount(new QueryWrapper<User>().eq("phone_number", phoneNumber));
+        return count != 0;
     }
 
 }

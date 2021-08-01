@@ -2,7 +2,7 @@ package org.whatever.aha.zjut.platform.controller;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.stp.StpUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,17 +10,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.whatever.aha.zjut.base.config.ProfileConfig;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.platform.mapper.UserMapper;
-
-import javax.annotation.Resource;
+import org.whatever.aha.zjut.platform.service.SMSService;
 
 @RestController
 @RequestMapping("/v1/test")
+@RequiredArgsConstructor
 public class TestController {
 
-    @Autowired
-    ProfileConfig profileConfig;
-    @Resource
-    UserMapper userMapper;
+    final ProfileConfig profileConfig;
+    final UserMapper userMapper;
+    final SMSService smsService;
 
     @PostMapping("/sa")
     AjaxResult<Object> test(@RequestParam int a) {
@@ -32,5 +31,11 @@ public class TestController {
     @SaCheckRole("dasd")
     public AjaxResult<Object> t() {
         return AjaxResult.OK(userMapper.selectList(null));
+    }
+
+    @PostMapping("/sendSMS")
+    public Object sendSMS() {
+        smsService.sendMessage("13067828119");
+        return AjaxResult.OK(null);
     }
 }
