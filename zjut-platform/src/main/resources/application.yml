@@ -31,3 +31,11 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+tencent-sms:
+  appId: 1400552228
+  appKey: 21bcc930d3b55fac49638b6682b0c66f
+  templateId: 1053297
+  signName: Aha口袋
+  expireTime: 5
+  region: 86

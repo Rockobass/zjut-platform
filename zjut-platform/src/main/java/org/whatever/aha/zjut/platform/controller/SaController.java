@@ -48,8 +48,7 @@ public class SaController {
 
         if (user == null || !passwordEncoder.matches(password, user.getPassword()) || loginType != user.getLoginType())
             throw new InvalidCredentialException();
-        if (user.getDisabled())
-            throw new AccountBlockedException(Map.of("username", username, "untie_time", user.getUntieTime()));
+        userService.checkAccount(user);
 
         StpUtil.login(user.getUserId());
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
@@ -102,8 +101,7 @@ public class SaController {
 
         if (user == null || loginType != user.getLoginType())
             throw new InvalidCredentialException();
-        if (user.getDisabled())
-            throw new AccountBlockedException(Map.of("username", phoneNumber, "untie_time", user.getUntieTime()));
+        userService.checkAccount(user);
 
         StpUtil.login(user.getUserId());
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
