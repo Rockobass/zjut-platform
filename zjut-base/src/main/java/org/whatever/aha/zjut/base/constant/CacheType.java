@@ -5,6 +5,7 @@ import lombok.Getter;
 
 /**
  * 缓存枚举类
+ * @author Baby_mo
  */
 @Getter
 @AllArgsConstructor

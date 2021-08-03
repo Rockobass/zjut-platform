@@ -11,6 +11,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * @author Baby_mo
+ */
 @Slf4j
 @EnableCaching
 @SpringBootApplication(scanBasePackages = "org.whatever.aha.zjut.platform")

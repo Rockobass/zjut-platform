@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * @author Baby_mo
+ */
 @Data
 public class User {
     int userId;

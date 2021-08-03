@@ -8,9 +8,10 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 /**
  * swagger访问地址为/doc.html
+ * @author Baby_mo
  */
 @Configuration
-public class Swagger3Config {
+public class SwaggerConfig {
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.OAS_30)

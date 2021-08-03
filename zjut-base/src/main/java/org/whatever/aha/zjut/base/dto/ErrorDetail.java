@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.time.Instant;
 
+/**
+ * @author Baby_mo
+ */
 @Data
 @Builder
 public final class ErrorDetail {

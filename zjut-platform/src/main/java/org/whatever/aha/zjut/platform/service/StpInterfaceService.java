@@ -2,6 +2,7 @@ package org.whatever.aha.zjut.platform.service;
 
 import cn.dev33.satoken.stp.StpInterface;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.whatever.aha.zjut.platform.mapper.UserMapper;
@@ -13,6 +14,7 @@ import java.util.List;
 
 /**
  * Sa-Token的自定义权限验证扩展
+ * @author Baby_mo
  */
 @Service
 @RequiredArgsConstructor

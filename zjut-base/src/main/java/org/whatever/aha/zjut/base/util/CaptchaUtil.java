@@ -112,11 +112,14 @@ public class CaptchaUtil extends SpecCaptcha {
             // 画字符串
             g2d.setFont(getFont());
             FontMetrics fontMetrics = g2d.getFontMetrics();
-            int fW = width / chars.length;  // 每一个字符所占的宽度
-            int fSp = (fW - (int) fontMetrics.getStringBounds("W", g2d).getWidth()) / 2;  // 字符的左右边距
+            // 每一个字符所占的宽度
+            int fW = width / chars.length;
+            // 字符的左右边距
+            int fSp = (fW - (int) fontMetrics.getStringBounds("W", g2d).getWidth()) / 2;
             for (int i = 0; i < chars.length; i++) {
                 g2d.setColor(textColor == null ? color() : textColor);
-                int fY = height - ((height - (int) fontMetrics.getStringBounds(String.valueOf(chars[i]), g2d).getHeight()) >> 1);  // 文字的纵坐标
+                // 文字的纵坐标
+                int fY = height - ((height - (int) fontMetrics.getStringBounds(String.valueOf(chars[i]), g2d).getHeight()) >> 1);
                 g2d.drawString(String.valueOf(chars[i]), i * fW + fSp + 3, fY - 3);
             }
             g2d.dispose();

@@ -5,6 +5,7 @@ import org.whatever.aha.zjut.base.constant.ErrorCode;
 
 /**
  * 自定义异常
+ * @author Baby_mo
  */
 @Getter
 public class AppException extends RuntimeException{

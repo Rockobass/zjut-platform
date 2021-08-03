@@ -10,6 +10,9 @@ import org.whatever.aha.zjut.platform.mapper.UserMapper;
 import javax.annotation.Resource;
 import java.util.Map;
 
+/**
+ * @author Baby_mo
+ */
 @Service
 public class UserService {
     @Resource
@@ -36,8 +39,9 @@ public class UserService {
      * 检查账户是否过期
      */
     public void checkAccount(User user) {
-        if (user.getDisabled())
+        if (user.getDisabled()){
             throw new AccountBlockedException(Map.of("username", user.getUsername(), "untie_time", user.getUntieTime()));
+        }
     }
 
 }

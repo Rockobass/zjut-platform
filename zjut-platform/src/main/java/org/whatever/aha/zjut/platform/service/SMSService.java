@@ -10,6 +10,9 @@ import org.whatever.aha.zjut.base.constant.ErrorCode;
 import org.whatever.aha.zjut.base.exception.AppException;
 import java.util.Random;
 
+/**
+ * @author Baby_mo
+ */
 @Service
 public class SMSService {
 
@@ -25,8 +28,9 @@ public class SMSService {
 
     public void sendMessage(String phoneNumber) {
         Cache.ValueWrapper valueWrapper = smsCache.get(phoneNumber);
-        if (valueWrapper != null)
+        if (valueWrapper != null) {
             throw new AppException(ErrorCode.MESSAGE_ALREADY_SENT);
+        }
 
         String code = makeSmsCode(6);
         smsCache.put(phoneNumber, code);
@@ -56,11 +60,13 @@ public class SMSService {
 
     public void verify(String phoneNumber, String code) {
         Cache.ValueWrapper valueWrapper = smsCache.get(phoneNumber);
-        if (valueWrapper == null)
+        if (valueWrapper == null) {
             throw new AppException(ErrorCode.MESSAGE_NOT_SENT);
+        }
         String cachedCode = (String) valueWrapper.get();
-        if (!code.equals(cachedCode))
+        if (!code.equals(cachedCode)) {
             throw new AppException(ErrorCode.INVALID_MESSAGE_CODE);
+        }
         smsCache.evict(phoneNumber);
     }
 }
