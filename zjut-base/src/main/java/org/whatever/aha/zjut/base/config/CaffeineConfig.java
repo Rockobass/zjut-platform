@@ -24,7 +24,7 @@ public class CaffeineConfig {
         List<CaffeineCache> caffeineCaches = new ArrayList<>();
 
         for (CacheType cacheType : CacheType.values()) {
-            if (cacheType.isExpires())
+            if (cacheType.isExpires()) {
                 caffeineCaches.add(new CaffeineCache(cacheType.name(),
                         Caffeine.newBuilder()
                                 .initialCapacity(cacheType.getInitialCapacity())
@@ -32,13 +32,14 @@ public class CaffeineConfig {
                                 .expireAfterWrite(cacheType.getExpireTime(), TimeUnit.SECONDS)
                                 .recordStats()
                                 .build()));
-            else
+            } else {
                 caffeineCaches.add(new CaffeineCache(cacheType.name(),
                         Caffeine.newBuilder()
                                 .initialCapacity(cacheType.getInitialCapacity())
                                 .maximumSize(cacheType.getMaximumSize())
                                 .recordStats()
                                 .build()));
+            }
         }
 
         cacheManager.setCaches(caffeineCaches);

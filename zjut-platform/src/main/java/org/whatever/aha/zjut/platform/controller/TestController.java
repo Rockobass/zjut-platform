@@ -12,6 +12,9 @@ import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.platform.mapper.UserMapper;
 import org.whatever.aha.zjut.platform.service.SMSService;
 
+/**
+ * @author GuiYi Yang
+ */
 @RestController
 @RequestMapping("/v1/test")
 @RequiredArgsConstructor
@@ -24,18 +27,18 @@ public class TestController {
     @PostMapping("/sa")
     AjaxResult<Object> test(@RequestParam int a) {
         StpUtil.login(1);
-        return AjaxResult.OK("成功");
+        return AjaxResult.SUCCESS("成功");
     }
 
     @PostMapping("/tt")
     @SaCheckRole("dasd")
     public AjaxResult<Object> t() {
-        return AjaxResult.OK(userMapper.selectList(null));
+        return AjaxResult.SUCCESS(userMapper.selectList(null));
     }
 
     @PostMapping("/sendSMS")
     public Object sendSMS() {
         smsService.sendMessage("13067828119");
-        return AjaxResult.OK(null);
+        return AjaxResult.SUCCESS(null);
     }
 }

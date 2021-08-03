@@ -4,6 +4,7 @@ import lombok.Getter;
 
 /**
  * 错误类型枚举类
+ * @author GuiYi Yang
  */
 @Getter
 public enum ErrorCode {
@@ -16,8 +17,8 @@ public enum ErrorCode {
     UNMATCHED_VERIFYING_CODE(2003, "验证码错误"),
     GENERATE_FAILED(2004, "验证码生成失败"),
     MESSAGE_ALREADY_SENT(3001, "短信验证码已发送，请稍后再试"),
-    MESSAGE_FAILED_TO_SEND(3002, "验证码发送失败"),
-    MESSAGE_NOT_SENT(3003, "未发送验证码"),
+    MESSAGE_FAILED_TO_SEND(3002, "短信验证码发送失败"),
+    MESSAGE_NOT_SENT(3003, "未发送短信验证码"),
     INVALID_MESSAGE_CODE(3004, "短信验证码错误"),
     INVALID_PHONE_NUMBER(3005, "手机号未绑定或账号不存在");
 

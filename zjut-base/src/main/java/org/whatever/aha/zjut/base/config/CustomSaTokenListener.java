@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+/**
+ * @author GuiYi Yang
+ */
 @Component
 @Slf4j
 public class CustomSaTokenListener implements SaTokenListener {

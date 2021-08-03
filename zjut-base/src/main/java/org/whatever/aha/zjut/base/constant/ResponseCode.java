@@ -2,9 +2,13 @@ package org.whatever.aha.zjut.base.constant;
 
 import lombok.Getter;
 
+/**
+ * @author GuiYi Yang
+ */
+
 @Getter
 public enum ResponseCode {
-    OK(200),
+    SUCCESS(200),
     FAIL(400),
     UN_AUTH(401),
     FORBIDDEN(403);

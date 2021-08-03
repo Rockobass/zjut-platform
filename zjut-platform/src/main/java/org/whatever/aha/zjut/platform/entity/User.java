@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * @author GuiYi Yang
+ */
 @Data
 public class User {
     int userId;

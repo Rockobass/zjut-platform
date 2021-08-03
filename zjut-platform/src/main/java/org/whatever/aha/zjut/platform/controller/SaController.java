@@ -21,6 +21,9 @@ import org.whatever.aha.zjut.platform.service.UserService;
 
 import java.util.Map;
 
+/**
+ * @author GuiYi Yang
+ */
 @Api(tags = "登录和token分发相关接口")
 @RestController
 @RequestMapping("/v1/sa")
@@ -46,27 +49,28 @@ public class SaController {
         captchaService.verify(fingerPrint, code);
         User user = userService.getUserByUsername(username);
 
-        if (user == null || !passwordEncoder.matches(password, user.getPassword()) || loginType != user.getLoginType())
+        if (user == null || !passwordEncoder.matches(password, user.getPassword()) || loginType != user.getLoginType()){
             throw new InvalidCredentialException();
+        }
         userService.checkAccount(user);
 
         StpUtil.login(user.getUserId());
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
-        return AjaxResult.OK(Map.of("token_name", tokenInfo.getTokenName(),
+        return AjaxResult.SUCCESS(Map.of("token_name", tokenInfo.getTokenName(),
                 "token_value", tokenInfo.getTokenValue(), "login_device", tokenInfo.getLoginDevice()));
     }
 
     @ApiOperation("判断是否登录")
     @GetMapping("/isLogin")
     public Object isLogin() {
-        return AjaxResult.OK(StpUtil.isLogin());
+        return AjaxResult.SUCCESS(StpUtil.isLogin());
     }
 
     @ApiOperation("注销当前账号")
     @GetMapping("/logout")
     public Object logout() {
         StpUtil.logout();
-        return AjaxResult.OK("注销成功");
+        return AjaxResult.SUCCESS("注销成功");
     }
 
 
@@ -81,10 +85,11 @@ public class SaController {
     @ApiImplicitParam(name = "phoneNumber", value = "手机号码")
     @PostMapping("/getSmsCode")
     public Object getSMSCode(@RequestParam String phoneNumber) {
-        if (!userService.exist(phoneNumber))
+        if (!userService.exist(phoneNumber)){
             throw new AppException(ErrorCode.INVALID_PHONE_NUMBER);
+        }
         smsService.sendMessage(phoneNumber);
-        return AjaxResult.OK(null);
+        return AjaxResult.SUCCESS(null);
     }
 
     @ApiOperation("短信验证码登陆")
@@ -99,13 +104,14 @@ public class SaController {
         smsService.verify(phoneNumber, code);
         User user = userService.getUserByUsername(phoneNumber);
 
-        if (user == null || loginType != user.getLoginType())
+        if (user == null || loginType != user.getLoginType()){
             throw new InvalidCredentialException();
+        }
         userService.checkAccount(user);
 
         StpUtil.login(user.getUserId());
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
-        return AjaxResult.OK(Map.of("token_name", tokenInfo.getTokenName(),
+        return AjaxResult.SUCCESS(Map.of("token_name", tokenInfo.getTokenName(),
                 "token_value", tokenInfo.getTokenValue(), "login_device", tokenInfo.getLoginDevice()));
     }
 }

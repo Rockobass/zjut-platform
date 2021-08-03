@@ -7,6 +7,9 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.whatever.aha.zjut.base.interceptor.LogInterceptor;
 
+/**
+ * @author GuiYi Yang
+ */
 @Configuration
 @AllArgsConstructor
 public class CustomWebMvcConfig implements WebMvcConfigurer {

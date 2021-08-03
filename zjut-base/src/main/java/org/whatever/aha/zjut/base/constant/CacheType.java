@@ -5,6 +5,7 @@ import lombok.Getter;
 
 /**
  * 缓存枚举类
+ * @author GuiYi Yang
  */
 @Getter
 @AllArgsConstructor

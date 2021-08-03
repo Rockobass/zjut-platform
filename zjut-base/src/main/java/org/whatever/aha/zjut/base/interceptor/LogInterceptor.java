@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
-/*
+/**
+ * @author GuiYi Yang
+ */ /*
  * 生成唯一请求id，并记录日志
  */
 @Component

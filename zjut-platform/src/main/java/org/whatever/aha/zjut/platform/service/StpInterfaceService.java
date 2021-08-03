@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * Sa-Token的自定义权限验证扩展
+ * @author GuiYi Yang
  */
 @Service
 @RequiredArgsConstructor

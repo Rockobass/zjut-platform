@@ -8,6 +8,9 @@ import org.whatever.aha.zjut.base.constant.ErrorCode;
 import org.whatever.aha.zjut.base.exception.AppException;
 import org.whatever.aha.zjut.base.util.CaptchaUtil;
 
+/**
+ * @author GuiYi Yang
+ */
 @Service
 public class CaptchaService {
 
@@ -37,8 +40,9 @@ public class CaptchaService {
      */
     public void verify(String fingerPrint, String code) {
         Cache.ValueWrapper value = captchaCache.get(fingerPrint);
-        if (value == null)
+        if (value == null){
             throw new AppException(ErrorCode.EXPIRED_VERIFYING_CODE);
+        }
         String cachedCode = (String) value.get();
         if (!code.toLowerCase().equals(cachedCode)) {
             captchaCache.evict(fingerPrint);
