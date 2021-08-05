@@ -2,6 +2,7 @@ package org.whatever.aha.zjut.platform.controller;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.dev33.satoken.temp.SaTempUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.whatever.aha.zjut.base.constant.ErrorCode;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.base.exception.AppException;
-import org.whatever.aha.zjut.base.exception.app.AccountBlockedException;
 import org.whatever.aha.zjut.base.exception.app.InvalidCredentialException;
+import org.whatever.aha.zjut.base.util.RegexUtil;
 import org.whatever.aha.zjut.platform.entity.User;
 import org.whatever.aha.zjut.platform.service.CaptchaService;
 import org.whatever.aha.zjut.platform.service.SMSService;
@@ -81,14 +82,14 @@ public class SaController {
         return captchaService.getBase64(fingerPrint);
     }
 
-    @ApiOperation("获取短信验证码")
+    @ApiOperation(value = "获取短信验证码", notes = "手机号须已经注册")
     @ApiImplicitParam(name = "phoneNumber", value = "手机号码")
     @PostMapping("/getSmsCode")
     public Object getSMSCode(@RequestParam String phoneNumber) {
         if (!userService.exist(phoneNumber)){
-            throw new AppException(ErrorCode.INVALID_PHONE_NUMBER);
+            throw new AppException(ErrorCode.PHONE_NUMBER_NONE_EXIST);
         }
-        smsService.sendMessage(phoneNumber);
+        smsService.sendMessage(phoneNumber, "validation");
         return AjaxResult.SUCCESS(null);
     }
 
@@ -101,7 +102,7 @@ public class SaController {
     })
     public Object doLogin(@RequestParam String phoneNumber, @RequestParam int loginType, @RequestParam String code) {
 
-        smsService.verify(phoneNumber, code);
+        smsService.verify(phoneNumber, code, "validation");
         User user = userService.getUserByUsername(phoneNumber);
 
         if (user == null || loginType != user.getLoginType()){
@@ -114,4 +115,43 @@ public class SaController {
         return AjaxResult.SUCCESS(Map.of("token_name", tokenInfo.getTokenName(),
                 "token_value", tokenInfo.getTokenValue(), "login_device", tokenInfo.getLoginDevice()));
     }
+
+    @ApiOperation(value = "注册时获取短信验证码", notes = "手机号须未注册")
+    @ApiImplicitParam(name = "phoneNumber", value = "手机号码")
+    @PostMapping("/register/getSmsCode")
+    public Object getSMSCodeWhenRegister(@RequestParam String phoneNumber) {
+        if (userService.exist(phoneNumber)){
+            throw new AppException(ErrorCode.PHONE_NUMBER_USED);
+        }
+        RegexUtil.checkPhoneNumber(phoneNumber);
+        smsService.sendMessage(phoneNumber, "register");
+        return AjaxResult.SUCCESS(null);
+    }
+
+    @ApiOperation(value = "注册时校验短信验证码", notes = "校验成功会返回token，携带token访问注册接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "phoneNumber", value = "手机号"),
+            @ApiImplicitParam(name = "code", value = "验证码"),
+    })
+    @PostMapping("/register/verifySmsCode")
+    public Object verifySMSCodeWhenRegister(@RequestParam String phoneNumber, @RequestParam String code) {
+        RegexUtil.checkPhoneNumber(phoneNumber);
+        long timeout = 300;
+        smsService.verify(phoneNumber, code, "register");
+        String token = SaTempUtil.createToken(phoneNumber, timeout);
+        return AjaxResult.SUCCESS(Map.of("token", token, "time_out", timeout));
+    }
+
+    @ApiOperation(value = "学生注册", notes = "需要带token访问该接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "token", value = "验证码校验时返回的token"),
+            @ApiImplicitParam(name = "password", value = "密码"),
+    })
+    @PostMapping("/register/do")
+    public Object register(@RequestParam String token, @RequestParam String password) {
+        String phoneNumber = SaTempUtil.parseToken(token, String.class);
+        Integer userId = userService.insertStudent(phoneNumber, password);
+        return AjaxResult.SUCCESS(Map.of("user_id", userId));
+    }
+
 }

@@ -16,6 +16,7 @@ public class CaptchaService {
 
     final CacheManager caffeineCacheManager;
     final Cache captchaCache;
+    CaptchaUtil captchaUtil = new CaptchaUtil(200, 80, 6, 0, "#365700");
 
     public CaptchaService(CacheManager caffeineCacheManager) {
         this.caffeineCacheManager = caffeineCacheManager;
@@ -26,7 +27,7 @@ public class CaptchaService {
      * 生成base64验证码
      */
     public String getBase64(String fingerPrint) {
-        CaptchaUtil captchaUtil = new CaptchaUtil(200, 80, 6, 0, "#365700");
+
         captchaUtil.setCharType(Captcha.TYPE_DEFAULT);
         String verifyCode = captchaUtil.text().toLowerCase();
         String base64Img = captchaUtil.toBase64();

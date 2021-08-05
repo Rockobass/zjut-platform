@@ -2,15 +2,14 @@ package org.whatever.aha.zjut.platform.controller;
 
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.dev33.satoken.temp.SaTempUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.whatever.aha.zjut.base.config.ProfileConfig;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.platform.mapper.UserMapper;
 import org.whatever.aha.zjut.platform.service.SMSService;
+import org.whatever.aha.zjut.platform.service.UserService;
 
 /**
  * @author Baby_mo
@@ -23,6 +22,7 @@ public class TestController {
     final ProfileConfig profileConfig;
     final UserMapper userMapper;
     final SMSService smsService;
+    final UserService userService;
 
     @PostMapping("/sa")
     AjaxResult<Object> test(@RequestParam int a) {
@@ -38,7 +38,14 @@ public class TestController {
 
     @PostMapping("/sendSMS")
     public Object sendSMS() {
-        smsService.sendMessage("13067828119");
+        Integer userId = userService.insertStudent("13067828119", "123456");
+        return AjaxResult.SUCCESS(userId);
+    }
+
+    @GetMapping("/tttt")
+    public Object testtt(){
+        String token = SaTempUtil.createToken("213123", 301);
+        System.out.println(token);
         return AjaxResult.SUCCESS(null);
     }
 }

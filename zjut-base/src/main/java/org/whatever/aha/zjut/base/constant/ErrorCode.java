@@ -20,7 +20,10 @@ public enum ErrorCode {
     MESSAGE_FAILED_TO_SEND(3002, "短信验证码发送失败"),
     MESSAGE_NOT_SENT(3003, "未发送短信验证码"),
     INVALID_MESSAGE_CODE(3004, "短信验证码错误"),
-    INVALID_PHONE_NUMBER(3005, "手机号未绑定或账号不存在");
+    INVALID_PHONE_NUMBER(3005, "手机号格式错误"),
+    PHONE_NUMBER_NONE_EXIST(3006, "手机号未绑定或账号不存在"),
+    PHONE_NUMBER_USED(3007, "手机号已被注册");
+
 
     private final Integer code;
     private final String message;

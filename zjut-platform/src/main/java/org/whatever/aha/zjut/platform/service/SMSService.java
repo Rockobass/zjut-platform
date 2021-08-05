@@ -26,24 +26,25 @@ public class SMSService {
         this.smsCache = caffeineCacheManager.getCache("SMS");
     }
 
-    public void sendMessage(String phoneNumber) {
+    public void sendMessage(String phoneNumber, String usage) {
         Cache.ValueWrapper valueWrapper = smsCache.get(phoneNumber);
         if (valueWrapper != null) {
             throw new AppException(ErrorCode.MESSAGE_ALREADY_SENT);
         }
 
+        String key = phoneNumber.concat(usage);
         String code = makeSmsCode(6);
-        smsCache.put(phoneNumber, code);
+        smsCache.put(key, code);
         String[] params = {code, String.valueOf(smsConfig.getExpireTime())};
         SmsSingleSender smsSingleSender = new SmsSingleSender(smsConfig.getAppId(), smsConfig.getAppKey());
         try {
             SmsSingleSenderResult result = smsSingleSender.sendWithParam(smsConfig.getRegion(), phoneNumber, smsConfig.getTemplateId(), params, smsConfig.getSignName(), "", "");
             if (result.result!=0) {
-                smsCache.evict(phoneNumber);
+                smsCache.evict(key);
                 throw new AppException(ErrorCode.MESSAGE_FAILED_TO_SEND);
             }
         } catch (Exception e) {
-            smsCache.evict(phoneNumber);
+            smsCache.evict(key);
             throw new AppException(ErrorCode.MESSAGE_FAILED_TO_SEND);
         }
     }
@@ -58,8 +59,9 @@ public class SMSService {
         return code.toString();
     }
 
-    public void verify(String phoneNumber, String code) {
-        Cache.ValueWrapper valueWrapper = smsCache.get(phoneNumber);
+    public void verify(String phoneNumber, String code, String usage) {
+        String key = phoneNumber.concat(usage);
+        Cache.ValueWrapper valueWrapper = smsCache.get(key);
         if (valueWrapper == null) {
             throw new AppException(ErrorCode.MESSAGE_NOT_SENT);
         }
@@ -67,6 +69,6 @@ public class SMSService {
         if (!code.equals(cachedCode)) {
             throw new AppException(ErrorCode.INVALID_MESSAGE_CODE);
         }
-        smsCache.evict(phoneNumber);
+        smsCache.evict(key);
     }
 }

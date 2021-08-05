@@ -150,6 +150,12 @@
                 <artifactId>spring-boot-configuration-processor</artifactId>
                 <version>${springboot.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-temp-jwt</artifactId>
+                <version>1.22.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
