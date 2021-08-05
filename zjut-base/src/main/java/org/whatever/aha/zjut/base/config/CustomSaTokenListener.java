@@ -17,7 +17,7 @@ public class CustomSaTokenListener implements SaTokenListener {
     @Override
     public void doLogin(String loginType, Object loginId, SaLoginModel loginModel) {
         Date date = new Date();
-        log.info(date.toString() + "  用户   " + loginId + "登录  " + loginModel.toString());
+        log.info(date.toString() + "  用户" + loginId + "   登录  " + loginModel.toString());
     }
 
     @Override
