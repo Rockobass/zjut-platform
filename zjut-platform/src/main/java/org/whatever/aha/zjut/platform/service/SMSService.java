@@ -26,6 +26,11 @@ public class SMSService {
         this.smsCache = caffeineCacheManager.getCache("SMS");
     }
 
+    /**
+     * 发送短信
+     * @param phoneNumber 电话号码
+     * @param usage 标记不同用途，用于生成缓存的key
+     */
     public void sendMessage(String phoneNumber, String usage) {
         Cache.ValueWrapper valueWrapper = smsCache.get(phoneNumber);
         if (valueWrapper != null) {
@@ -49,6 +54,9 @@ public class SMSService {
         }
     }
 
+    /**
+     * 生成验证码
+     */
     public static String makeSmsCode(int length) {
         Random random = new Random();
         StringBuilder code = new StringBuilder();
@@ -59,6 +67,9 @@ public class SMSService {
         return code.toString();
     }
 
+    /**
+     * 验证短信验证码
+     */
     public void verify(String phoneNumber, String code, String usage) {
         String key = phoneNumber.concat(usage);
         Cache.ValueWrapper valueWrapper = smsCache.get(key);

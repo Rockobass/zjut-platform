@@ -21,7 +21,7 @@ public class SaTokenConfig implements WebMvcConfigurer {
             // 根据路由划分模块，不同模块不同鉴权
             SaRouter.match("/v1/**", StpUtil::checkLogin);
 
-        })).addPathPatterns("/v1/**").excludePathPatterns("/v1/sa/**", "/v1/test/**");
+        })).addPathPatterns("/v1/**").excludePathPatterns("/v1/sa/**", "/v1/test/**", "/v1/common/**");
 
         registry.addInterceptor(new SaAnnotationInterceptor()).addPathPatterns("/**");
     }

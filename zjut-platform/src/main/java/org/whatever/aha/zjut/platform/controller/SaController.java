@@ -46,15 +46,14 @@ public class SaController {
     })
     @PostMapping("/passwordLogin")
     public Object doLogin(@RequestParam String username, @RequestParam String password, @RequestParam int loginType, @RequestParam String code, @RequestParam String fingerPrint) {
-
         captchaService.verify(fingerPrint, code);
         User user = userService.getUserByUsername(username);
 
         if (user == null || !passwordEncoder.matches(password, user.getPassword()) || loginType != user.getLoginType()){
             throw new InvalidCredentialException();
         }
-        userService.checkAccount(user);
 
+        userService.checkAccount(user);
         StpUtil.login(user.getUserId());
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
         return AjaxResult.SUCCESS(Map.of("token_name", tokenInfo.getTokenName(),
@@ -109,7 +108,6 @@ public class SaController {
             throw new InvalidCredentialException();
         }
         userService.checkAccount(user);
-
         StpUtil.login(user.getUserId());
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
         return AjaxResult.SUCCESS(Map.of("token_name", tokenInfo.getTokenName(),
@@ -142,13 +140,18 @@ public class SaController {
         return AjaxResult.SUCCESS(Map.of("token", token, "time_out", timeout));
     }
 
+    /**
+     * TODO
+     * 没写完
+     */
     @ApiOperation(value = "学生注册", notes = "需要带token访问该接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "token", value = "验证码校验时返回的token"),
             @ApiImplicitParam(name = "password", value = "密码"),
     })
     @PostMapping("/register/do")
-    public Object register(@RequestParam String token, @RequestParam String password) {
+    public Object register(@RequestParam String token, @RequestParam String password
+            , @RequestParam String realName) {
         String phoneNumber = SaTempUtil.parseToken(token, String.class);
         Integer userId = userService.insertStudent(phoneNumber, password);
         return AjaxResult.SUCCESS(Map.of("user_id", userId));
