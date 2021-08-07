@@ -20,7 +20,7 @@ import java.time.Instant;
  */
 @ControllerAdvice
 @Slf4j
-@Order(1)
+@Order(80)
 @RequiredArgsConstructor
 public class CustomExceptionHandler {
 

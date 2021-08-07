@@ -5,25 +5,28 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.temp.SaTempUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.whatever.aha.zjut.base.constant.ErrorCode;
+import org.whatever.aha.zjut.base.constant.RegexPattern;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.base.exception.AppException;
 import org.whatever.aha.zjut.base.exception.app.InvalidCredentialException;
-import org.whatever.aha.zjut.base.util.RegexUtil;
-import org.whatever.aha.zjut.platform.entity.StudentInfo;
 import org.whatever.aha.zjut.platform.entity.User;
 import org.whatever.aha.zjut.platform.service.CaptchaService;
 import org.whatever.aha.zjut.platform.service.SMSService;
 import org.whatever.aha.zjut.platform.service.UserService;
 
+import javax.validation.constraints.Pattern;
 import java.util.Map;
 
 /**
  * @author Baby_mo
  */
 @Api(tags = "登录和token分发相关接口")
+@Validated
 @RestController
 @RequestMapping("/v1/sa")
 @RequiredArgsConstructor
@@ -97,7 +100,7 @@ public class SaController {
             @ApiImplicitParam(name = "code", value = "验证码"),
             @ApiImplicitParam(name = "loginType", value = "用户类型 0 学生、1 评委、2 院级管理员、3 校级管理员")
     })
-    public Object doLogin(@RequestParam String phoneNumber, @RequestParam int loginType, @RequestParam String code) {
+    public Object doLogin(@Pattern (regexp = RegexPattern.PHONE_NUMBER)@RequestParam String phoneNumber, @RequestParam int loginType, @RequestParam String code) {
 
         smsService.verify(phoneNumber, code, "validation");
         User user = userService.getUserByUsername(phoneNumber);
@@ -115,11 +118,10 @@ public class SaController {
     @ApiOperation(value = "注册时获取短信验证码", notes = "手机号须未注册")
     @ApiImplicitParam(name = "phoneNumber", value = "手机号码")
     @PostMapping("/register/getSmsCode")
-    public Object getSMSCodeWhenRegister(@RequestParam String phoneNumber) {
+    public Object getSMSCodeWhenRegister(@Pattern (regexp = RegexPattern.PHONE_NUMBER)@RequestParam String phoneNumber) {
         if (userService.exist(phoneNumber)){
             throw new AppException(ErrorCode.PHONE_NUMBER_USED);
         }
-        RegexUtil.checkPhoneNumber(phoneNumber);
         smsService.sendMessage(phoneNumber, "register");
         return AjaxResult.SUCCESS();
     }
@@ -130,8 +132,7 @@ public class SaController {
             @ApiImplicitParam(name = "code", value = "验证码"),
     })
     @PostMapping("/register/verifySmsCode")
-    public Object verifySMSCodeWhenRegister(@RequestParam String phoneNumber, @RequestParam String code) {
-        RegexUtil.checkPhoneNumber(phoneNumber);
+    public Object verifySMSCodeWhenRegister(@Pattern (regexp = RegexPattern.PHONE_NUMBER)@RequestParam String phoneNumber, @RequestParam String code) {
         long timeout = 300;
         smsService.verify(phoneNumber, code, "register");
         String token = SaTempUtil.createToken(phoneNumber, timeout);
@@ -151,7 +152,7 @@ public class SaController {
     public Object register(
             @RequestParam String token, @RequestParam String password,
             @RequestParam String realName, @RequestParam int sex,
-            @RequestParam int degree, @RequestParam String grade) {
+            @Range(min = 0, max = 1) @RequestParam int degree, @Pattern(regexp = RegexPattern.GRADE)@RequestParam String grade) {
         String phoneNumber = SaTempUtil.parseToken(token, String.class);
         Integer userId = userService.insertStudent(phoneNumber, password);
         return AjaxResult.SUCCESS(Map.of("user_id", userId));

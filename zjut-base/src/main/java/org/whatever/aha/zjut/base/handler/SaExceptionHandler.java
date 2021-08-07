@@ -19,7 +19,7 @@ import java.time.Instant;
  * @author Baby_mo
  */
 @ControllerAdvice
-@Order(10)
+@Order(90)
 @Slf4j
 @RequiredArgsConstructor
 public class SaExceptionHandler {
