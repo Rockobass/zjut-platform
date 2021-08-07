@@ -3,14 +3,11 @@ package org.whatever.aha.zjut.platform.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.whatever.aha.zjut.base.exception.app.AccountBlockedException;
 import org.whatever.aha.zjut.platform.entity.User;
 import org.whatever.aha.zjut.platform.mapper.UserMapper;
 
-import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -21,7 +18,6 @@ import java.util.Map;
 public class UserService {
 
     final UserMapper userMapper;
-    final PasswordEncoder passwordEncoder;
 
     /**
      * 通过手机号或用户名查询用户
@@ -47,18 +43,6 @@ public class UserService {
         if (user.getDisabled()){
             throw new AccountBlockedException(Map.of("username", user.getUsername(), "untie_time", user.getUntieTime()));
         }
-    }
-
-    /**
-     * 学生注册
-     */
-    @Transactional
-    public Integer insertStudent(String phoneNumber, String password) {
-        User user = User.builder().phoneNumber(phoneNumber)
-                .password(passwordEncoder.encode(password))
-                .loginType(0).build();
-        userMapper.insert(user);
-        return user.getUserId();
     }
 
 }

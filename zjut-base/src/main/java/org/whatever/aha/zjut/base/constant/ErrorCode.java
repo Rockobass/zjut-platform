@@ -9,6 +9,7 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
 
+    ILLEGAL_REQUEST(250, "非法请求"),
     INVALID_CREDENTIAL(1000, "身份认证失败"),
     NOT_PERMITTED(1001, "无此权限"),
     ACCOUNT_BLOCKED(1002, "账号被封禁"),

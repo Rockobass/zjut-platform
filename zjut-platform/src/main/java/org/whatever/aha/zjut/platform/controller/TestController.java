@@ -38,8 +38,8 @@ public class TestController {
 
     @PostMapping("/sendSMS")
     public Object sendSMS() {
-        Integer userId = userService.insertStudent("13067828119", "123456");
-        return AjaxResult.SUCCESS(userId);
+//        Integer userId = userService.insertWithPhoneNumber("13067828119", "123456");
+        return AjaxResult.SUCCESS();
     }
 
     @GetMapping("/tttt")

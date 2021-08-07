@@ -3,7 +3,10 @@ package org.whatever.aha.zjut.platform.controller;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.temp.SaTempUtil;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +20,7 @@ import org.whatever.aha.zjut.base.exception.app.InvalidCredentialException;
 import org.whatever.aha.zjut.platform.entity.User;
 import org.whatever.aha.zjut.platform.service.CaptchaService;
 import org.whatever.aha.zjut.platform.service.SMSService;
+import org.whatever.aha.zjut.platform.service.StudentInfoService;
 import org.whatever.aha.zjut.platform.service.UserService;
 
 import javax.validation.constraints.Pattern;
@@ -36,6 +40,7 @@ public class SaController {
     final CaptchaService captchaService;
     final PasswordEncoder passwordEncoder;
     final SMSService smsService;
+    final StudentInfoService studentInfoService;
 
 
     @ApiOperation("通过密码登录")
@@ -46,7 +51,9 @@ public class SaController {
             @ApiImplicitParam(name = "loginType", value = "用户类型 0 学生、1 评委、2 院级管理员、3 校级管理员")
     })
     @PostMapping("/passwordLogin")
-    public Object doLogin(@RequestParam String username, @RequestParam String password, @RequestParam int loginType, @RequestParam String code, @RequestParam String fingerPrint) {
+    public Object doLogin(@RequestParam String username, @RequestParam String password,
+                          @Range(min = 0, max = 3)@RequestParam int loginType,
+                          @RequestParam String code, @RequestParam String fingerPrint) {
         captchaService.verify(fingerPrint, code);
         User user = userService.getUserByUsername(username);
 
@@ -151,10 +158,11 @@ public class SaController {
     @PostMapping("/register/do")
     public Object register(
             @RequestParam String token, @RequestParam String password,
-            @RequestParam String realName, @RequestParam int sex,
-            @Range(min = 0, max = 1) @RequestParam int degree, @Pattern(regexp = RegexPattern.GRADE)@RequestParam String grade) {
+            @RequestParam String realName, @Range(min = 0, max = 1)@RequestParam int sex,
+            @Range(min = 0, max = 1) @RequestParam int degree, @Pattern(regexp = RegexPattern.GRADE)@RequestParam String grade,
+            @RequestParam int academyId, @RequestParam int majorId, @RequestParam String studentNumber) {
         String phoneNumber = SaTempUtil.parseToken(token, String.class);
-        Integer userId = userService.insertStudent(phoneNumber, password);
+        int userId = studentInfoService.insertStudent(password, realName, sex, degree, grade, academyId, majorId, phoneNumber, studentNumber);
         return AjaxResult.SUCCESS(Map.of("user_id", userId));
     }
 
