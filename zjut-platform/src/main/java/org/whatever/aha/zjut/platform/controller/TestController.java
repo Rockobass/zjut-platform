@@ -46,6 +46,6 @@ public class TestController {
     public Object testtt(){
         String token = SaTempUtil.createToken("213123", 301);
         System.out.println(token);
-        return AjaxResult.SUCCESS(null);
+        return AjaxResult.SUCCESS();
     }
 }

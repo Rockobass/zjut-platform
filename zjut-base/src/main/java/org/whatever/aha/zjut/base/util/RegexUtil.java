@@ -18,4 +18,11 @@ public class RegexUtil {
             throw new AppException(ErrorCode.INVALID_PHONE_NUMBER);
         }
     }
+
+    public static void checkGrade(String grade) {
+        String regex = "^(2\\d{3})$";
+        if (!Pattern.matches(regex, grade)) {
+            throw new AppException(ErrorCode.INVALID_FORMAT);
+        }
+    }
 }

@@ -3,10 +3,7 @@ package org.whatever.aha.zjut.platform.controller;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.temp.SaTempUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +12,7 @@ import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.base.exception.AppException;
 import org.whatever.aha.zjut.base.exception.app.InvalidCredentialException;
 import org.whatever.aha.zjut.base.util.RegexUtil;
+import org.whatever.aha.zjut.platform.entity.StudentInfo;
 import org.whatever.aha.zjut.platform.entity.User;
 import org.whatever.aha.zjut.platform.service.CaptchaService;
 import org.whatever.aha.zjut.platform.service.SMSService;
@@ -89,7 +87,7 @@ public class SaController {
             throw new AppException(ErrorCode.PHONE_NUMBER_NONE_EXIST);
         }
         smsService.sendMessage(phoneNumber, "validation");
-        return AjaxResult.SUCCESS(null);
+        return AjaxResult.SUCCESS();
     }
 
     @ApiOperation("短信验证码登陆")
@@ -123,7 +121,7 @@ public class SaController {
         }
         RegexUtil.checkPhoneNumber(phoneNumber);
         smsService.sendMessage(phoneNumber, "register");
-        return AjaxResult.SUCCESS(null);
+        return AjaxResult.SUCCESS();
     }
 
     @ApiOperation(value = "注册时校验短信验证码", notes = "校验成功会返回token，携带token访问注册接口")
@@ -150,8 +148,10 @@ public class SaController {
             @ApiImplicitParam(name = "password", value = "密码"),
     })
     @PostMapping("/register/do")
-    public Object register(@RequestParam String token, @RequestParam String password
-            , @RequestParam String realName) {
+    public Object register(
+            @RequestParam String token, @RequestParam String password,
+            @RequestParam String realName, @RequestParam int sex,
+            @RequestParam int degree, @RequestParam String grade) {
         String phoneNumber = SaTempUtil.parseToken(token, String.class);
         Integer userId = userService.insertStudent(phoneNumber, password);
         return AjaxResult.SUCCESS(Map.of("user_id", userId));

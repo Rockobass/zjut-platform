@@ -14,9 +14,13 @@ public class AjaxResult<T> {
     private String message;
     private T data;
 
+    public static <N> AjaxResult<N> SUCCESS() { return new AjaxResult<>(ResponseCode.SUCCESS.getCode(), "success",null); }
+
     public static <N> AjaxResult<N> SUCCESS(N data) { return new AjaxResult<>(ResponseCode.SUCCESS.getCode(), "success", data); }
 
     public static <N> AjaxResult<N> SUCCESS(String msg, N data) { return new AjaxResult<>(ResponseCode.SUCCESS.getCode(), msg, data); }
+
+    public static <N> AjaxResult<N> FAIL() { return new AjaxResult<>(ResponseCode.FAIL.getCode(), "fail", null); }
 
     public static <N> AjaxResult<N> FAIL(N data) { return new AjaxResult<>(ResponseCode.FAIL.getCode(), "fail", data); }
 
