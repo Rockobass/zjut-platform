@@ -145,11 +145,7 @@ public class SaController {
         String token = SaTempUtil.createToken(phoneNumber, timeout);
         return AjaxResult.SUCCESS(Map.of("token", token, "time_out", timeout));
     }
-
-    /**
-     * TODO
-     * 没写完
-     */
+    
     @ApiOperation(value = "学生注册", notes = "需要带token访问该接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "token", value = "验证码校验时返回的token"),
