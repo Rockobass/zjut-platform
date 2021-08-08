@@ -13,11 +13,11 @@ public class Major {
     /**
      * 专业id
      */
-    int majorId;
+    Integer majorId;
     /**
      * 学院id
      */
-    int academyId;
+    Integer academyId;
     /**
      * 专业名
      */

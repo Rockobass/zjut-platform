@@ -17,7 +17,7 @@ public class User {
      * 用户id
      */
     @TableId(type = IdType.AUTO)
-    int userId;
+    Integer userId;
     /**
      * 用户名
      */
@@ -37,7 +37,7 @@ public class User {
     /**
      * 登录类型
      */
-    int loginType;
+    Integer loginType;
     /**
      * 解封时间
      */

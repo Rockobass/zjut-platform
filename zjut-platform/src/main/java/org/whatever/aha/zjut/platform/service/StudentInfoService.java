@@ -32,13 +32,13 @@ public class StudentInfoService {
      * 学生注册
      */
     @Transactional(rollbackFor = Exception.class)
-    public int insertStudent(String password, String realName, int sex, int degree, String grade,
-                              int academyId, int majorId, String phoneNumber, String studentNumber) {
+    public Integer insertStudent(String password, String realName, Integer sex, Integer degree, String grade,
+                              Integer academyId, Integer majorId, String phoneNumber, String studentNumber) {
         User user = User.builder().phoneNumber(phoneNumber)
                 .password(passwordEncoder.encode(password))
                 .loginType(0).build();
         userMapper.insert(user);
-        int userId = user.getUserId();
+        Integer userId = user.getUserId();
         if (academyMapper.selectCount(new QueryWrapper<Academy>().eq("academy_id", academyId)) != 1
                 || majorMapper.selectCount(new QueryWrapper<Major>().eq("academy_id", academyId).eq("major_id", majorId)) != 1) {
             throw new AppException(ErrorCode.ILLEGAL_REQUEST);

@@ -13,7 +13,7 @@ public class Academy {
     /**
      * 学院id
      */
-    int academyId;
+    Integer academyId;
     /**
      * 学院名
      */

@@ -16,7 +16,7 @@ public class StudentInfo {
     /**
      * 用户id
      */
-    int userId;
+    Integer userId;
     /**
      * 学号
      */
@@ -32,11 +32,11 @@ public class StudentInfo {
     /**
      * 性别
      */
-    int sex;
+    Integer sex;
     /**
      * 学位
      */
-    int degree;
+    Integer degree;
     /**
      * 年级
      */
@@ -44,11 +44,11 @@ public class StudentInfo {
     /**
      * 学院id
      */
-    int academyId;
+    Integer academyId;
     /**
      * 专业id
      */
-    int majorId;
+    Integer majorId;
     /**
      * 生日
      */

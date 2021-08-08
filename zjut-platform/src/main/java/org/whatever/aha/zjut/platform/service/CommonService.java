@@ -23,7 +23,7 @@ public class CommonService {
     }
 
     @Cacheable(value = "NoExpire", key = "'major_list_'+#academyId")
-    public List<Major> getMajorList(int academyId) {
+    public List<Major> getMajorList(Integer academyId) {
         return majorMapper.selectList(new QueryWrapper<Major>().eq("academy_id", academyId));
     }
 }

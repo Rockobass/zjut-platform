@@ -20,10 +20,18 @@ public class UserService {
     final UserMapper userMapper;
 
     /**
+     * 通过ID查询用户
+     */
+    @Cacheable(value = "ExpireOneMin", key = "'user_'+#userId")
+    public User getUserById(Integer userId) {
+        return userMapper.selectOne(new QueryWrapper<User>().eq("user_id", userId));
+    }
+
+    /**
      * 通过手机号或用户名查询用户
      */
     @Cacheable(value = "ExpireOneMin", key = "'user_'+#username")
-    public User getUserByUsername(String username) {
+    public User getUserByUsernameOrPhone(String username) {
         return userMapper.selectOne(new QueryWrapper<User>().eq("username", username).or().eq("phone_number", username));
     }
 
