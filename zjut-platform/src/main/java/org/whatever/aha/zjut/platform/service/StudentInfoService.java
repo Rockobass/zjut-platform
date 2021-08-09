@@ -35,6 +35,7 @@ public class StudentInfoService {
     public int insertStudent(String password, String realName, int sex, int degree, String grade,
                               int academyId, int majorId, String phoneNumber, String studentNumber) {
         User user = User.builder().phoneNumber(phoneNumber)
+                .username(studentNumber)
                 .password(passwordEncoder.encode(password))
                 .loginType(0).build();
         userMapper.insert(user);
