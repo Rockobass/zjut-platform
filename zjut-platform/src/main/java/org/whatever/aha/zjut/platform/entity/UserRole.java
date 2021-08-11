@@ -8,6 +8,8 @@
 
 package org.whatever.aha.zjut.platform.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +17,13 @@ import lombok.RequiredArgsConstructor;
 /**
  * @author Vc
  * @version 1.0
- * @Desc
  * @date 2021/8/8 10:42 下午
  */
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class UserRole {
+    @TableId(type = IdType.NONE)
     int userId;
     int roleId;
 }
