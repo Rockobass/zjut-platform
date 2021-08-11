@@ -10,21 +10,20 @@ package org.whatever.aha.zjut.platform.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.whatever.aha.zjut.platform.entity.RolePermission;
 import org.whatever.aha.zjut.platform.entity.UserRole;
 import org.whatever.aha.zjut.platform.mapper.UserRoleMapper;
 
-import java.lang.annotation.Retention;
 import java.util.List;
 
 /**
  * @author Vc
  * @version 1.0
- * @Desc
  * @date 2021/8/8 10:56 下午
  */
+@Service
 @RequiredArgsConstructor
 public class UserRoleService {
     final UserRoleMapper userRoleMapper;

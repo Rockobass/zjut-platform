@@ -22,7 +22,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.whatever.aha.zjut.platform.entity.RolePermission;
-import org.whatever.aha.zjut.platform.entity.User;
 import org.whatever.aha.zjut.platform.mapper.RolePermissionMapper;
 
 import java.util.List;
