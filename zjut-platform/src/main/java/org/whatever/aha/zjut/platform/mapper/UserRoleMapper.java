@@ -7,7 +7,6 @@ import org.whatever.aha.zjut.platform.entity.UserRole;
 /**
  * @author Vc
  * @version 1.0
- * @Desc
  * @date 2021/8/8 10:55 下午
  */
 public interface UserRoleMapper extends BaseMapper<UserRole> {

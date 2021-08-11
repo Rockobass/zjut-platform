@@ -24,7 +24,6 @@ import javax.validation.constraints.Min;
 /**
  * @author Vc
  * @version 1.0
- * @Desc
  * @date 2021/8/8 5:31 下午
  */
 @RequestMapping("/RolePermission")
@@ -37,11 +36,9 @@ public class RolePermissionController {
 
     /**
      * 拉取权限id列表  根据指定roleId
-     * @param roleId
-     * @return
      */
     @RequestMapping("/getPcodeByRid")
-    public AjaxResult getPcodeByRid(@Min (1)@RequestParam(defaultValue="0") int roleId){
+    public Object getPcodeByRid(@Min (1)@RequestParam(defaultValue="0") int roleId){
         return AjaxResult.SUCCESS(rolePermissionService.getPcodeByRid2(roleId));
     }
 
@@ -49,10 +46,9 @@ public class RolePermissionController {
      * 修改指定角色的拥有的权限
      * @param roleId 角色id
      * @param code 拥有的权限码集合
-     * @return
      */
     @RequestMapping("updatePcodeByRid")
-    public AjaxResult updatePcodeByRid(int roleId, String[] code){
+    public Object updatePcodeByRid(int roleId, String[] code){
         return AjaxResult.SUCCESS(rolePermissionService.updateRoleMenu(roleId, code));
     }
 

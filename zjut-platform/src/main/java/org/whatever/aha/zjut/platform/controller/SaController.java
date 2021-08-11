@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * @author Baby_mo
  */
-@Api(tags = "登录和token分发相关接口")
+@Api(tags = "登录注册和token分发相关接口")
 @Validated
 @RestController
 @RequestMapping("/v1/sa")
@@ -122,7 +122,7 @@ public class SaController {
                 "token_value", tokenInfo.getTokenValue(), "login_device", tokenInfo.getLoginDevice()));
     }
 
-    @ApiOperation(value = "注册时获取短信验证码", notes = "手机号须未注册")
+    @ApiOperation(value = "注册step1 获取短信验证码", notes = "手机号须未注册")
     @ApiImplicitParam(name = "phoneNumber", value = "手机号码")
     @PostMapping("/register/getSmsCode")
     public Object getSMSCodeWhenRegister(@Pattern (regexp = RegexPattern.PHONE_NUMBER)@RequestParam String phoneNumber) {
@@ -133,7 +133,7 @@ public class SaController {
         return AjaxResult.SUCCESS();
     }
 
-    @ApiOperation(value = "注册时校验短信验证码", notes = "校验成功会返回token，携带token访问注册接口")
+    @ApiOperation(value = "注册step2 校验短信验证码", notes = "校验成功会返回token，携带token访问注册接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "phoneNumber", value = "手机号"),
             @ApiImplicitParam(name = "code", value = "验证码"),
@@ -146,7 +146,7 @@ public class SaController {
         return AjaxResult.SUCCESS(Map.of("token", token, "time_out", timeout));
     }
 
-    @ApiOperation(value = "学生注册", notes = "需要带token访问该接口")
+    @ApiOperation(value = "注册step3 上传信息", notes = "需要带token访问该接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "token", value = "验证码校验时返回的token"),
             @ApiImplicitParam(name = "password", value = "密码"),

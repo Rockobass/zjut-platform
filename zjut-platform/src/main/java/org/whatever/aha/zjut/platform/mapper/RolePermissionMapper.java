@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * @author Vc
  * @version 1.0
- * @Desc
  * @date 2021/8/8 3:58 下午
  */
 public interface RolePermissionMapper extends BaseMapper<RolePermission> {
