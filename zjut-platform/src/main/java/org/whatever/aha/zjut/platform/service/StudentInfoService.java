@@ -11,10 +11,7 @@ import org.whatever.aha.zjut.platform.entity.Academy;
 import org.whatever.aha.zjut.platform.entity.Major;
 import org.whatever.aha.zjut.platform.entity.StudentInfo;
 import org.whatever.aha.zjut.platform.entity.User;
-import org.whatever.aha.zjut.platform.mapper.AcademyMapper;
-import org.whatever.aha.zjut.platform.mapper.MajorMapper;
-import org.whatever.aha.zjut.platform.mapper.StudentInfoMapper;
-import org.whatever.aha.zjut.platform.mapper.UserMapper;
+import org.whatever.aha.zjut.platform.mapper.*;
 
 /**
  * @author Baby_mo
@@ -27,6 +24,7 @@ public class StudentInfoService {
     final PasswordEncoder passwordEncoder;
     final AcademyMapper academyMapper;
     final MajorMapper majorMapper;
+    final UserRoleMapper userRoleMapper;
 
     /**
      * 学生注册
@@ -39,11 +37,13 @@ public class StudentInfoService {
                 .password(passwordEncoder.encode(password))
                 .loginType(0).build();
         userMapper.insert(user);
+
         int userId = user.getUserId();
         if (academyMapper.selectCount(new QueryWrapper<Academy>().eq("academy_id", academyId)) != 1
                 || majorMapper.selectCount(new QueryWrapper<Major>().eq("academy_id", academyId).eq("major_id", majorId)) != 1) {
             throw new AppException(ErrorCode.ILLEGAL_REQUEST);
         }
+        userRoleMapper.addStudentRole(userId);
 
         StudentInfo studentInfo = StudentInfo.builder().userId(userId).phoneNumber(phoneNumber).sex(sex)
                 .realName(realName).degree(degree).grade(grade).academyId(academyId)
