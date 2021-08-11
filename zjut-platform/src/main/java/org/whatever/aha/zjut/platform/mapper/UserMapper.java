@@ -8,9 +8,11 @@ import org.whatever.aha.zjut.platform.entity.User;
 /**
  * @author Baby_mo
  */
-@Mapper
 public interface UserMapper extends BaseMapper<User> {
 
     @Select("select role_name from role where role_id in (select role_id from user_role where user_id = #{loginId})")
     public String[] getRoleById(String loginId);
+
+    @Select("select permission_code from role_permission where role_id in (select role_id from user_role where user_id = #{loginId})")
+    public String[] getPermissionById(String loginId);
 }

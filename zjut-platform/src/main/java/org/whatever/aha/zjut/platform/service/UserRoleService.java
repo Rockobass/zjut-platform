@@ -33,7 +33,7 @@ public class UserRoleService {
      * 增加一条userId对应的Role信息
      */
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
-    public Integer addUserRole(Integer userId, Integer roleId){
+    public int addUserRole(int userId, int roleId){
         return userRoleMapper.insert(new UserRole(userId, roleId));
     }
 
@@ -41,7 +41,7 @@ public class UserRoleService {
      * 删除一条userId对应的Role信息
      */
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
-    public Integer deleteOneUR(Integer userId, Integer roleId){
+    public int deleteOneUR(int userId, int roleId){
         return userRoleMapper.delete(new QueryWrapper<UserRole>().eq("role_id", roleId).eq("user_id",userId));
     }
 
@@ -49,14 +49,14 @@ public class UserRoleService {
      * 删除userId对应的所有Role信息
      */
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
-    public Integer deleteRoleByUid(Integer userId){
+    public int deleteRoleByUid(int userId){
         return userRoleMapper.delete(new QueryWrapper<UserRole>().eq("user_id", userId));
     }
 
     /**
      * 获取某用户ID对应的所有角色信息
      */
-    public List<Object> getRoleByUid(Integer userId){
+    public List<Object> getRoleByUid(int userId){
         return userRoleMapper.selectObjs(new QueryWrapper<UserRole>().select("role_id").eq("user_id", userId));
     }
 

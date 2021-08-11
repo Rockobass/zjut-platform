@@ -37,7 +37,7 @@ public class RolePermissionService {
      * 获取指定角色的所有权限码 【增加缓存】
      */
     @Cacheable(value="api_pcode_list", key="#roleId")
-    public List<Object> getPcodeByRid(Integer roleId){
+    public List<Object> getPcodeByRid(int roleId){
         return rolePermissionMapper.selectObjs(new QueryWrapper<RolePermission>().select("permission_code").eq("roleId", roleId));
     }
 
@@ -45,7 +45,7 @@ public class RolePermissionService {
      * 获取指定角色的所有权限码 (Object类型)  【增加缓存】
      */
     @Cacheable(value="api_pcode_list2", key="#roleId")
-    public List<Object> getPcodeByRid2(Integer roleId){
+    public List<Object> getPcodeByRid2(int roleId){
         List<Object> codeList = rolePermissionMapper.selectObjs(new QueryWrapper<RolePermission>().select("permission_code").eq("role_id", roleId));
         return codeList.stream().map(String::valueOf).collect(Collectors.toList());
     }
@@ -55,7 +55,7 @@ public class RolePermissionService {
      */
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(value= {"api_pcode_list", "api_pcode_list2"}, key="#roleId")
-    public Integer updateRoleMenu(Integer roleId, String[] pcodeArray){
+    public int updateRoleMenu(int roleId, String[] pcodeArray){
         // 万一为空
         if(pcodeArray == null){
             pcodeArray = new String[0];

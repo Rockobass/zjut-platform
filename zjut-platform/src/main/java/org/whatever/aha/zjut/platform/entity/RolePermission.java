@@ -28,8 +28,8 @@ import java.util.Date;
 @TableName(value = "role_permission")
 public class RolePermission {
     @TableId(type = IdType.AUTO)
-    Integer id;
-    Integer roleId;
+    int id;
+    int roleId;
     String permissionCode;
     Timestamp createTime;
 

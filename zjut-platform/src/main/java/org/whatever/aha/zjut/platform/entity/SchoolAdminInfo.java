@@ -19,7 +19,7 @@ import lombok.Data;
 @Data
 @Builder
 public class SchoolAdminInfo {
-    Integer userId;
+    int userId;
     String userName;
     String phoneNumber;
     String realName;

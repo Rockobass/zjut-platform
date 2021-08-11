@@ -55,7 +55,7 @@ public class SaController {
                           @Range(min = 0, max = 3)@RequestParam int loginType,
                           @RequestParam String code, @RequestParam String fingerPrint) {
         captchaService.verify(fingerPrint, code);
-        User user = userService.getUserByUsername(username);
+        User user = userService.getUserByUsernameOrPhone(username);
 
         if (user == null || !passwordEncoder.matches(password, user.getPassword()) || loginType != user.getLoginType()){
             throw new InvalidCredentialException();
@@ -110,7 +110,7 @@ public class SaController {
     public Object doLogin(@Pattern (regexp = RegexPattern.PHONE_NUMBER)@RequestParam String phoneNumber, @RequestParam int loginType, @RequestParam String code) {
 
         smsService.verify(phoneNumber, code, "validation");
-        User user = userService.getUserByUsername(phoneNumber);
+        User user = userService.getUserByUsernameOrPhone(phoneNumber);
 
         if (user == null || loginType != user.getLoginType()){
             throw new InvalidCredentialException();

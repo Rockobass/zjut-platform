@@ -8,11 +8,14 @@
 
 package org.whatever.aha.zjut.platform.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaMode;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +24,7 @@ import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.platform.entity.UserRole;
 import org.whatever.aha.zjut.platform.service.UserRoleService;
 
+import javax.validation.constraints.Min;
 import java.util.List;
 
 /**
@@ -32,6 +36,8 @@ import java.util.List;
 @RequestMapping("/UserRole")
 @RequiredArgsConstructor
 @RestController
+@Validated
+@SaCheckPermission(value = {AuthConst.R_supper, AuthConst.USER_ROLE_LIST}, mode = SaMode.OR)
 public class UserRoleController {
     final UserRoleService userRoleService;
 
@@ -41,14 +47,7 @@ public class UserRoleController {
      * @return
      */
     @RequestMapping("/getRoleByUid")
-    public AjaxResult getRoleByUid(@RequestParam(defaultValue="0") Integer roleId){
-        // 进行超级用户鉴权
-        StpUtil.checkPermission(AuthConst.R_supper);
-        StpUtil.checkPermission(AuthConst.USER_ROLE_LIST);
-        // 防止拉出全部
-        if(roleId == 0){
-            return AjaxResult.FAIL("roleId不能为null或0",null);
-        }
+    public AjaxResult getRoleByUid(@Min (1)@RequestParam() int roleId){
         return AjaxResult.SUCCESS(userRoleService.getRoleByUid(roleId));
     }
 
@@ -58,10 +57,7 @@ public class UserRoleController {
      * @return
      */
     @RequestMapping("/addUserRole")
-    public AjaxResult addUserRole(Integer userId, Integer roleId){
-        // 进行超级用户鉴权
-        StpUtil.checkPermission(AuthConst.R_supper);
-        StpUtil.checkPermission(AuthConst.USER_ROLE_LIST);
+    public AjaxResult addUserRole(int userId, int roleId){
         return AjaxResult.SUCCESS(userRoleService.addUserRole(userId, roleId));
     }
 
@@ -71,9 +67,6 @@ public class UserRoleController {
      **/
     @RequestMapping("/deleteOneUR")
     public AjaxResult deleteOneUR(Integer userId, Integer roleId){
-        // 进行超级用户鉴权
-        StpUtil.checkPermission(AuthConst.R_supper);
-        StpUtil.checkPermission(AuthConst.USER_ROLE_LIST);
         return AjaxResult.SUCCESS(userRoleService.deleteOneUR(userId, roleId));
     }
 
@@ -83,9 +76,6 @@ public class UserRoleController {
      */
     @RequestMapping("/deleteRoleByUid")
     public AjaxResult deleteRoleByUid(Integer userId){
-        // 进行超级用户鉴权
-        StpUtil.checkPermission(AuthConst.R_supper);
-        StpUtil.checkPermission(AuthConst.USER_ROLE_LIST);
         return AjaxResult.SUCCESS(userRoleService.deleteRoleByUid(userId));
     }
 }

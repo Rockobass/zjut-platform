@@ -22,6 +22,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class UserRole {
-    Integer userId;
-    Integer roleId;
+    int userId;
+    int roleId;
 }

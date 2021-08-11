@@ -16,7 +16,7 @@ public class StudentInfo {
     /**
      * 用户id
      */
-    Integer userId;
+    int userId;
     /**
      * 学号
      */
@@ -44,11 +44,11 @@ public class StudentInfo {
     /**
      * 学院id
      */
-    Integer academyId;
+    int academyId;
     /**
      * 专业id
      */
-    Integer majorId;
+    int majorId;
     /**
      * 生日
      */
