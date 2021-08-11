@@ -307,3 +307,24 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2021-08-05 19:09:46
+
+-- 角色权限对应表
+drop table if exists role_permission;
+CREATE TABLE `role_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `role_id` int(1) DEFAULT NULL COMMENT '角色ID ',
+  `permission_code` varchar(50) DEFAULT NULL COMMENT '权限项ID',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色权限中间表';
+
+LOCK TABLES `role_permission` WRITE;
+insert into role_permission() values (0, '4', 'student-modify', now());
+
+insert into role_permission() values (0, '5', 'auth', now());
+insert into role_permission() values (0, '5', 'role-list', now());
+insert into role_permission() values (0, '5', 'menu-list', now());
+insert into role_permission() values (0, '5', 'admin-list', now());
+insert into role_permission() values (0, '5', 'academy-admin-add', now());
+insert into role_permission() values (0, '4', 'student-modify', now());
+UNLOCK TABLES;

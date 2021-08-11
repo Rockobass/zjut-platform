@@ -32,11 +32,11 @@ public class StudentInfo {
     /**
      * 性别
      */
-    int sex;
+    Integer sex;
     /**
      * 学位
      */
-    int degree;
+    Integer degree;
     /**
      * 年级
      */

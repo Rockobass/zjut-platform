@@ -32,7 +32,7 @@ public class StudentInfoService {
      * 学生注册
      */
     @Transactional(rollbackFor = Exception.class)
-    public int insertStudent(String password, String realName, int sex, int degree, String grade,
+    public Integer insertStudent(String password, String realName, Integer sex, Integer degree, String grade,
                               int academyId, int majorId, String phoneNumber, String studentNumber) {
         User user = User.builder().phoneNumber(phoneNumber)
                 .username(studentNumber)
