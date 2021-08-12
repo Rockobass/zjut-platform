@@ -193,7 +193,8 @@ public class SaController {
     @PostMapping("/forget/reset")
     public Object resetWhenForget(@RequestParam String token, @RequestParam String password) {
         String phoneNumber = SaTempUtil.parseToken(token, String.class);
-        userService.resetPassword(null, null, phoneNumber, password);
+        User user = userService.getUserByUsernameOrPhone(phoneNumber);
+        userService.resetPassword(user, password);
         return AjaxResult.SUCCESS();
     }
 

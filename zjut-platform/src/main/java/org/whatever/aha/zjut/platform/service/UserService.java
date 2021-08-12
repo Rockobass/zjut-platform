@@ -1,12 +1,11 @@
-/*TODO 缓存key的生成和删除问题*/
 package org.whatever.aha.zjut.platform.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,13 +64,14 @@ public class UserService {
      * 更新密码
      */
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(allEntries = true)
-    public void resetPassword(Integer userId, String username, String phoneNumber, String password) {
-        userMapper.update(null, new UpdateWrapper<User>()
-                .eq(userId != null, "user_id", userId)
-                .eq(username != null, "username", username)
-                .eq(phoneNumber != null, "phone_number", phoneNumber)
-                .set(!(userId==null&&username==null&&phoneNumber==null),"password", passwordEncoder.encode(password)));
+    @Caching(evict = {
+            @CacheEvict(key = "'user_'+#user.userId"),
+            @CacheEvict(key = "'user'+#user.username"),
+            @CacheEvict(key = "'user'+#user.phoneNumber")}
+    )
+    public void resetPassword(User user, String password) {
+        user.setPassword(passwordEncoder.encode(password));
+        userMapper.updateById(user);
     }
 
 }
