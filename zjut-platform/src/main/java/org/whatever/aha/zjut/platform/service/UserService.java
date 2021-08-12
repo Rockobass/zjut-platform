@@ -1,5 +1,6 @@
 package org.whatever.aha.zjut.platform.service;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
@@ -72,6 +73,14 @@ public class UserService {
     public void resetPassword(User user, String password) {
         user.setPassword(passwordEncoder.encode(password));
         userMapper.updateById(user);
+    }
+
+    /**
+     * 获取当前登陆用户
+     */
+    public User getLoginUser() {
+        int userId = StpUtil.getLoginIdAsInt();
+        return getUserById(userId);
     }
 
 }

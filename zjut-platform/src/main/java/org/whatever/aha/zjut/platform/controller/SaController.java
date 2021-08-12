@@ -1,5 +1,6 @@
 package org.whatever.aha.zjut.platform.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.temp.SaTempUtil;
@@ -185,12 +186,12 @@ public class SaController {
         return AjaxResult.SUCCESS(Map.of("token", token, "time_out", timeout));
     }
 
-    @ApiOperation(value = "忘记密码step3 重置密码", notes = "需要带token访问该接口")
+    @ApiOperation(value = "重置密码", notes = "需要带token访问该接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "token", value = "验证码校验时返回的token", dataTypeClass = String.class),
             @ApiImplicitParam(name = "password", value = "新密码", dataTypeClass = String.class),
     })
-    @PostMapping("/forget/reset")
+    @PostMapping("/reset/do")
     public Object resetWhenForget(@RequestParam String token, @RequestParam String password) {
         String phoneNumber = SaTempUtil.parseToken(token, String.class);
         User user = userService.getUserByUsernameOrPhone(phoneNumber);
@@ -198,4 +199,41 @@ public class SaController {
         return AjaxResult.SUCCESS();
     }
 
+    @SaCheckLogin
+    @ApiOperation(value = "修改密码step1 获取短信验证码")
+    @GetMapping("/reset/getSmsCode")
+    public Object getSMSCodeWhenReset() {
+        User user = userService.getLoginUser();
+        smsService.sendMessage(user.getPhoneNumber(), "reset");
+        return AjaxResult.SUCCESS();
+    }
+
+    @SaCheckLogin
+    @ApiOperation(value = "修改密码step2 校验短信验证码")
+    @ApiImplicitParam(name = "code", value = "验证码", dataTypeClass = String.class)
+    @PostMapping("/reset/verifySmsCode")
+    public Object verifySMSCodeWhenReset(@RequestParam String code) {
+        User user = userService.getLoginUser();
+        long timeout = 300;
+        smsService.verify(user.getPhoneNumber(), code, "reset");
+        String token = SaTempUtil.createToken(user.getPhoneNumber(), timeout);
+        return AjaxResult.SUCCESS(Map.of("token", token, "time_out", timeout));
+    }
+
+    @SaCheckLogin
+    @ApiOperation(value = "通过旧密码重置密码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "oldPassword", value = "旧密码", dataTypeClass = String.class),
+            @ApiImplicitParam(name = "newPassword", value = "新密码", dataTypeClass = String.class)
+    })
+    @PostMapping("/reset/password")
+    public Object resetByPassword(@RequestParam String oldPassword, @RequestParam String newPassword) {
+        User user = userService.getLoginUser();
+        if (passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new InvalidCredentialException();
+        }
+        userService.resetPassword(user, newPassword);
+        StpUtil.logout();
+        return AjaxResult.SUCCESS();
+    }
 }
