@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
  * @date 2021/8/8 10:42 下午
  */
 @Data
-@RequiredArgsConstructor
 @AllArgsConstructor
 public class UserRole {
     @TableId(type = IdType.NONE)

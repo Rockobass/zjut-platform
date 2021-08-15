@@ -27,10 +27,22 @@ import java.util.Date;
 @NoArgsConstructor
 @TableName(value = "role_permission")
 public class RolePermission {
+    /**
+     *  角色-权限表 自增id
+     */
     @TableId(type = IdType.AUTO)
     int id;
+    /**
+     * 角色id
+     */
     int roleId;
+    /**
+     * 权限码
+     */
     String permissionCode;
+    /**
+     * 创建时间
+     */
     Timestamp createTime;
 
     public RolePermission(Integer roleId, String permissionCode) {

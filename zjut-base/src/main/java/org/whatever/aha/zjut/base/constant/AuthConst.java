@@ -27,7 +27,7 @@ public class AuthConst {
     public static final String R_student = "1"; 			 // 角色_id_学生 超级管理员
     public static final String R_judge   = "2"; 	    	 // 角色_id 评委
     public static final String R_academy = "3"; 	    	 // 角色_id 院级管理员
-    public static final String R_schoole = "4"; 	    	 // 角色_id 校级管理员
+    public static final String R_school = "4"; 	    	 // 角色_id 校级管理员
     public static final String R_supper = "5";		         // 角色_id 超级管理员 进入后台权限，没有此权限无法进入后台管理
 
 
@@ -39,5 +39,5 @@ public class AuthConst {
     public static final String MENU_LIST = "menu-list";		                // 权限管理 - 菜单列表
     public static final String ADMIN_LIST = "admin-list";	                // 权限管理 - 管理员列表
     public static final String ADMIN_ADD = "admin-add";		                // 权限管理 - 管理员添加
-
+    public static final String COMP_TAGS_LIST = "comp-tags-list";           // 权限管理 - 赛事标签固定表（固定的几个分组)增删改权限
 }
