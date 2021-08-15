@@ -47,15 +47,15 @@ public class SaController {
     @ApiOperation("登陆 通过密码登录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名、学号或手机号", dataTypeClass = String.class),
-            @ApiImplicitParam(name = "code", value = "验证码", dataTypeClass = String.class),
-            @ApiImplicitParam(name = "fingerPrint", value = "设备或浏览器指纹", dataTypeClass = String.class),
+            @ApiImplicitParam(name = "code", value = "验证码", dataTypeClass = String.class, required = false),
+            @ApiImplicitParam(name = "fingerPrint", value = "设备或浏览器指纹", dataTypeClass = String.class, required = false),
             @ApiImplicitParam(name = "loginType", value = "用户类型 0 学生、1 评委、2 院级管理员、3 校级管理员", dataTypeClass = Integer.class)
     })
     @PostMapping("/passwordLogin")
     public Object doLogin(@RequestParam String username, @RequestParam String password,
                           @Range(min = 0, max = 3)@RequestParam int loginType,
-                          @RequestParam String code, @RequestParam String fingerPrint) {
-        captchaService.verify(fingerPrint, code);
+                          @RequestParam(required = false) String code, @RequestParam(required = false) String fingerPrint) {
+//        captchaService.verify(fingerPrint, code);
         User user = userService.getUserByUsernameOrPhone(username);
 
         if (user == null || !passwordEncoder.matches(password, user.getPassword()) || loginType != user.getLoginType()){
