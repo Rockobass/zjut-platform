@@ -34,6 +34,9 @@ public class StudentInfoService {
     @Transactional(rollbackFor = Exception.class)
     public Integer insertStudent(String password, String realName, Integer sex, Integer degree, String grade,
                               int academyId, int majorId, String phoneNumber, String studentNumber) {
+        if (existStuNumber(studentNumber)) {
+            throw new AppException(ErrorCode.STUDENT_NUMBER_REGISTERED);
+        }
         User user = User.builder().phoneNumber(phoneNumber)
                 .username(studentNumber)
                 .password(passwordEncoder.encode(password))
@@ -58,6 +61,12 @@ public class StudentInfoService {
     public StudentInfoDto getStudentInfo(int userId) {
         StudentInfo rawInfo = studentInfoMapper.selectOne(new QueryWrapper<StudentInfo>().eq("user_id", userId));
         return convertFor(rawInfo);
+    }
+
+    @Cacheable(value = "ExpireOneMin", key = "'stu_num_existed'+#studentNumber")
+    public boolean existStuNumber(String studentNumber) {
+        int count = studentInfoMapper.selectCount(new QueryWrapper<StudentInfo>().eq("student_number", studentNumber));
+        return count != 0;
     }
 
 

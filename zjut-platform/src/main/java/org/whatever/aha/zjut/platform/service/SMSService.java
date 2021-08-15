@@ -71,6 +71,9 @@ public class SMSService {
      * 验证短信验证码
      */
     public void verify(String phoneNumber, String code, String usage) {
+        /*
+         * 测试用代码
+         */
         if (!code.equals("123456")) {
             throw new AppException(ErrorCode.INVALID_MESSAGE_CODE);
         }

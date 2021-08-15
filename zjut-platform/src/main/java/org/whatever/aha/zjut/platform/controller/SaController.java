@@ -143,6 +143,13 @@ public class SaController {
     })
     @PostMapping("/register/verifySmsCode")
     public Object verifySMSCodeWhenRegister(@Pattern (regexp = RegexPattern.PHONE_NUMBER)@RequestParam String phoneNumber, @RequestParam String code) {
+        /*
+         * 测试用代码
+         */
+        if (userService.exist(phoneNumber)){
+            throw new AppException(ErrorCode.PHONE_NUMBER_USED);
+        }
+
         long timeout = 300;
         smsService.verify(phoneNumber, code, "register");
         String token = SaTempUtil.createToken(phoneNumber, timeout);
