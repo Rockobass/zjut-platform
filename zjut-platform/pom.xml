@@ -117,6 +117,34 @@
                     </execution>
                 </executions>
             </plugin>
+<!--            <plugin>-->
+<!--                <groupId>com.google.cloud.tools</groupId>-->
+<!--                <artifactId>jib-maven-plugin</artifactId>-->
+<!--                <version>1.7.0</version>-->
+<!--                <configuration>-->
+<!--                    <from>-->
+<!--                        <image>openjdk:11-oracle</image>-->
+<!--                    </from>-->
+<!--                    <to>-->
+<!--                        <image>docker.io/dieofboredom/zjut</image>-->
+<!--                        <tags>-->
+<!--                            <tag>v1</tag>-->
+<!--                        </tags>-->
+<!--                        <auth>-->
+<!--                            <username>dieofboredom</username>-->
+<!--                            <password>asdf13579</password>-->
+<!--                        </auth>-->
+<!--                    </to>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>build</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 

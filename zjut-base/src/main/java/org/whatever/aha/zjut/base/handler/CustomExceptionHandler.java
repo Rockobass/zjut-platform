@@ -30,7 +30,7 @@ public class CustomExceptionHandler {
     @ResponseBody
     public AjaxResult<Object> handleAppException(AppException e, HttpServletRequest request) {
         ErrorDetail errorDetail;
-        if (profileConfig.getActiveProfile().equals("dev")) {
+        if (profileConfig.isDev()) {
             errorDetail = ErrorDetail.builder().code(e.getCode().getCode())
                     .message(e.getCode().getMessage())
                     .requestId(request.getAttribute("requestId").toString())

@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public AjaxResult<Object> handleGlobalException(Exception e, HttpServletRequest request) {
-        if (profileConfig.getActiveProfile().equals("dev")) { // dev环境时返回的异常信息
+        if (profileConfig.isDev()) { // dev环境时返回的异常信息
             ErrorDetail errorDetail = ErrorDetail.builder()
                     .requestId(request.getAttribute("requestId").toString())
                     .data(e.getMessage()).path(request.getRequestURI())

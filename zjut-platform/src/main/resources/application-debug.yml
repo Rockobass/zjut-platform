@@ -17,12 +17,11 @@ spring:
     baseline-on-migrate: true
 
   datasource:
-    url: jdbc:mysql://localhost:3306/aha_zjut?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: 123456
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    password: ROOT_root123
+    url: jdbc:mysql://127.0.0.1:3306/aha_zjut
 
 server:
-  port: 8080
+  port: 70

@@ -7,7 +7,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
- SET NAMES utf8mb4 ;
+ SET NAMES utf8 ;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,12 +21,12 @@
 
 DROP TABLE IF EXISTS `academy`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `academy` (
   `academy_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '学院id',
   `academy_name` varchar(32) DEFAULT NULL COMMENT '学院名',
   UNIQUE KEY `academy_academy_id_uindex` (`academy_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='学院表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='学院表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +45,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `admin_academy_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `admin_academy_info` (
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `username` varchar(32) DEFAULT NULL COMMENT '登陆账号',
@@ -54,7 +54,7 @@ CREATE TABLE `admin_academy_info` (
   `real_name` varchar(32) DEFAULT NULL COMMENT '真实姓名',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `admin_academy_info_user_id_uindex` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='校级管理员信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='校级管理员信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,7 +72,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `admin_school_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `admin_school_info` (
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `username` varchar(32) DEFAULT NULL COMMENT '登陆账号',
@@ -80,7 +80,7 @@ CREATE TABLE `admin_school_info` (
   `real_name` varchar(32) DEFAULT NULL COMMENT '真实姓名',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `admin_school_info_user_id_uindex` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='校级管理员信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='校级管理员信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,7 +98,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `flyway_schema_history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `flyway_schema_history` (
   `installed_rank` int(11) NOT NULL,
   `version` varchar(50) DEFAULT NULL,
@@ -112,7 +112,7 @@ CREATE TABLE `flyway_schema_history` (
   `success` tinyint(1) NOT NULL,
   PRIMARY KEY (`installed_rank`),
   KEY `flyway_schema_history_s_idx` (`success`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +121,7 @@ CREATE TABLE `flyway_schema_history` (
 
 LOCK TABLES `flyway_schema_history` WRITE;
 /*!40000 ALTER TABLE `flyway_schema_history` DISABLE KEYS */;
-INSERT INTO `flyway_schema_history` (`installed_rank`, `version`, `description`, `type`, `script`, `checksum`, `installed_by`, `installed_on`, `execution_time`, `success`) VALUES (1,'1','<< Flyway Baseline >>','BASELINE','<< Flyway Baseline >>',NULL,'root','2021-08-05 05:57:57',0,1);
+INSERT INTO `flyway_schema_history` (`installed_rank`, `version`, `description`, `type`, `script`, `checksum`, `installed_by`, `installed_on`, `execution_time`, `success`) VALUES (1,'1','<< Flyway Baseline >>','BASELINE','<< Flyway Baseline >>',NULL,'root','2021-08-05 05:57:57',0,1),(2,'1','aha zjut','SQL','V1__aha_zjut.sql',-1831073676,'root','2021-08-11 05:08:59',790,1);
 /*!40000 ALTER TABLE `flyway_schema_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,7 +131,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `judge_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `judge_info` (
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `username` varchar(64) DEFAULT NULL COMMENT '登录账号',
@@ -142,7 +142,7 @@ CREATE TABLE `judge_info` (
   `expire_time` datetime DEFAULT NULL COMMENT '账号过期时间',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `judge_info_user_id_uindex` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='评委信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='评委信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +160,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `major`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `major` (
   `major_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '专业id',
   `major_name` varchar(32) DEFAULT NULL,
@@ -168,7 +168,7 @@ CREATE TABLE `major` (
   PRIMARY KEY (`major_id`),
   UNIQUE KEY `major_major_id_uindex` (`major_id`),
   KEY `major_academy_id_index` (`academy_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='专业表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='专业表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,13 +187,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `role` (
   `role_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '角色id',
   `role_name` varchar(32) DEFAULT NULL COMMENT '角色名',
   PRIMARY KEY (`role_id`),
   KEY `role_role_id_index` (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='用户角色表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,12 +207,38 @@ INSERT INTO `role` (`role_id`, `role_name`) VALUES (1,'student'),(2,'judge'),(3,
 UNLOCK TABLES;
 
 --
+-- Table structure for table `role_permission`
+--
+
+DROP TABLE IF EXISTS `role_permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8 ;
+CREATE TABLE `role_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `role_id` int(1) DEFAULT NULL COMMENT '角色ID ',
+  `permission_code` varchar(50) DEFAULT NULL COMMENT '权限项ID',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色权限中间表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `role_permission`
+--
+
+LOCK TABLES `role_permission` WRITE;
+/*!40000 ALTER TABLE `role_permission` DISABLE KEYS */;
+INSERT INTO `role_permission` (`id`, `role_id`, `permission_code`, `create_time`) VALUES (1,4,'student-modify','2021-08-11 05:08:59'),(2,5,'auth','2021-08-11 05:08:59'),(3,5,'role-list','2021-08-11 05:08:59'),(4,5,'menu-list','2021-08-11 05:08:59'),(5,5,'admin-list','2021-08-11 05:08:59'),(6,5,'academy-admin-add','2021-08-11 05:08:59'),(7,4,'student-modify','2021-08-11 05:08:59');
+/*!40000 ALTER TABLE `role_permission` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `student_info`
 --
 
 DROP TABLE IF EXISTS `student_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `student_info` (
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `student_number` varchar(16) DEFAULT NULL COMMENT '学号',
@@ -229,7 +255,7 @@ CREATE TABLE `student_info` (
   `class_name` varchar(16) DEFAULT NULL COMMENT '班级',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `student_info_student_id_uindex` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='学生信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='学生信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -247,7 +273,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `username` varchar(64) DEFAULT NULL COMMENT '用户名或学号',
@@ -261,7 +287,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `user_id_uindex` (`user_id`),
   UNIQUE KEY `user_phone_number_uindex` (`phone_number`),
   UNIQUE KEY `user_username_uindex` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='用户表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -270,7 +296,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`user_id`, `username`, `phone_number`, `password`, `disabled`, `untie_time`, `login_type`, `deleted`) VALUES (1,'u1','11','$2a$10$cZ2i1.1RF2PPbqdCTSqONOWbUPZEZ.it8/TcOD7bCJrcb.0rd19qG',0,NULL,0,0),(2,'u2','12','$2a$10$cZ2i1.1RF2PPbqdCTSqONOWbUPZEZ.it8/TcOD7bCJrcb.0rd19qG',1,'2021-07-27 17:03:47',1,0),(6,NULL,'13067828119','$2a$10$pnAlWjYEcQ22mflDsFVxXuoYxQipb0yVWY7YUsbUFpG6LJVXKgXwW',0,NULL,0,0),(7,NULL,'13588349740','$2a$10$UdkLuccpGp1pQXpY2YAo9.7FqJlEHWk8UVc/IOBBIql/xtK.FpaXS',0,NULL,0,0);
+INSERT INTO `user` (`user_id`, `username`, `phone_number`, `password`, `disabled`, `untie_time`, `login_type`, `deleted`) VALUES (1,'u1','11','$2a$10$nH7OKU5qVmkz.QCLxSHtNuDty1bg8shACx8U1F6/njHzsDbMVeBYC',0,NULL,0,0),(2,'u2','12','$2a$10$nH7OKU5qVmkz.QCLxSHtNuDty1bg8shACx8U1F6/njHzsDbMVeBYC',1,'2021-07-27 17:03:47',1,0),(6,NULL,'13067828119','$2a$10$U8Zc3b7ptF6cEA5XOjYcmeLoYE04VY019lgR0AGyRDR72AOkpDtbW',0,NULL,0,0),(7,NULL,'13588349740','111',0,NULL,0,0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -280,12 +306,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `user_role` (
   `user_id` int(11) DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL,
   KEY `user_role_user_id_index` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户id和角色id对应表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='用户id和角色id对应表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -306,25 +332,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-05 19:09:46
-
--- 角色权限对应表
-drop table if exists role_permission;
-CREATE TABLE `role_permission` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `role_id` int(1) DEFAULT NULL COMMENT '角色ID ',
-  `permission_code` varchar(50) DEFAULT NULL COMMENT '权限项ID',
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色权限中间表';
-
-LOCK TABLES `role_permission` WRITE;
-insert into role_permission() values (0, '4', 'student-modify', now());
-
-insert into role_permission() values (0, '5', 'auth', now());
-insert into role_permission() values (0, '5', 'role-list', now());
-insert into role_permission() values (0, '5', 'menu-list', now());
-insert into role_permission() values (0, '5', 'admin-list', now());
-insert into role_permission() values (0, '5', 'academy-admin-add', now());
-insert into role_permission() values (0, '4', 'student-modify', now());
-UNLOCK TABLES;
+-- Dump completed on 2021-08-12 18:47:22

@@ -151,6 +151,8 @@ public class SaController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "token", value = "验证码校验时返回的token", dataTypeClass = String.class),
             @ApiImplicitParam(name = "password", value = "密码", dataTypeClass = String.class),
+            @ApiImplicitParam(name = "sex", value = "0男 1女", dataTypeClass = Integer.class),
+            @ApiImplicitParam(name = "degree", value = "0本科 1硕士", dataTypeClass = Integer.class)
     })
     @PostMapping("/register/do")
     public Object register(
@@ -160,7 +162,10 @@ public class SaController {
             @RequestParam int academyId, @RequestParam int majorId, @RequestParam String studentNumber) {
         String phoneNumber = SaTempUtil.parseToken(token, String.class);
         int userId = studentInfoService.insertStudent(password, realName, sex, degree, grade, academyId, majorId, phoneNumber, studentNumber);
-        return AjaxResult.SUCCESS(Map.of("user_id", userId));
+        StpUtil.login(userId);
+        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+        return AjaxResult.SUCCESS(Map.of("token_name", tokenInfo.getTokenName(),
+                "token_value", tokenInfo.getTokenValue(), "login_device", tokenInfo.getLoginDevice()));
     }
 
     @ApiOperation(value = "忘记密码step1 获取短信验证码")
