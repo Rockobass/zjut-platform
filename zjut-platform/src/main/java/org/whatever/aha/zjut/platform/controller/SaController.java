@@ -47,15 +47,15 @@ public class SaController {
     @ApiOperation("登陆 通过密码登录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名、学号或手机号", dataTypeClass = String.class),
-            @ApiImplicitParam(name = "code", value = "验证码", dataTypeClass = String.class),
-            @ApiImplicitParam(name = "fingerPrint", value = "设备或浏览器指纹", dataTypeClass = String.class),
+            @ApiImplicitParam(name = "code", value = "验证码", dataTypeClass = String.class, required = false),
+            @ApiImplicitParam(name = "fingerPrint", value = "设备或浏览器指纹", dataTypeClass = String.class, required = false),
             @ApiImplicitParam(name = "loginType", value = "用户类型 0 学生、1 评委、2 院级管理员、3 校级管理员", dataTypeClass = Integer.class)
     })
     @PostMapping("/passwordLogin")
     public Object doLogin(@RequestParam String username, @RequestParam String password,
                           @Range(min = 0, max = 3)@RequestParam int loginType,
-                          @RequestParam String code, @RequestParam String fingerPrint) {
-        captchaService.verify(fingerPrint, code);
+                          @RequestParam(required = false) String code, @RequestParam String fingerPrint) {
+//        captchaService.verify(fingerPrint, code);
         User user = userService.getUserByUsernameOrPhone(username);
 
         if (user == null || !passwordEncoder.matches(password, user.getPassword()) || loginType != user.getLoginType()){
@@ -63,7 +63,8 @@ public class SaController {
         }
 
         userService.checkAccount(user);
-        StpUtil.login(user.getUserId());
+        StpUtil.logoutByLoginId(user.getUserId());
+        StpUtil.login(user.getUserId(), fingerPrint);
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
         return AjaxResult.SUCCESS(Map.of("token_name", tokenInfo.getTokenName(),
                 "token_value", tokenInfo.getTokenValue(), "login_device", tokenInfo.getLoginDevice()));
@@ -117,6 +118,7 @@ public class SaController {
             throw new InvalidCredentialException();
         }
         userService.checkAccount(user);
+        StpUtil.logoutByLoginId(user.getUserId());
         StpUtil.login(user.getUserId());
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
         return AjaxResult.SUCCESS(Map.of("token_name", tokenInfo.getTokenName(),
@@ -141,6 +143,13 @@ public class SaController {
     })
     @PostMapping("/register/verifySmsCode")
     public Object verifySMSCodeWhenRegister(@Pattern (regexp = RegexPattern.PHONE_NUMBER)@RequestParam String phoneNumber, @RequestParam String code) {
+        /*
+         * 测试用代码
+         */
+        if (userService.exist(phoneNumber)){
+            throw new AppException(ErrorCode.PHONE_NUMBER_USED);
+        }
+
         long timeout = 300;
         smsService.verify(phoneNumber, code, "register");
         String token = SaTempUtil.createToken(phoneNumber, timeout);
@@ -151,6 +160,8 @@ public class SaController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "token", value = "验证码校验时返回的token", dataTypeClass = String.class),
             @ApiImplicitParam(name = "password", value = "密码", dataTypeClass = String.class),
+            @ApiImplicitParam(name = "sex", value = "0男 1女", dataTypeClass = Integer.class),
+            @ApiImplicitParam(name = "degree", value = "0本科 1硕士", dataTypeClass = Integer.class)
     })
     @PostMapping("/register/do")
     public Object register(
@@ -160,7 +171,10 @@ public class SaController {
             @RequestParam int academyId, @RequestParam int majorId, @RequestParam String studentNumber) {
         String phoneNumber = SaTempUtil.parseToken(token, String.class);
         int userId = studentInfoService.insertStudent(password, realName, sex, degree, grade, academyId, majorId, phoneNumber, studentNumber);
-        return AjaxResult.SUCCESS(Map.of("user_id", userId));
+        StpUtil.login(userId);
+        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+        return AjaxResult.SUCCESS(Map.of("token_name", tokenInfo.getTokenName(),
+                "token_value", tokenInfo.getTokenValue(), "login_device", tokenInfo.getLoginDevice()));
     }
 
     @ApiOperation(value = "忘记密码step1 获取短信验证码")

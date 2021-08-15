@@ -30,7 +30,7 @@ public class SaExceptionHandler {
     @ResponseBody
     public AjaxResult<Object> handleSaTokenException(SaTokenException e, HttpServletRequest request) {
         ErrorDetail errorDetail;
-        if (profileConfig.getActiveProfile().equals("dev")) {
+        if (profileConfig.isDev()) {
             errorDetail = ErrorDetail.builder()
                     .requestId(request.getAttribute("requestId").toString())
                     .data(e.getMessage()).path(request.getRequestURI())

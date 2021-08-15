@@ -17,4 +17,9 @@ public class ProfileConfig {
     public String getActiveProfile() {
         return context.getEnvironment().getActiveProfiles()[0];
     }
+
+    public boolean isDev() {
+        String activeProfile = getActiveProfile();
+        return activeProfile.equals("dev") || activeProfile.equals("debug");
+    }
 }

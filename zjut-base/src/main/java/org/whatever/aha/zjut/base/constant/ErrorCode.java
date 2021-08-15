@@ -23,7 +23,8 @@ public enum ErrorCode {
     INVALID_MESSAGE_CODE(3004, "短信验证码错误"),
     PHONE_NUMBER_NONE_EXIST(3006, "手机号未绑定或账号不存在"),
     PHONE_NUMBER_USED(3007, "手机号已被注册"),
-    INVALID_FORMAT(4000, "格式校验错误");
+    INVALID_FORMAT(4000, "格式校验错误"),
+    STUDENT_NUMBER_REGISTERED(4001, "学号已被注册");
 
 
     private final Integer code;
