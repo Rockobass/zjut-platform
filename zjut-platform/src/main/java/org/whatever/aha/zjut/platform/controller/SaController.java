@@ -54,7 +54,7 @@ public class SaController {
     @PostMapping("/passwordLogin")
     public Object doLogin(@RequestParam String username, @RequestParam String password,
                           @Range(min = 0, max = 3)@RequestParam int loginType,
-                          @RequestParam(required = false) String code, @RequestParam(required = false) String fingerPrint) {
+                          @RequestParam(required = false) String code, @RequestParam String fingerPrint) {
 //        captchaService.verify(fingerPrint, code);
         User user = userService.getUserByUsernameOrPhone(username);
 
@@ -63,7 +63,8 @@ public class SaController {
         }
 
         userService.checkAccount(user);
-        StpUtil.login(user.getUserId());
+        StpUtil.logoutByLoginId(user.getUserId());
+        StpUtil.login(user.getUserId(), fingerPrint);
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
         return AjaxResult.SUCCESS(Map.of("token_name", tokenInfo.getTokenName(),
                 "token_value", tokenInfo.getTokenValue(), "login_device", tokenInfo.getLoginDevice()));
@@ -117,6 +118,7 @@ public class SaController {
             throw new InvalidCredentialException();
         }
         userService.checkAccount(user);
+        StpUtil.logoutByLoginId(user.getUserId());
         StpUtil.login(user.getUserId());
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
         return AjaxResult.SUCCESS(Map.of("token_name", tokenInfo.getTokenName(),
