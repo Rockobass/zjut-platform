@@ -73,7 +73,7 @@
                     <!--username-->
                     <username>root</username>
                     <!--password-->
-                    <password>123456</password>
+                    <password>ROOT_root123</password>
                     <!--driver-->
                     <driverClassName>com.mysql.cj.jdbc.Driver</driverClassName>
                     <!--jdbc url-->

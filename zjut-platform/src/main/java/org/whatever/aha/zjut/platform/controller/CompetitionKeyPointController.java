@@ -31,7 +31,7 @@ import java.util.List;
  * @date 2021/08/16 1:44
  */
 @Api(tags = "赛事关键时间点操作类")
-@RequestMapping("/CompetitionKeyPoint")
+@RequestMapping("/v1/competitionKeyPoint")
 @RequiredArgsConstructor
 @RestController
 @Validated

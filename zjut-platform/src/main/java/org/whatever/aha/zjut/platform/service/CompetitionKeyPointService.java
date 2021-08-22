@@ -3,6 +3,7 @@ package org.whatever.aha.zjut.platform.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.whatever.aha.zjut.platform.entity.CompetitionKeyPoint;
@@ -17,6 +18,7 @@ import java.util.List;
  * @Desc
  * @date 2021/08/15 18:13
  */
+@Service
 @RequiredArgsConstructor
 public class CompetitionKeyPointService {
     final CompetitionKeyPointMapper competitionKeyPointMapper;

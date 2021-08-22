@@ -326,11 +326,10 @@ SET character_set_client = utf8mb4 ;
 CREATE TABLE `aha_zjut`.`competition_static_tags`  (
   `comp_type` int(255) NOT NULL COMMENT '竞赛类型',
   `comp_group` varchar(50) NULL DEFAULT NULL COMMENT '竞赛组别',
-  `comp_tag` varchar(100) NULL DEFAULT NULL COMMENT '竞赛标签',
-  PRIMARY KEY (`comp_type`) USING BTREE
+  `comp_tag` varchar(100) NULL DEFAULT NULL COMMENT '竞赛标签'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
 LOCK TABLES `competition_static_tags` WRITE;
-INSERT INTO `aha_zjut`.`competition_static_tags` (`comp_type`, `comp_group`, `comp_tag`) VALUES (1, '本科组', '机械和控制'),(1, '本科组', '信息技术'),(1, '本科组', '数理'),(1, '本科组', '生命科学'),(1, '本科组', '能源化工'),(1, '本科组', '社科'),(1, '本科组', '艺术设计'),(1, '本科组', '建筑工程'),(1, '硕研组', '机械和控制'),(1, '硕研组', '信息技术'),(1, '硕研组', '数理'),(1, '硕研组', '生命科学'),(1, '硕研组', '能源化工'),(1, '硕研组', '社科'),(1, '硕研组', '艺术设计'),(1, '硕研组', '建筑工程'),(1, '博研组', '机械和控制'),(1, '博研组', '信息技术'),(1, '博研组', '数理'),(1, '博研组', '生命科学'),(1, '博研组', '能源化工'),(1, '博研组', '社科'),(1, '博研组', '艺术设计'),(1, '博研组', '建筑工程'),(1, '留学生组', '机械和控制'),(1, '留学生组', '信息技术'),(1, '留学生组', '数理'),(1, '留学生组', '生命科学'),(1, '留学生组', '能源化工'),(1, '留学生组', '社科'),(1, '留学生组', '艺术设计'),(1, '留学生组', '建筑工程'),(2, '本科生组', '机械和控制'),(2, '本科生组', '信息技术'),(2, '本科生组', '数理'),(2, '本科生组', '生命科学'),(2, '本科生组', '能源化工'),(2, '本科生组', '社科'),(2, '本科生组', '艺术设计'),(2, '本科生组', '建筑工程'),(2, '研究生组', '机械和控制'),(2, '研究生组', '信息技术'),(2, '研究生组', '数理'),(2, '研究生组', '生命科学'),(2, '研究生组', '能源化工'),(2, '研究生组', '社科'),(2, '研究生组', '艺术设计'),(2, '研究生组', '建筑工程'),(3, '本科组', '机械和控制'),(3, '本科组', '信息技术'),(3, '本科组', '数理'),(3, '本科组', '生命科学'),(3, '本科组', '能源化工'),(3, '本科组', '社科'),(3, '本科组', '艺术设计'),(3, '本科组', '建筑工程'),(3, '硕研组', '机械和控制'),(3, '硕研组', '信息技术'),(3, '硕研组', '数理'),(3, '硕研组', '生命科学'),(3, '硕研组', '能源化工'),(3, '硕研组', '社科'),(3, '硕研组', '艺术设计'),(3, '硕研组', '建筑工程'),(3, '博研组', '机械和控制'),(3, '博研组', '信息技术'),(3, '博研组', '数理'),(3, '博研组', '生命科学'),(3, '博研组', '能源化工'),(3, '博研组', '社科'),(3, '博研组', '艺术设计'),(3, '博研组', '建筑工程'),(3, '留学生组', '机械和控制'),(3, '留学生组', '信息技术'),(3, '留学生组', '数理'),(3, '留学生组', '生命科学'),(3, '留学生组', '能源化工'),(3, '留学生组', '社科'),(3, '留学生组', '艺术设计'),(3, '留学生组', '建筑工程'),(4, '哲学社科类', '哲学'),(4, '哲学社科类', '经济'),(4, '哲学社科类', '社会'),(4, '哲学社科类', '法律'),(4, '哲学社科类', '教育'),(4, '哲学社科类', '管理'),(4, '自然科学类', '机械控制'),(4, '自然科学类', '信息技术'),(4, '自然科学类', '数理'),(4, '自然科学类', '生命科学'),(4, '自然科学类', '能源化工'),(4, '发明制作A类', '机械控制'),(4, '发明制作A类', '信息技术'),(4, '发明制作A类', '数理'),(4, '发明制作A类', '生命科学'),(4, '发明制作A类', '能源化工'),(4, '发明制作B类', '机械控制'),(4, '发明制作B类', '信息技术'),(4, '发明制作B类', '数理'),(4, '发明制作B类', '生命科学'),(4, '发明制作B类', '能源化工')
+INSERT INTO `aha_zjut`.`competition_static_tags` (`comp_type`, `comp_group`, `comp_tag`) VALUES (1, '本科组', '机械和控制'),(1, '本科组', '信息技术'),(1, '本科组', '数理'),(1, '本科组', '生命科学'),(1, '本科组', '能源化工'),(1, '本科组', '社科'),(1, '本科组', '艺术设计'),(1, '本科组', '建筑工程'),(1, '硕研组', '机械和控制'),(1, '硕研组', '信息技术'),(1, '硕研组', '数理'),(1, '硕研组', '生命科学'),(1, '硕研组', '能源化工'),(1, '硕研组', '社科'),(1, '硕研组', '艺术设计'),(1, '硕研组', '建筑工程'),(1, '博研组', '机械和控制'),(1, '博研组', '信息技术'),(1, '博研组', '数理'),(1, '博研组', '生命科学'),(1, '博研组', '能源化工'),(1, '博研组', '社科'),(1, '博研组', '艺术设计'),(1, '博研组', '建筑工程'),(1, '留学生组', '机械和控制'),(1, '留学生组', '信息技术'),(1, '留学生组', '数理'),(1, '留学生组', '生命科学'),(1, '留学生组', '能源化工'),(1, '留学生组', '社科'),(1, '留学生组', '艺术设计'),(1, '留学生组', '建筑工程'),(2, '本科生组', '机械和控制'),(2, '本科生组', '信息技术'),(2, '本科生组', '数理'),(2, '本科生组', '生命科学'),(2, '本科生组', '能源化工'),(2, '本科生组', '社科'),(2, '本科生组', '艺术设计'),(2, '本科生组', '建筑工程'),(2, '研究生组', '机械和控制'),(2, '研究生组', '信息技术'),(2, '研究生组', '数理'),(2, '研究生组', '生命科学'),(2, '研究生组', '能源化工'),(2, '研究生组', '社科'),(2, '研究生组', '艺术设计'),(2, '研究生组', '建筑工程'),(3, '本科组', '机械和控制'),(3, '本科组', '信息技术'),(3, '本科组', '数理'),(3, '本科组', '生命科学'),(3, '本科组', '能源化工'),(3, '本科组', '社科'),(3, '本科组', '艺术设计'),(3, '本科组', '建筑工程'),(3, '硕研组', '机械和控制'),(3, '硕研组', '信息技术'),(3, '硕研组', '数理'),(3, '硕研组', '生命科学'),(3, '硕研组', '能源化工'),(3, '硕研组', '社科'),(3, '硕研组', '艺术设计'),(3, '硕研组', '建筑工程'),(3, '博研组', '机械和控制'),(3, '博研组', '信息技术'),(3, '博研组', '数理'),(3, '博研组', '生命科学'),(3, '博研组', '能源化工'),(3, '博研组', '社科'),(3, '博研组', '艺术设计'),(3, '博研组', '建筑工程'),(3, '留学生组', '机械和控制'),(3, '留学生组', '信息技术'),(3, '留学生组', '数理'),(3, '留学生组', '生命科学'),(3, '留学生组', '能源化工'),(3, '留学生组', '社科'),(3, '留学生组', '艺术设计'),(3, '留学生组', '建筑工程'),(4, '哲学社科类', '哲学'),(4, '哲学社科类', '经济'),(4, '哲学社科类', '社会'),(4, '哲学社科类', '法律'),(4, '哲学社科类', '教育'),(4, '哲学社科类', '管理'),(4, '自然科学类', '机械控制'),(4, '自然科学类', '信息技术'),(4, '自然科学类', '数理'),(4, '自然科学类', '生命科学'),(4, '自然科学类', '能源化工'),(4, '发明制作A类', '机械控制'),(4, '发明制作A类', '信息技术'),(4, '发明制作A类', '数理'),(4, '发明制作A类', '生命科学'),(4, '发明制作A类', '能源化工'),(4, '发明制作B类', '机械控制'),(4, '发明制作B类', '信息技术'),(4, '发明制作B类', '数理'),(4, '发明制作B类', '生命科学'),(4, '发明制作B类', '能源化工');
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `competition_key_point`;
@@ -346,4 +345,58 @@ CREATE TABLE `aha_zjut`.`competition_key_point`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
 LOCK TABLES `competition_static_tags` WRITE;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `competition_stage`
+--
+
+DROP TABLE IF EXISTS `competition_stage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+ CREATE TABLE `aha_zjut`.`competition_stage`  (
+  `comp_id` int(11) NOT NULL COMMENT '赛事id',
+  `stage_id` int(11) NOT NULL AUTO_INCREMENT COMMENT ' 阶段id',
+  `stage_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '阶段名',
+  `stage_des` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '阶段描述',
+  `stage_order` int(2) NULL DEFAULT NULL COMMENT '赛事阶段顺序',
+  `next_stage_num` int(3) NULL DEFAULT NULL COMMENT '可进入下一阶段数目',
+  PRIMARY KEY (`stage_id`) USING BTREE,
+  INDEX `stage_id`(`stage_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `competition_stage`
+--
+
+LOCK TABLES `competition_stage` WRITE;
+/*!40000 ALTER TABLE `competition_stage` DISABLE KEYS */;
+/*!40000 ALTER TABLE `competition_stage` ENABLE KEYS */;
+UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `competition_stage_status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE `aha_zjut`.`competition_stage_status`  (
+  `stage_id` int(11) NOT NULL COMMENT '关联阶段id',
+  `status_id` int(11) NOT NULL COMMENT '小阶段id',
+  `status_name` varchar(50)  NOT NULL COMMENT '小阶段name',
+  `status_order` varchar(2)  NOT NULL COMMENT '小阶段顺序',
+  `status_desc` varchar(255) NOT NULL COMMENT '状态描述',
+  `status_end_time` timestamp(6) NULL DEFAULT NULL COMMENT '状态结束时间',
+  PRIMARY KEY (`status_id`) USING BTREE,
+  INDEX `competition_stage_status_stage_id`(`stage_id`) USING BTREE,
+  CONSTRAINT `competition_stage_status_stage_id` FOREIGN KEY (`stage_id`) REFERENCES `aha_zjut`.`competition_stage` (`stage_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+--
+-- Dumping data for table `competition_stage_status`
+--
+
+LOCK TABLES `competition_stage_status` WRITE;
+
+/*!40000 ALTER TABLE `competition_stage_status` DISABLE KEYS */;
+/*!40000 ALTER TABLE `competition_stage_status` ENABLE KEYS */;
+UNLOCK TABLES;
+
 

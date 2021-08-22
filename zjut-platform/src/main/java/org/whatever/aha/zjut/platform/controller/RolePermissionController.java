@@ -30,7 +30,7 @@ import javax.validation.constraints.Min;
  * @date 2021/8/8 5:31 下午
  */
 @Api(tags = "角色对应权限操作")
-@RequestMapping("/RolePermission")
+@RequestMapping("/v1/rolePermission")
 @RequiredArgsConstructor
 @RestController
 @Validated

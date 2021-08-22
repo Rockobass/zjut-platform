@@ -28,7 +28,7 @@ management:
 
 spring:
   profiles:
-    active: debug
+    active: dev
 
 tencent-sms:
   appId: 1400552228
