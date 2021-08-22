@@ -31,7 +31,7 @@ public class ValidateExceptionHandler {
         if (profileConfig.isDev()) {
             errorDetail = ErrorDetail.builder()
                     .requestId(request.getAttribute("requestId").toString())
-                    .data(e.getMessage()).path(request.getRequestURI())
+                    .message(e.getMessage()).path(request.getRequestURI())
                     .timestamp(Instant.now()).build();
         } else {
             errorDetail = ErrorDetail.builder()

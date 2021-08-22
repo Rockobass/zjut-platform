@@ -83,6 +83,7 @@ public class StudentInfoService {
         dto.setSchoolName(studentInfo.getSchoolName());
         dto.setAdmissionTime(studentInfo.getAdmissionTime());
         dto.setClassName(studentInfo.getClassName());
+        dto.setDegree(studentInfo.getDegree());
         return dto;
     }
 }

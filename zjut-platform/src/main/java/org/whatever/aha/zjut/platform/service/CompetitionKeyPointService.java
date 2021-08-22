@@ -1,7 +1,6 @@
 package org.whatever.aha.zjut.platform.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -20,6 +19,7 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
+@Service
 public class CompetitionKeyPointService {
     final CompetitionKeyPointMapper competitionKeyPointMapper;
 
