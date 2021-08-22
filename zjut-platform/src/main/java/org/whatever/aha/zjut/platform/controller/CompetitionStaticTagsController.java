@@ -80,7 +80,7 @@ public class CompetitionStaticTagsController {
      * @param compGroup 竞赛组别
      */
     @ApiOperation("删除compGroup对应的所有Tag信息")
-    @PostMapping("/delTag")
+    @PostMapping("/delTags")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "compType", value = "竞赛id", dataTypeClass = Integer.class),
             @ApiImplicitParam(name = "compGroup", value = "竞赛组别", dataTypeClass = String.class)
