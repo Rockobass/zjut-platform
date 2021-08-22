@@ -26,7 +26,7 @@ CREATE TABLE `academy` (
   `academy_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '学院id',
   `academy_name` varchar(32) DEFAULT NULL COMMENT '学院名',
   UNIQUE KEY `academy_academy_id_uindex` (`academy_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='学院表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='学院表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -54,7 +54,7 @@ CREATE TABLE `admin_academy_info` (
   `real_name` varchar(32) DEFAULT NULL COMMENT '真实姓名',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `admin_academy_info_user_id_uindex` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='校级管理员信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='校级管理员信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,6 +64,110 @@ CREATE TABLE `admin_academy_info` (
 LOCK TABLES `admin_academy_info` WRITE;
 /*!40000 ALTER TABLE `admin_academy_info` DISABLE KEYS */;
 /*!40000 ALTER TABLE `admin_academy_info` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `competition`
+--
+
+DROP TABLE IF EXISTS `competition`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `competition` (
+  `comp_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '赛事id',
+  `comp_type` int(1) NOT NULL COMMENT '赛事类型(1:运河杯立项 2:结题 3:竞赛 4:新苗立项 5:挑战杯专项赛)',
+  `comp_year` int(4) NOT NULL COMMENT '举办年份',
+  `comp_school_rec_amt` int(3) NOT NULL COMMENT '校团委推荐数量',
+  `comp_info` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '赛事简介',
+  `comp_judge_way` tinyint(1) NOT NULL DEFAULT '0' COMMENT '评委评分方式（0:打分/1:排序）',
+  `comp_judge_standard` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '校级管理员指定评判标准',
+  `comp_status` int(1) NOT NULL COMMENT '赛事状态 未开始进行中结束',
+  `comp_current_stage` int(11) DEFAULT NULL COMMENT '当前赛事阶段 初赛复赛',
+  `comp_current_status` int(11) DEFAULT NULL COMMENT '当前阶段的状态 提交、审核等',
+  PRIMARY KEY (`comp_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=COMPACT;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `competition`
+--
+
+LOCK TABLES `competition` WRITE;
+/*!40000 ALTER TABLE `competition` DISABLE KEYS */;
+INSERT INTO `competition` (`comp_id`, `comp_type`, `comp_year`, `comp_school_rec_amt`, `comp_info`, `comp_judge_way`, `comp_judge_standard`, `comp_status`, `comp_current_stage`, `comp_current_status`) VALUES (1,1,2021,12,'这个是赛事简介',0,'这个是评判标准',1,NULL,NULL),(2,2,2021,12,'这个是赛事简介',0,'这个是评判标准',1,NULL,NULL);
+/*!40000 ALTER TABLE `competition` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `competition_stage`
+--
+
+DROP TABLE IF EXISTS `competition_stage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `competition_stage` (
+  `comp_id` int(11) DEFAULT NULL,
+  `stage` int(11) DEFAULT NULL,
+  `description` varchar(256) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `competition_stage`
+--
+
+LOCK TABLES `competition_stage` WRITE;
+/*!40000 ALTER TABLE `competition_stage` DISABLE KEYS */;
+/*!40000 ALTER TABLE `competition_stage` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `competition_stage_status`
+--
+
+DROP TABLE IF EXISTS `competition_stage_status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `competition_stage_status` (
+  `stage_id` int(11) DEFAULT NULL COMMENT '阶段id',
+  `status_name` varchar(64) DEFAULT NULL COMMENT '状态名',
+  `status_order` int(1) DEFAULT NULL COMMENT '状态顺序\n',
+  `status_desc` varchar(128) DEFAULT NULL COMMENT '状态描述',
+  `status_end_time` timestamp NULL DEFAULT NULL COMMENT '状态结束时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='赛事阶段状态表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `competition_stage_status`
+--
+
+LOCK TABLES `competition_stage_status` WRITE;
+/*!40000 ALTER TABLE `competition_stage_status` DISABLE KEYS */;
+/*!40000 ALTER TABLE `competition_stage_status` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `competition_static_tags`
+--
+
+DROP TABLE IF EXISTS `competition_static_tags`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `competition_static_tags` (
+  `comp_type` int(255) NOT NULL COMMENT '竞赛类型',
+  `comp_group` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '竞赛组别',
+  `comp_tag` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '竞赛标签',
+  PRIMARY KEY (`comp_type`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=COMPACT;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `competition_static_tags`
+--
+
+LOCK TABLES `competition_static_tags` WRITE;
+/*!40000 ALTER TABLE `competition_static_tags` DISABLE KEYS */;
+/*!40000 ALTER TABLE `competition_static_tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -86,7 +190,7 @@ CREATE TABLE `flyway_schema_history` (
   `success` tinyint(1) NOT NULL,
   PRIMARY KEY (`installed_rank`),
   KEY `flyway_schema_history_s_idx` (`success`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -116,7 +220,7 @@ CREATE TABLE `judge_info` (
   `expire_time` datetime DEFAULT NULL COMMENT '账号过期时间',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `judge_info_user_id_uindex` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='评委信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='评委信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -142,7 +246,7 @@ CREATE TABLE `major` (
   PRIMARY KEY (`major_id`),
   UNIQUE KEY `major_major_id_uindex` (`major_id`),
   KEY `major_academy_id_index` (`academy_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='专业表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='专业表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -167,7 +271,7 @@ CREATE TABLE `role` (
   `role_name` varchar(32) DEFAULT NULL COMMENT '角色名',
   PRIMARY KEY (`role_id`),
   KEY `role_role_id_index` (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='用户角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户角色表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,6 +282,32 @@ LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
 INSERT INTO `role` (`role_id`, `role_name`) VALUES (1,'student'),(2,'judge'),(3,'admin_academy'),(4,'admin_school');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `role_permission`
+--
+
+DROP TABLE IF EXISTS `role_permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `role_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `role_id` int(1) DEFAULT NULL COMMENT '角色ID ',
+  `permission_code` varchar(50) DEFAULT NULL COMMENT '权限项ID',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色权限中间表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `role_permission`
+--
+
+LOCK TABLES `role_permission` WRITE;
+/*!40000 ALTER TABLE `role_permission` DISABLE KEYS */;
+INSERT INTO `role_permission` (`id`, `role_id`, `permission_code`, `create_time`) VALUES (1,4,'student-modify','2021-08-17 23:39:35'),(2,5,'auth','2021-08-17 23:39:35'),(3,5,'role-list','2021-08-17 23:39:35'),(4,5,'menu-list','2021-08-17 23:39:35'),(5,5,'admin-list','2021-08-17 23:39:35'),(6,5,'academy-admin-add','2021-08-17 23:39:35'),(7,4,'student-modify','2021-08-17 23:39:35');
+/*!40000 ALTER TABLE `role_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -203,7 +333,7 @@ CREATE TABLE `student_info` (
   `class_name` varchar(16) DEFAULT NULL COMMENT '班级',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `student_info_student_id_uindex` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='学生信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='学生信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -235,7 +365,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `user_id_uindex` (`user_id`),
   UNIQUE KEY `user_phone_number_uindex` (`phone_number`),
   UNIQUE KEY `user_username_uindex` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -259,7 +389,7 @@ CREATE TABLE `user_role` (
   `user_id` int(11) DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL,
   KEY `user_role_user_id_index` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户id和角色id对应表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户id和角色id对应表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -280,70 +410,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-05 19:09:46
-
--- 角色权限对应表
-drop table if exists role_permission;
-CREATE TABLE `role_permission` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `role_id` int(1) DEFAULT NULL COMMENT '角色ID ',
-  `permission_code` varchar(50) DEFAULT NULL COMMENT '权限项ID',
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色权限中间表';
-
-LOCK TABLES `role_permission` WRITE;
-insert into role_permission() values (0, '4', 'student-modify', now());
-
-insert into role_permission() values (0, '5', 'auth', now());
-insert into role_permission() values (0, '5', 'role-list', now());
-insert into role_permission() values (0, '5', 'menu-list', now());
-insert into role_permission() values (0, '5', 'admin-list', now());
-insert into role_permission() values (0, '5', 'academy-admin-add', now());
-insert into role_permission() values (0, '4', 'student-modify', now());
-UNLOCK TABLES;
-
-DROP TABLE IF EXISTS `competition`;
-SET character_set_client = utf8mb4 ;
-CREATE TABLE `aha_zjut`.`competition`  (
-  `comp_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '赛事id',
-  `comp_type` int(1) NOT NULL COMMENT '赛事类型(1:运河杯立项 2:结题 3:竞赛 4:新苗立项 5:挑战杯专项赛)',
-  `comp_year` int(4) NOT NULL COMMENT '举办年份',
-  `comp_school_rec_amt` int(3) NOT NULL COMMENT '校团委推荐数量',
-  `comp_info` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '赛事简介',
-  `comp_judge_way` tinyint(1) NOT NULL DEFAULT 0 COMMENT '评委评分方式（0:打分/1:排序）',
-  `comp_judge_standard` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '校级管理员指定评判标准',
- `comp_status` int(1) NOT NULL COMMENT '赛事状态',
-  PRIMARY KEY (`comp_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
-LOCK TABLES `competition` WRITE;
-insert into competition() values (1, '1', 2021,12,'这个是赛事简介',0,'这个是评判标准',1);
-insert into competition() values (NULL, '2', 2021,12,'这个是赛事简介',0,'这个是评判标准',1);
-UNLOCK TABLES;
-
-DROP TABLE IF EXISTS `competition_static_tags`;
-SET character_set_client = utf8mb4 ;
-CREATE TABLE `aha_zjut`.`competition_static_tags`  (
-  `comp_type` int(255) NOT NULL COMMENT '竞赛类型',
-  `comp_group` varchar(50) NULL DEFAULT NULL COMMENT '竞赛组别',
-  `comp_tag` varchar(100) NULL DEFAULT NULL COMMENT '竞赛标签',
-  PRIMARY KEY (`comp_type`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
-LOCK TABLES `competition_static_tags` WRITE;
-INSERT INTO `aha_zjut`.`competition_static_tags` (`comp_type`, `comp_group`, `comp_tag`) VALUES (1, '本科组', '机械和控制'),(1, '本科组', '信息技术'),(1, '本科组', '数理'),(1, '本科组', '生命科学'),(1, '本科组', '能源化工'),(1, '本科组', '社科'),(1, '本科组', '艺术设计'),(1, '本科组', '建筑工程'),(1, '硕研组', '机械和控制'),(1, '硕研组', '信息技术'),(1, '硕研组', '数理'),(1, '硕研组', '生命科学'),(1, '硕研组', '能源化工'),(1, '硕研组', '社科'),(1, '硕研组', '艺术设计'),(1, '硕研组', '建筑工程'),(1, '博研组', '机械和控制'),(1, '博研组', '信息技术'),(1, '博研组', '数理'),(1, '博研组', '生命科学'),(1, '博研组', '能源化工'),(1, '博研组', '社科'),(1, '博研组', '艺术设计'),(1, '博研组', '建筑工程'),(1, '留学生组', '机械和控制'),(1, '留学生组', '信息技术'),(1, '留学生组', '数理'),(1, '留学生组', '生命科学'),(1, '留学生组', '能源化工'),(1, '留学生组', '社科'),(1, '留学生组', '艺术设计'),(1, '留学生组', '建筑工程'),(2, '本科生组', '机械和控制'),(2, '本科生组', '信息技术'),(2, '本科生组', '数理'),(2, '本科生组', '生命科学'),(2, '本科生组', '能源化工'),(2, '本科生组', '社科'),(2, '本科生组', '艺术设计'),(2, '本科生组', '建筑工程'),(2, '研究生组', '机械和控制'),(2, '研究生组', '信息技术'),(2, '研究生组', '数理'),(2, '研究生组', '生命科学'),(2, '研究生组', '能源化工'),(2, '研究生组', '社科'),(2, '研究生组', '艺术设计'),(2, '研究生组', '建筑工程'),(3, '本科组', '机械和控制'),(3, '本科组', '信息技术'),(3, '本科组', '数理'),(3, '本科组', '生命科学'),(3, '本科组', '能源化工'),(3, '本科组', '社科'),(3, '本科组', '艺术设计'),(3, '本科组', '建筑工程'),(3, '硕研组', '机械和控制'),(3, '硕研组', '信息技术'),(3, '硕研组', '数理'),(3, '硕研组', '生命科学'),(3, '硕研组', '能源化工'),(3, '硕研组', '社科'),(3, '硕研组', '艺术设计'),(3, '硕研组', '建筑工程'),(3, '博研组', '机械和控制'),(3, '博研组', '信息技术'),(3, '博研组', '数理'),(3, '博研组', '生命科学'),(3, '博研组', '能源化工'),(3, '博研组', '社科'),(3, '博研组', '艺术设计'),(3, '博研组', '建筑工程'),(3, '留学生组', '机械和控制'),(3, '留学生组', '信息技术'),(3, '留学生组', '数理'),(3, '留学生组', '生命科学'),(3, '留学生组', '能源化工'),(3, '留学生组', '社科'),(3, '留学生组', '艺术设计'),(3, '留学生组', '建筑工程'),(4, '哲学社科类', '哲学'),(4, '哲学社科类', '经济'),(4, '哲学社科类', '社会'),(4, '哲学社科类', '法律'),(4, '哲学社科类', '教育'),(4, '哲学社科类', '管理'),(4, '自然科学类', '机械控制'),(4, '自然科学类', '信息技术'),(4, '自然科学类', '数理'),(4, '自然科学类', '生命科学'),(4, '自然科学类', '能源化工'),(4, '发明制作A类', '机械控制'),(4, '发明制作A类', '信息技术'),(4, '发明制作A类', '数理'),(4, '发明制作A类', '生命科学'),(4, '发明制作A类', '能源化工'),(4, '发明制作B类', '机械控制'),(4, '发明制作B类', '信息技术'),(4, '发明制作B类', '数理'),(4, '发明制作B类', '生命科学'),(4, '发明制作B类', '能源化工')
-UNLOCK TABLES;
-
-DROP TABLE IF EXISTS `competition_key_point`;
-SET character_set_client = utf8mb4 ;
-CREATE TABLE `aha_zjut`.`competition_key_point`  (
-  `comp_id` int(11) NOT NULL COMMENT '外键 竞赛id',
-  `comp_key_point_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '关键时间节点名',
-  `comp_key_time` datetime(0) NOT NULL COMMENT '关键时间节点',
-  `comp_need_alert` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否需要消息提醒（0不需要 1需要）',
-  `comp_user_type` int(1) NULL DEFAULT NULL COMMENT '提醒人员类型',
-  PRIMARY KEY (`comp_id`) USING BTREE,
-  CONSTRAINT `competition_comp_id` FOREIGN KEY (`comp_id`) REFERENCES `aha_zjut`.`competition` (`comp_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
-LOCK TABLES `competition_static_tags` WRITE;
-UNLOCK TABLES;
-
+-- Dump completed on 2021-08-19 21:30:03

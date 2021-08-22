@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
         if (profileConfig.isDev()) { // dev环境时返回的异常信息
             ErrorDetail errorDetail = ErrorDetail.builder()
                     .requestId(request.getAttribute("requestId").toString())
-                    .data(e.getMessage()).path(request.getRequestURI())
+                    .message(e.getMessage()).path(request.getRequestURI())
                     .timestamp(Instant.now()).build();
             e.printStackTrace();
             return AjaxResult.FAIL("全局异常", errorDetail);

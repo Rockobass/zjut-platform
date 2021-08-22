@@ -58,4 +58,8 @@ public class StudentInfoDto {
      * 班级名
      */
     String className;
+    /**
+     * 学历
+     */
+    Integer degree;
 }

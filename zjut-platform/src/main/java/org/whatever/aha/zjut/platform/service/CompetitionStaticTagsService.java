@@ -3,10 +3,10 @@ package org.whatever.aha.zjut.platform.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.whatever.aha.zjut.platform.entity.CompetitionStaticTags;
-import org.whatever.aha.zjut.platform.mapper.CompetitionMapper;
 import org.whatever.aha.zjut.platform.mapper.CompetitionStaticTagsMapper;
 
 import java.util.List;
@@ -18,6 +18,7 @@ import java.util.List;
  * @date 2021/08/15 18:24
  */
 @RequiredArgsConstructor
+@Service
 public class CompetitionStaticTagsService {
     final CompetitionStaticTagsMapper competitionStaticTagsMapper;
 

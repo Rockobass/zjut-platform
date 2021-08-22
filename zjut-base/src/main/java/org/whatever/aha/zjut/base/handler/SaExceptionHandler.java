@@ -33,7 +33,8 @@ public class SaExceptionHandler {
         if (profileConfig.isDev()) {
             errorDetail = ErrorDetail.builder()
                     .requestId(request.getAttribute("requestId").toString())
-                    .data(e.getMessage()).path(request.getRequestURI())
+                    .message(e.getMessage())
+                    .path(request.getRequestURI())
                     .timestamp(Instant.now()).build();
             log.error(errorDetail.toString());
         } else {
