@@ -83,4 +83,11 @@ public class UserService {
         return getUserById(userId);
     }
 
+    /**
+     * 获取当前用户登陆类型
+     */
+    public int getLoginType(int userId) {
+        return userMapper.getLoginTypeById(userId);
+    }
+
 }

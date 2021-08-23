@@ -250,4 +250,13 @@ public class SaController {
         StpUtil.logout();
         return AjaxResult.SUCCESS();
     }
+
+    @GetMapping("/rememberMe")
+    @ApiOperation(value = "自动登陆接口")
+    @SaCheckLogin
+    public Object rememberMe() {
+        int userId = StpUtil.getLoginIdAsInt();
+        int loginType = userService.getLoginType(userId);
+        return AjaxResult.SUCCESS(Map.of("userId", userId, "loginType", loginType));
+    }
 }
