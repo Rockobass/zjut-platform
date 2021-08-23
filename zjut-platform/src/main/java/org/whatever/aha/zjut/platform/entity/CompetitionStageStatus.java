@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import javax.validation.constraints.Min;
 import java.sql.Timestamp;
 
 /**
@@ -19,11 +20,13 @@ public class CompetitionStageStatus {
     /**
      * 竞赛阶段id
      */
+    @Min(1)
     int comp_stage_id;
     /**
      * 竞赛阶段状态id
      */
     @TableId(type = IdType.AUTO)
+    @Min (1)
     Integer comp_stage_status_id;
     /**
      * 竞赛阶段状态的名字
@@ -32,6 +35,7 @@ public class CompetitionStageStatus {
     /**
      * 竞赛阶段状态顺序
      */
+    @Min (1)
     int comp_stage_status_order;
     /**
      * 竞赛阶段状态结束时间

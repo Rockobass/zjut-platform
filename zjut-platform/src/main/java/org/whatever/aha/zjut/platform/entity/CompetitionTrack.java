@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import javax.validation.constraints.Min;
+
 /**
  * @author Vc
  * @version 1.0
@@ -17,12 +19,13 @@ public class CompetitionTrack {
     /**
      * comp id
      */
+    @Min(1)
     int compId;
     /**
      * 赛事通道id
      */
     @TableId(type = IdType.AUTO)
-    int trackId;
+    Integer trackId;
     /**
      * 赛事通道的名字
      */

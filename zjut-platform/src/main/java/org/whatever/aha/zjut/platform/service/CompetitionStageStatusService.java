@@ -48,8 +48,8 @@ public class CompetitionStageStatusService {
      * 删除一条赛事小阶段信息
      */
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
-    public int delCompStageStatus(int compStageId, int compStageStatusId){
-        return competitionStageStatusMapper.delete(new QueryWrapper<CompetitionStageStatus>().eq("comp_stage_id", compStageId).eq("comp_status_id",compStageStatusId));
+    public int delCompStageStatus(int compStageId, int statusId){
+        return competitionStageStatusMapper.delete(new QueryWrapper<CompetitionStageStatus>().eq("stage_id", compStageId).eq("status_id",statusId));
     }
 
     /**

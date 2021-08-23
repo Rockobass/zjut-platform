@@ -1,15 +1,18 @@
 package org.whatever.aha.zjut.platform.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaMode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.whatever.aha.zjut.base.constant.AuthConst;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
-import org.whatever.aha.zjut.platform.entity.CompetitionStage;
 import org.whatever.aha.zjut.platform.service.CompetitionStageService;
 
+import javax.validation.constraints.Min;
 import java.util.List;
 
 /**
@@ -22,6 +25,7 @@ import java.util.List;
 @RequestMapping("/v1/competitionStage")
 @RequiredArgsConstructor
 @RestController
+@SaCheckPermission(value = {AuthConst.R_supper, AuthConst.R_school}, mode = SaMode.OR)
 public class CompetitionStageController {
     final CompetitionStageService competitionStageService;
 
@@ -34,7 +38,11 @@ public class CompetitionStageController {
             @ApiImplicitParam(name = "stageOrder", value = "赛事阶段顺序", dataTypeClass = Integer.class)
     })
     @PostMapping("/addCompStage")
-    public int addCompStage(int compId, String compStageName, int nextStageNum, String compStageDesc, int stageOrder){
+    public int addCompStage(@RequestParam(value = "compId")int compId,
+                            @RequestParam(value = "compStageName")String compStageName,
+                            @RequestParam(value = "nextStageNum")int nextStageNum,
+                            @RequestParam(value = "compStageDesc", required = false)String compStageDesc,
+                            @RequestParam(value = "stageOrder")int stageOrder){
         return competitionStageService.addCompStage(compId,compStageName,nextStageNum,compStageDesc,stageOrder);
     }
 
@@ -47,7 +55,11 @@ public class CompetitionStageController {
             @ApiImplicitParam(name = "stageOrder", value = "赛事阶段顺序", allowMultiple = true, dataTypeClass = Integer.class)
     })
     @PostMapping("/addCompStageInBatch")
-    public int addCompStageInBatch(List<Integer> compId, List<String> compStageName, List<Integer> nextStageNum, List<String> compStageDesc, List<Integer> stageOrder){
+    public int addCompStageInBatch(@RequestParam(value = "compId")List<Integer> compId,
+                                   @RequestParam(value = "compStageName")List<String> compStageName,
+                                   @RequestParam(value = "nextStageNum")List<Integer> nextStageNum,
+                                   @RequestParam(value = "compStageDesc")List<String> compStageDesc,
+                                   @RequestParam(value = "stageOrder")List<Integer> stageOrder){
         return competitionStageService.addCompStageInBatch(compId,compStageName,nextStageNum,compStageDesc,stageOrder);
     }
 
@@ -58,12 +70,12 @@ public class CompetitionStageController {
      * @return
      */
     @ApiOperation("删除一条stage信息")
-    @PostMapping("/delCompStage")
+    @DeleteMapping("/delCompStage/{compId}/{compStageId}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "compId", value = "竞赛id", dataTypeClass = Integer.class),
             @ApiImplicitParam(name = "compStageId", value = "竞赛阶段Id", dataTypeClass = Integer.class)
     })
-    public Object delCompStage(int compId, int compStageId){
+    public Object delCompStage(@PathVariable("compId")int compId,@PathVariable("compStageId") int compStageId){
         return AjaxResult.SUCCESS(competitionStageService.delCompStage(compId, compStageId));
     }
 
@@ -71,13 +83,13 @@ public class CompetitionStageController {
      * 获取当前阶段下一个阶段
      */
     @ApiOperation("获取当前阶段下一个阶段")
-    @PostMapping("/getNextStage")
+    @GetMapping("/getNextStage/{compId}/{compStageId}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "compId", value = "竞赛id", dataTypeClass = Integer.class),
             @ApiImplicitParam(name = "compStageId", value = "竞赛阶段Id", dataTypeClass = Integer.class),
             @ApiImplicitParam(name = "curStageOrder", value = "竞赛顺序", dataTypeClass = Integer.class)
     })
-    public Object getNextStage(int compId, int compStageId, int curStageOrder){
+    public Object getNextStage(@PathVariable("compId")int compId,@PathVariable("compStageId") int compStageId, @RequestParam(value = "curStageOrder") int curStageOrder){
         return AjaxResult.SUCCESS(competitionStageService.getNextStage(compId, compStageId, curStageOrder));
     }
 }

@@ -42,8 +42,8 @@ public class UserRoleController {
      */
     @ApiOperation("拉取指定用户的权限码列表")
     @ApiImplicitParam(name = "userId" , value = "用户Id", dataTypeClass = Integer.class)
-    @GetMapping("/getRoleByUid")
-    public Object getRoleByUid(@Min (1)@RequestParam() int userId){
+    @GetMapping("/getRoleByUid/{userId}")
+    public Object getRoleByUid(@PathVariable("userId") int userId){
         return AjaxResult.SUCCESS(userRoleService.getRoleByUid(userId));
     }
 
@@ -55,8 +55,8 @@ public class UserRoleController {
             @ApiImplicitParam(name = "userId" , value = "用户Id", dataTypeClass = Integer.class),
             @ApiImplicitParam(name = "roleId" , value = "角色Id", dataTypeClass = Integer.class)
     })
-    @PostMapping("/addUserRole")
-    public Object addUserRole(int userId, int roleId){
+    @PostMapping("/addUserRole/{userId}/{roleId}")
+    public Object addUserRole(@PathVariable("userId")int userId,@PathVariable("roleId") int roleId){
         return AjaxResult.SUCCESS(userRoleService.addUserRole(userId, roleId));
     }
 
@@ -69,8 +69,8 @@ public class UserRoleController {
             @ApiImplicitParam(name = "userId" , value = "用户Id", dataTypeClass = Integer.class),
             @ApiImplicitParam(name = "roleId" , value = "角色Id", dataTypeClass = Integer.class)
     })
-    @DeleteMapping("/deleteOneUR")
-    public Object deleteOneUR(int userId, int roleId){
+    @DeleteMapping("/deleteOneUR/{userId}/{roleId}")
+    public Object deleteOneUR(@PathVariable("userId")int userId,@PathVariable("roleId") int roleId){
         return AjaxResult.SUCCESS(userRoleService.deleteOneUR(userId, roleId));
     }
 
@@ -80,8 +80,8 @@ public class UserRoleController {
      */
     @ApiOperation("删除userId对应的所有Role信息")
     @ApiImplicitParam(name = "userId" , value = "用户Id", dataTypeClass = Integer.class)
-    @DeleteMapping("/deleteRoleByUid")
-    public Object deleteRoleByUid(int userId){
+    @DeleteMapping("/deleteRoleByUid/{userId}")
+    public Object deleteRoleByUid(@PathVariable("userId")int userId){
         return AjaxResult.SUCCESS(userRoleService.deleteRoleByUid(userId));
     }
 }

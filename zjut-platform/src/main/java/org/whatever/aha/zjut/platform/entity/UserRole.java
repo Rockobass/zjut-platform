@@ -14,6 +14,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import javax.validation.constraints.Min;
+
 /**
  * @author Vc
  * @version 1.0
@@ -22,7 +24,15 @@ import lombok.RequiredArgsConstructor;
 @Data
 @AllArgsConstructor
 public class UserRole {
+    /**
+     * 用户id
+     */
     @TableId(type = IdType.NONE)
+    @Min(1)
     int userId;
+    /**
+     * 角色id
+     */
+    @Min (1)
     int roleId;
 }

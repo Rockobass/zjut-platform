@@ -17,7 +17,6 @@ import java.util.List;
  * @Desc
  * @date 2021/08/15 18:13
  */
-@Service
 @RequiredArgsConstructor
 @Service
 public class CompetitionKeyPointService {

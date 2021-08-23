@@ -380,7 +380,7 @@ DROP TABLE IF EXISTS `competition_stage_status`;
 /*!40101 SET character_set_client = @saved_cs_client */;
 CREATE TABLE `aha_zjut`.`competition_stage_status`  (
   `stage_id` int(11) NOT NULL COMMENT '关联阶段id',
-  `status_id` int(11) NOT NULL COMMENT '小阶段id',
+  `status_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '小阶段id',
   `status_name` varchar(50)  NOT NULL COMMENT '小阶段name',
   `status_order` varchar(2)  NOT NULL COMMENT '小阶段顺序',
   `status_desc` varchar(255) NOT NULL COMMENT '状态描述',
@@ -399,4 +399,27 @@ LOCK TABLES `competition_stage_status` WRITE;
 /*!40000 ALTER TABLE `competition_stage_status` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+DROP TABLE IF EXISTS `competition_track`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE TABLE `aha_zjut`.`competition_track`  (
+  `comp_id` int(11) NOT NULL COMMENT '赛事id',
+  `track_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '通道id',
+  `track_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '通道名',
+  `track_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT ' 通道描述',
+  PRIMARY KEY (`track_id`) USING BTREE,
+  INDEX `comp_track_comp_id`(`comp_id`) USING BTREE,
+  CONSTRAINT `comp_track_comp_id` FOREIGN KEY (`comp_id`) REFERENCES `aha_zjut`.`competition` (`comp_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+--
+-- Dumping data for table `competition_stage_status`
+--
+
+LOCK TABLES `competition_stage_status` WRITE;
+
+/*!40000 ALTER TABLE `competition_stage_status` DISABLE KEYS */;
+/*!40000 ALTER TABLE `competition_stage_status` ENABLE KEYS */;
+UNLOCK TABLES;
 

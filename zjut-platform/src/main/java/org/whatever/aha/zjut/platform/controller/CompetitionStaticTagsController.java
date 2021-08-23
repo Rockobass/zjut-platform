@@ -7,13 +7,14 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.whatever.aha.zjut.base.constant.AuthConst;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.platform.service.CompetitionStaticTagsService;
+
+import javax.validation.constraints.Min;
 
 /**
  * @author Vc
@@ -26,7 +27,7 @@ import org.whatever.aha.zjut.platform.service.CompetitionStaticTagsService;
 @RequiredArgsConstructor
 @RestController
 @Validated
-@SaCheckPermission(value = {AuthConst.R_supper, AuthConst.COMP_TAGS_LIST}, mode = SaMode.OR)
+@SaCheckPermission(value = {AuthConst.R_supper, AuthConst.COMP_TAGS_LIST, AuthConst.R_school}, mode = SaMode.OR)
 public class CompetitionStaticTagsController {
     final CompetitionStaticTagsService competitionStaticTagsService;
 
@@ -44,7 +45,9 @@ public class CompetitionStaticTagsController {
             @ApiImplicitParam(name = "compGroup", value = "竞赛组别", dataTypeClass = String.class),
             @ApiImplicitParam(name = "compTag", value = "竞赛标签", dataTypeClass = String.class)
     })
-    public Object addCompInfo(int compType, String compGroup, String compTag){
+    public Object addCompInfo(@RequestParam(value = "compType")int compType,
+                              @RequestParam(value = "compGroup")String compGroup,
+                              @RequestParam(value = "compTag")String compTag){
         return AjaxResult.SUCCESS(competitionStaticTagsService.addCompInfo(compType, compGroup, compTag));
     }
 
@@ -56,13 +59,13 @@ public class CompetitionStaticTagsController {
      * @param compTag 竞赛标签
      */
     @ApiOperation("删除一条tag信息")
-    @PostMapping("/delTag")
+    @DeleteMapping("/delTag/{compType}/{compGroup}/{compTag}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "compType", value = "竞赛id", dataTypeClass = Integer.class),
             @ApiImplicitParam(name = "compGroup", value = "竞赛组别", dataTypeClass = String.class),
             @ApiImplicitParam(name = "compTag", value = "竞赛标签", dataTypeClass = String.class)
     })
-    public Object delTag(int compType, String compGroup, String compTag){
+    public Object delTag(@PathVariable("compType")int compType,@PathVariable("compGroup") String compGroup,@PathVariable(value = "compTag") String compTag){
         return AjaxResult.SUCCESS(competitionStaticTagsService.delTag(compType, compGroup, compTag));
     }
 
@@ -74,12 +77,12 @@ public class CompetitionStaticTagsController {
      * @param compGroup 竞赛组别
      */
     @ApiOperation("删除compGroup对应的所有Tag信息")
-    @PostMapping("/delTagByGroup")
+    @DeleteMapping("/delTagByGroup/{compType}/{compGroup}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "compType", value = "竞赛id", dataTypeClass = Integer.class),
             @ApiImplicitParam(name = "compGroup", value = "竞赛组别", dataTypeClass = String.class)
     })
-    public Object delTagByGroup(int compType, String compGroup){
+    public Object delTagByGroup(@PathVariable("compType")int compType,@PathVariable("compGroup") String compGroup){
         return AjaxResult.SUCCESS(competitionStaticTagsService.delTagByGroup(compType, compGroup));
     }
 
@@ -91,13 +94,13 @@ public class CompetitionStaticTagsController {
      * @param compTagList 竞赛标签列表
      */
     @ApiOperation("批量删除tag信息")
-    @PostMapping("/delTagInBatch")
+    @DeleteMapping("/delTagInBatch/{compType}/{compGroup}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "compType", value = "竞赛id", dataTypeClass = Integer.class),
             @ApiImplicitParam(name = "compGroup", value = "竞赛组别", dataTypeClass = String.class),
             @ApiImplicitParam(name = "compTag", value = "竞赛标签", allowMultiple = true, dataTypeClass = String.class)
     })
-    public Object delTagInBatch(int compType, String compGroup, String[] compTagList){
+    public Object delTagInBatch(@PathVariable("compType")int compType,@PathVariable("compGroup") String compGroup,@RequestParam(value = "compTagList") String[] compTagList){
         return AjaxResult.SUCCESS(competitionStaticTagsService.delTagInBatch(compType, compGroup, compTagList));
     }
 }

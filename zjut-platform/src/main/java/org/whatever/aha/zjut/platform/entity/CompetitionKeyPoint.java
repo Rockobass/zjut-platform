@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.checkerframework.checker.units.qual.A;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
@@ -19,6 +20,7 @@ public class CompetitionKeyPoint {
     /**
      * 外键 竞赛id
      */
+    @Min(1)
     @NotNull(message = "外键 竞赛id不能为空")
     int compId;
     /**

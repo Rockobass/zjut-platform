@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -31,10 +32,12 @@ public class RolePermission {
      *  角色-权限表 自增id
      */
     @TableId(type = IdType.AUTO)
+    @Min(1)
     int id;
     /**
      * 角色id
      */
+    @Min (1)
     int roleId;
     /**
      * 权限码

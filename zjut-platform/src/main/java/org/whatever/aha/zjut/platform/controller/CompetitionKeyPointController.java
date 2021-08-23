@@ -2,27 +2,18 @@ package org.whatever.aha.zjut.platform.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaMode;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.whatever.aha.zjut.base.constant.AuthConst;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
-import org.whatever.aha.zjut.platform.entity.CompetitionKeyPoint;
 import org.whatever.aha.zjut.platform.service.CompetitionKeyPointService;
 
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.List;
 
 /**
  * @author Vc
@@ -57,7 +48,11 @@ public class CompetitionKeyPointController {
             @ApiImplicitParam(name = "compNeedAlert", value = "是否需要提醒", dataTypeClass = Boolean.class),
             @ApiImplicitParam(name = "compUserType", value = "提醒用户类型", dataTypeClass = Integer.class)
     })
-    public Object addCompKeyPoint(int compId, String compKeyPointName, Timestamp compSchoolEndTime, boolean compNeedAlert, int compUserType){
+    public Object addCompKeyPoint(@RequestParam(value = "compId") int compId,
+                                  @RequestParam(value = "compKeyPointName") String compKeyPointName,
+                                  @RequestParam(value = "compSchoolEndTime") Timestamp compSchoolEndTime,
+                                  @RequestParam(value = "compNeedAlert") boolean compNeedAlert,
+                                  @RequestParam(value = "compUserType", required = false) Integer compUserType){
         return AjaxResult.SUCCESS(competitionKeyPointService.addCompKeyPoint(compId, compKeyPointName, compSchoolEndTime, compNeedAlert, compUserType));
     }
 
@@ -66,12 +61,12 @@ public class CompetitionKeyPointController {
      * 删除比赛关键时间节点信息
      */
     @ApiOperation("删除比赛关键时间节点信息")
-    @DeleteMapping("/delCompKeyPoint")
+    @DeleteMapping("/delCompKeyPoint/{compId}/{compKeyPointName}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "compId", value = "竞赛id", dataTypeClass = Integer.class),
             @ApiImplicitParam(name = "compKeyPointName", value = "竞赛关键点名称", dataTypeClass = String.class)
     })
-    public Object delCompKeyPoint(int compId, String compKeyPointName){
+    public Object delCompKeyPoint(@PathVariable("compId")int compId,@PathVariable("compKeyPointName") String compKeyPointName){
         return AjaxResult.SUCCESS(competitionKeyPointService.delCompKeyPoint(compId, compKeyPointName));
     }
 
@@ -79,11 +74,11 @@ public class CompetitionKeyPointController {
      * 获取某赛事对应的所有时间点信息
      */
     @ApiOperation("获取某赛事对应的所有时间点信息")
-    @DeleteMapping("/getCompKeyPoint")
+    @GetMapping("/getCompKeyPoint/{compId}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "compId", value = "竞赛id", dataTypeClass = Integer.class)
     })
-    public Object getCompKeyPoint(int compId){
+    public Object getCompKeyPoint(@PathVariable("compId")int compId){
         return AjaxResult.SUCCESS(competitionKeyPointService.getCompKeyPoint(compId));
     }
 }

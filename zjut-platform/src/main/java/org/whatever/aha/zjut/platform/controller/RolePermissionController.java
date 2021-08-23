@@ -42,9 +42,9 @@ public class RolePermissionController {
      * 拉取权限id列表  根据指定roleId
      */
     @ApiOperation("获取权限id列表")
-    @GetMapping("/getPcodeByRid")
+    @GetMapping("/getPcodeByRid/{roleId}")
     @ApiImplicitParam(name = "roleId", value = "角色id", dataTypeClass = Integer.class)
-    public Object getPcodeByRid(@Min (1)@RequestParam(defaultValue="0") int roleId){
+    public Object getPcodeByRid(@PathVariable("roleId") int roleId){
         return AjaxResult.SUCCESS(rolePermissionService.getPcodeByRid2(roleId));
     }
 
@@ -54,12 +54,12 @@ public class RolePermissionController {
      * @param code 拥有的权限码集合
      */
     @ApiOperation("修改指定角色的拥有的权限")
-    @PutMapping("/updatePcodeByRid")
+    @PutMapping("/updatePcodeByRid/{roleId}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "roleId", value = "角色id", dataTypeClass = Integer.class),
             @ApiImplicitParam(name = "code", value = "权限码集合", allowMultiple = true, dataTypeClass = String.class)
     })
-    public Object updatePcodeByRid(int roleId, String[] code){
+    public Object updatePcodeByRid(@PathVariable("roleId")int roleId,@RequestParam(value = "code") String[] code){
         return AjaxResult.SUCCESS(rolePermissionService.updateRoleMenu(roleId, code));
     }
 

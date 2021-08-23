@@ -1,17 +1,19 @@
 package org.whatever.aha.zjut.platform.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaMode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.whatever.aha.zjut.base.constant.AuthConst;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.platform.service.CompetitionStageService;
 import org.whatever.aha.zjut.platform.service.CompetitionStageStatusService;
 
+import javax.validation.constraints.Min;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -25,6 +27,7 @@ import java.util.List;
 @RequestMapping("/v1/competitionStageStatus")
 @RequiredArgsConstructor
 @RestController
+@SaCheckPermission(value = {AuthConst.R_supper, AuthConst.R_school}, mode = SaMode.OR)
 public class CompetitionStageStatusController {
     final CompetitionStageStatusService competitionStageStatusService;
 
@@ -37,7 +40,11 @@ public class CompetitionStageStatusController {
             @ApiImplicitParam(name = "compStageStausDesc", value = "竞赛阶段状态描述", dataTypeClass = Integer.class)
     })
     @PostMapping("/addCompStageStatus")
-    public int addCompStageStatus(int compStageId, String compStageStatusName, int compStageStatusOrder, Timestamp compStageStausEndTime, String compStageStausDesc){
+    public int addCompStageStatus(@RequestParam(value = "compStageId")int compStageId,
+                                  @RequestParam(value = "compStageStatusName")String compStageStatusName,
+                                  @RequestParam(value = "compStageStatusOrder")int compStageStatusOrder,
+                                  @RequestParam(value = "compStageStausEndTime")Timestamp compStageStausEndTime,
+                                  @RequestParam(value = "compStageStausDesc", required = false)String compStageStausDesc){
         return competitionStageStatusService.addCompStageStatus(compStageId,compStageStatusName,compStageStatusOrder,compStageStausEndTime,compStageStausDesc);
     }
 
@@ -50,37 +57,41 @@ public class CompetitionStageStatusController {
             @ApiImplicitParam(name = "stageOrder", value = "赛事阶段顺序", allowMultiple = true, dataTypeClass = Integer.class)
     })
     @PostMapping("/addCompStageStatusInBatch")
-    public int addCompStageStatusInBatch(List<Integer> compStageId, List<String> compStageStatusName, List<Integer> compStageStatusOrder, List<Timestamp> compStageStausEndTime, List<String> compStageStausDesc){
+    public int addCompStageStatusInBatch(@RequestParam(value = "compStageId")List<Integer> compStageId,
+                                         @RequestParam(value = "compStageStatusName")List<String> compStageStatusName,
+                                         @RequestParam(value = "compStageStatusOrder")List<Integer> compStageStatusOrder,
+                                         @RequestParam(value = "compStageStausEndTime")List<Timestamp> compStageStausEndTime,
+                                         @RequestParam(value = "compStageStausDesc")List<String> compStageStausDesc){
         return competitionStageStatusService.addCompStageStatusInBatch(compStageId,compStageStatusName,compStageStatusOrder,compStageStausEndTime,compStageStausDesc);
     }
 
     /**
      * 删除一条stage-status
-     * @param compStageId    竞赛阶段Id竞赛Id
-     * @param compStageStatusId    竞赛状态Id
+     * @param stageId    竞赛阶段Id
+     * @param statusId    竞赛状态Id
      * @return
      */
     @ApiOperation("删除一条stage信息")
-    @PostMapping("/delCompStageStatus")
+    @DeleteMapping("/delCompStageStatus/{stageId}/{statusId}")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "compStageId", value = "竞赛阶段id", dataTypeClass = Integer.class),
-            @ApiImplicitParam(name = "compStageStatusId", value = "竞赛阶段状态的名字Id", dataTypeClass = Integer.class)
+            @ApiImplicitParam(name = "stageId", value = "竞赛阶段id", dataTypeClass = Integer.class),
+            @ApiImplicitParam(name = "statusId", value = "竞赛阶段状态的Id", dataTypeClass = Integer.class)
     })
-    public Object delCompStage(int compStageId, int compStageStatusId){
-        return AjaxResult.SUCCESS(competitionStageStatusService.delCompStageStatus(compStageId, compStageStatusId));
+    public Object delCompStage(@PathVariable("stageId")int stageId,@PathVariable("statusId") int statusId){
+        return AjaxResult.SUCCESS(competitionStageStatusService.delCompStageStatus(stageId, statusId));
     }
 
     /**
      * 获取当前阶段下一个阶段
      */
     @ApiOperation("获取当前阶段下一个阶段")
-    @PostMapping("/getNextStageStatus")
+    @GetMapping("/getNextStageStatus/{compStageId}/{compStageStatusId}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "compStageId", value = "竞赛阶段id", dataTypeClass = Integer.class),
             @ApiImplicitParam(name = "compStageStatusId", value = "竞赛阶段状态的Id", dataTypeClass = Integer.class),
             @ApiImplicitParam(name = "curStageStatusOrder", value = "竞赛阶段状态顺序", dataTypeClass = Integer.class)
     })
-    public Object getNextStage(int compStageId, int compStageStatusId, int curStageStatusOrder){
+    public Object getNextStage(@PathVariable("compStageId")int compStageId, @PathVariable("compStageStatusId") int compStageStatusId, @RequestParam(value = "curStageStatusOrder") int curStageStatusOrder){
         return AjaxResult.SUCCESS(competitionStageStatusService.getNextStage(compStageId, compStageStatusId, curStageStatusOrder));
     }
 }

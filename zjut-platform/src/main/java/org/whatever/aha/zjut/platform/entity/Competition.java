@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
@@ -21,6 +22,7 @@ public class Competition {
     /**
      * 赛事id
      */
+    @Min(1)
     @TableId(type = IdType.AUTO)
     Integer compId;
     /**
