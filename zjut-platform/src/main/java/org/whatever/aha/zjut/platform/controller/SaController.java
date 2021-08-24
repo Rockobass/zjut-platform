@@ -236,6 +236,10 @@ public class SaController {
 
     @SaCheckLogin
     @ApiOperation(value = "通过手机号修改密码", notes = "非忘记密码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "code", value = "验证码", dataTypeClass = String.class),
+            @ApiImplicitParam(name = "password", value = "新密码", dataTypeClass = String.class)
+    })
     @PostMapping("/reset/do")
     public Object resetPassword(@RequestParam String code, @RequestParam String password) {
         User user = userService.getLoginUser();
