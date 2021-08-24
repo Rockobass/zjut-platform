@@ -16,6 +16,6 @@ public interface UserMapper extends BaseMapper<User> {
     @Select("select permission_code from role_permission where role_id in (select role_id from user_role where user_id = #{loginId})")
     public String[] getPermissionById(String loginId);
 
-    @Select("select login_type from user where userId = #{userId}")
+    @Select("select login_type from user where user_id = #{userId}")
     public int getLoginTypeById(int userId);
 }

@@ -205,7 +205,7 @@ public class SaController {
             @ApiImplicitParam(name = "token", value = "验证码校验时返回的token", dataTypeClass = String.class),
             @ApiImplicitParam(name = "password", value = "新密码", dataTypeClass = String.class),
     })
-    @PostMapping("/reset/do")
+    @PostMapping("/reset/forget")
     public Object resetWhenForget(@RequestParam String token, @RequestParam String password) {
         String phoneNumber = SaTempUtil.parseToken(token, String.class);
         User user = userService.getUserByUsernameOrPhone(phoneNumber);
@@ -214,7 +214,7 @@ public class SaController {
     }
 
     @SaCheckLogin
-    @ApiOperation(value = "修改密码step1 获取短信验证码")
+    @ApiOperation(value = "修改密码 获取短信验证码")
     @GetMapping("/reset/getSmsCode")
     public Object getSMSCodeWhenReset() {
         User user = userService.getLoginUser();
@@ -222,16 +222,27 @@ public class SaController {
         return AjaxResult.SUCCESS();
     }
 
+//    @SaCheckLogin
+//    @ApiOperation(value = "修改密码step2 校验短信验证码")
+//    @ApiImplicitParam(name = "code", value = "验证码", dataTypeClass = String.class)
+//    @PostMapping("/reset/verifySmsCode")
+//    public Object verifySMSCodeWhenReset(@RequestParam String code) {
+//        User user = userService.getLoginUser();
+//        long timeout = 300;
+//        smsService.verify(user.getPhoneNumber(), code, "reset");
+//        String token = SaTempUtil.createToken(user.getPhoneNumber(), timeout);
+//        return AjaxResult.SUCCESS(Map.of("token", token, "time_out", timeout));
+//    }
+
     @SaCheckLogin
-    @ApiOperation(value = "修改密码step2 校验短信验证码")
-    @ApiImplicitParam(name = "code", value = "验证码", dataTypeClass = String.class)
-    @PostMapping("/reset/verifySmsCode")
-    public Object verifySMSCodeWhenReset(@RequestParam String code) {
+    @ApiOperation(value = "通过手机号修改密码", notes = "非忘记密码")
+    @PostMapping("/reset/do")
+    public Object resetPassword(@RequestParam String code, @RequestParam String password) {
         User user = userService.getLoginUser();
-        long timeout = 300;
-        smsService.verify(user.getPhoneNumber(), code, "reset");
-        String token = SaTempUtil.createToken(user.getPhoneNumber(), timeout);
-        return AjaxResult.SUCCESS(Map.of("token", token, "time_out", timeout));
+        String phoneNumber = user.getPhoneNumber();
+        smsService.verify(phoneNumber, code, "reset");
+        userService.resetPassword(user, password);
+        return AjaxResult.SUCCESS("密码修改成功");
     }
 
     @SaCheckLogin
