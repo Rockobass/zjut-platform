@@ -246,6 +246,7 @@ public class SaController {
         String phoneNumber = user.getPhoneNumber();
         smsService.verify(phoneNumber, code, "reset");
         userService.resetPassword(user, password);
+        StpUtil.logout();
         return AjaxResult.SUCCESS("密码修改成功");
     }
 
