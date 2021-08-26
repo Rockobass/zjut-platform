@@ -58,9 +58,9 @@ public class StudentInfoService {
     }
 
     @Cacheable(value = "NoExpire", key = "'stu_info_'+#userId")
-    public StudentInfoDto getStudentInfo(int userId) {
+    public StudentInfo getStudentInfo(int userId) {
         StudentInfo rawInfo = studentInfoMapper.selectOne(new QueryWrapper<StudentInfo>().eq("user_id", userId));
-        return convertFor(rawInfo);
+        return rawInfo;
     }
 
     @Cacheable(value = "ExpireOneMin", key = "'stu_num_existed'+#studentNumber")
