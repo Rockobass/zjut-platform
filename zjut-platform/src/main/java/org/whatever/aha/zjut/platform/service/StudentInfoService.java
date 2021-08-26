@@ -1,7 +1,9 @@
 package org.whatever.aha.zjut.platform.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,10 @@ import org.whatever.aha.zjut.platform.entity.Major;
 import org.whatever.aha.zjut.platform.entity.StudentInfo;
 import org.whatever.aha.zjut.platform.entity.User;
 import org.whatever.aha.zjut.platform.mapper.*;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author Baby_mo
@@ -85,5 +91,29 @@ public class StudentInfoService {
         dto.setClassName(studentInfo.getClassName());
         dto.setDegree(studentInfo.getDegree());
         return dto;
+    }
+
+    @CacheEvict(value = "NoExpire", key = "'stu_info_'+#userId")
+    @Transactional(rollbackFor = Exception.class)
+    public void updateInfo(int userId, String studentNumber, String realName, Integer sex,
+                           Integer degree, String grade, Integer academyId, Integer majorId,
+                           String birthday, String admissionTime, String schoolName, String className) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date admissionTimedt = admissionTime==null ? null : simpleDateFormat.parse(admissionTime);
+        Date birthdaydt = birthday == null ? null : simpleDateFormat.parse(birthday);
+        UpdateWrapper<StudentInfo> wrapper = new UpdateWrapper<>();
+        wrapper.eq("user_id", userId)
+                .set(studentNumber!=null, "student_number", studentNumber)
+                .set(realName!=null, "real_name", realName)
+                .set(sex!=null, "sex", sex)
+                .set(degree!=null, "degree", degree)
+                .set(grade!= null, "grade", grade)
+                .set(academyId!=null, "academy_id", academyId)
+                .set(majorId!=null, "major_id", majorId)
+                .set(birthday != null, "birthday", birthdaydt)
+                .set(admissionTime!=null, "admission_time", admissionTimedt)
+                .set(schoolName!=null, "school_name", schoolName)
+                .set(className!=null, "class_name", className);
+        studentInfoMapper.update(null, wrapper);
     }
 }

@@ -1,24 +1,25 @@
 package org.whatever.aha.zjut.platform.controller;
 
-import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.whatever.aha.zjut.base.constant.RegexPattern;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.platform.entity.StudentInfo;
 import org.whatever.aha.zjut.platform.service.StudentInfoService;
+
+import javax.validation.constraints.Pattern;
+import java.text.ParseException;
 
 @Api(tags = "学生相关接口")
 @Validated
 @RestController
 @RequestMapping("/v1/stu")
-@SaCheckLogin
 @RequiredArgsConstructor
 public class StudentController {
     final StudentInfoService studentInfoService;
@@ -30,5 +31,24 @@ public class StudentController {
         int userId = StpUtil.getLoginIdAsInt();
         StudentInfo dto = studentInfoService.getStudentInfo(userId);
         return AjaxResult.SUCCESS(dto);
+    }
+
+    @ApiOperation("修改学生个人信息")
+    @SaCheckRole("student")
+    @PostMapping("/info")
+    public Object modifyStudentInfo(
+            @Pattern(regexp = RegexPattern.STUDENT_NUMBER) @RequestParam(required = false)  String studentNumber,
+            @RequestParam(required = false) String realName, @RequestParam(required = false) @Range(min = 0, max = 1) Integer sex,
+            @RequestParam(required = false) @Range(min = 0, max = 1) Integer degree,
+            @RequestParam(required = false) @Pattern(regexp = RegexPattern.GRADE) String grade,
+            @RequestParam(required = false) Integer academyId, @RequestParam(required = false) Integer majorId,
+            @RequestParam(required = false) @Pattern(regexp = RegexPattern.DATE) String birthday,
+            @RequestParam(required = false) @Pattern(regexp = RegexPattern.DATE) String admissionTime,
+            @RequestParam(required = false) String schoolName,
+            @RequestParam(required = false) String className
+            ) throws ParseException {
+        int userId = StpUtil.getLoginIdAsInt();
+        studentInfoService.updateInfo(userId, studentNumber, realName, sex, degree, grade, academyId, majorId, birthday, admissionTime, schoolName, className);
+        return AjaxResult.SUCCESS();
     }
 }
