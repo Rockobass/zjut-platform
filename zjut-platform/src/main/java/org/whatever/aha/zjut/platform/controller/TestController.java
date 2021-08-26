@@ -1,8 +1,10 @@
 package org.whatever.aha.zjut.platform.controller;
 
-import cn.dev33.satoken.annotation.SaCheckRole;
+import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.temp.SaTempUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.whatever.aha.zjut.base.config.ProfileConfig;
@@ -11,12 +13,15 @@ import org.whatever.aha.zjut.platform.mapper.UserMapper;
 import org.whatever.aha.zjut.platform.service.SMSService;
 import org.whatever.aha.zjut.platform.service.UserService;
 
+import java.util.Map;
+
 /**
  * @author Baby_mo
  */
 @RestController
 @RequestMapping("/v1/test")
 @RequiredArgsConstructor
+@Api(tags = "测试用接口")
 public class TestController {
 
     final ProfileConfig profileConfig;
@@ -24,16 +29,22 @@ public class TestController {
     final SMSService smsService;
     final UserService userService;
 
-    @PostMapping("/sa")
+    @PostMapping("/1")
+    @ApiOperation(value = "登陆校管理员账号")
     AjaxResult<Object> test(@RequestParam int a) {
-        StpUtil.login(1);
-        return AjaxResult.SUCCESS("成功");
+        StpUtil.login(11);
+        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+        return AjaxResult.SUCCESS(Map.of("token_name", tokenInfo.getTokenName(),
+                "token_value", tokenInfo.getTokenValue(), "login_device", tokenInfo.getLoginDevice()));
     }
 
-    @PostMapping("/tt")
-    @SaCheckRole("dasd")
+    @PostMapping("/2")
+    @ApiOperation(value = "登陆学生账号")
     public AjaxResult<Object> t() {
-        return AjaxResult.SUCCESS(userMapper.selectList(null));
+        StpUtil.login(8);
+        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+        return AjaxResult.SUCCESS(Map.of("token_name", tokenInfo.getTokenName(),
+                "token_value", tokenInfo.getTokenValue(), "login_device", tokenInfo.getLoginDevice()));
     }
 
     @PostMapping("/sendSMS")
