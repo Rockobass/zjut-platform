@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.platform.service.CommonService;
-import org.whatever.aha.zjut.platform.service.CompetitionStaticTagsService;
+import org.whatever.aha.zjut.platform.service.competition.CompetitionStaticTagsService;
 
 /**
  * @author Baby_mo

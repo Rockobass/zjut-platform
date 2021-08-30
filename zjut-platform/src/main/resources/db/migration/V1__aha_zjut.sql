@@ -15,6 +15,32 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+/**
+全量运行时注意外键约束，有外键约束的表首先删除
+ */
+
+DROP TABLE IF EXISTS `admin_academy_info`;
+DROP TABLE IF EXISTS `flyway_schema_history`;
+DROP TABLE IF EXISTS `judge_info`;
+DROP TABLE IF EXISTS `student_info`;
+drop table if exists role_permission;
+DROP TABLE IF EXISTS `user_role`;
+DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `role`;
+DROP TABLE IF EXISTS `major`;
+DROP TABLE IF EXISTS `academy`;
+DROP TABLE IF EXISTS `academy_competition`;
+
+
+DROP TABLE IF EXISTS `competition_static_tags`;
+DROP TABLE IF EXISTS `competition_key_point`;
+DROP TABLE IF EXISTS `competition_stage_status`;
+DROP TABLE IF EXISTS `competition_track`;
+DROP TABLE IF EXISTS `competition_stage_award`;
+
+DROP TABLE IF EXISTS `competition_stage`;
+DROP TABLE IF EXISTS `competition`;
+
 --
 -- Table structure for table `academy`
 --
@@ -309,16 +335,18 @@ CREATE TABLE `aha_zjut`.`competition`  (
   `comp_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '赛事id',
   `comp_type` int(1) NOT NULL COMMENT '赛事类型(1:运河杯立项 2:结题 3:竞赛 4:新苗立项 5:挑战杯专项赛)',
   `comp_year` int(4) NOT NULL COMMENT '举办年份',
+  `comp_th` int(5) NOT NULL COMMENT '赛事届数',
   `comp_school_rec_amt` int(3) NOT NULL COMMENT '校团委推荐数量',
   `comp_info` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '赛事简介',
   `comp_judge_way` tinyint(1) NOT NULL DEFAULT 0 COMMENT '评委评分方式（0:打分/1:排序）',
   `comp_judge_standard` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '校级管理员指定评判标准',
- `comp_status` int(1) NOT NULL COMMENT '赛事状态',
+ `comp_status` int(1) NOT NULL DEFAULT 1 COMMENT '赛事状态',
+ UNIQUE INDEX `index_comp_th_unique`(`comp_th`) USING BTREE,
   PRIMARY KEY (`comp_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
 LOCK TABLES `competition` WRITE;
-insert into competition() values (1, '1', 2021,12,'这个是赛事简介',0,'这个是评判标准',1);
-insert into competition() values (NULL, '2', 2021,12,'这个是赛事简介',0,'这个是评判标准',1);
+insert into competition() values (1, '1', 2021,11,12,'这个是赛事简介',0,'这个是评判标准',1);
+insert into competition() values (NULL, '2', 2021,13,12,'这个是赛事简介',0,'这个是评判标准',1);
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `competition_static_tags`;
@@ -338,8 +366,8 @@ CREATE TABLE `aha_zjut`.`competition_key_point`  (
   `comp_id` int(11) NOT NULL COMMENT '外键 竞赛id',
   `comp_key_point_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '关键时间节点名',
   `comp_key_time` datetime(0) NOT NULL COMMENT '关键时间节点',
-  `comp_need_alert` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否需要消息提醒（0不需要 1需要）',
   `comp_user_type` int(1) NULL DEFAULT NULL COMMENT '提醒人员类型',
+   `comp_key_point_order` int(5) NOT NULL COMMENT '时间点顺序',
   PRIMARY KEY (`comp_id`) USING BTREE,
   CONSTRAINT `competition_comp_id` FOREIGN KEY (`comp_id`) REFERENCES `aha_zjut`.`competition` (`comp_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
@@ -423,3 +451,48 @@ LOCK TABLES `competition_stage_status` WRITE;
 /*!40000 ALTER TABLE `competition_stage_status` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+DROP TABLE IF EXISTS `competition_stage_award`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = @saved_cs_client */;
+ALTER TABLE `aha_zjut`.`competition_stage`ADD INDEX(`comp_id`);
+
+CREATE TABLE `aha_zjut`.`competition_stage_award`  (
+  `comp_id` int(11) NOT NULL COMMENT '赛事id',
+  `stage_id` int(11) NOT NULL COMMENT '阶段id',
+  `award_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT ' 赛事奖励名称(特等  一等  二等   三等     鼓励 )',
+  `award_percent` int(2) NULL DEFAULT NULL COMMENT '获奖百分比',
+  `award_amt` int(3) NULL DEFAULT NULL COMMENT '奖项数量',
+  PRIMARY KEY (`comp_id`, `stage_id`, `award_name`) USING BTREE,
+  INDEX `comp_stage_comp_id`(`comp_id`) USING BTREE,
+  INDEX `comp_stage_stage_id`(`stage_id`) USING BTREE,
+  CONSTRAINT `comp_stage_comp_id` FOREIGN KEY (`comp_id`) REFERENCES `aha_zjut`.`competition_stage` (`comp_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `comp_stage_stage_id` FOREIGN KEY (`stage_id`) REFERENCES `aha_zjut`.`competition_stage` (`stage_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+LOCK TABLES `competition_stage_status` WRITE;
+
+/*!40000 ALTER TABLE `competition_stage_status` DISABLE KEYS */;
+/*!40000 ALTER TABLE `competition_stage_status` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+DROP TABLE IF EXISTS `academy_competition`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+CREATE TABLE `aha_zjut`.`academy_competition`  (
+  `comp_id` int(11) NOT NULL COMMENT '赛事id',
+  `academy_id` int(11) NOT NULL COMMENT '学院id',
+  `academy_rec_amt` int(4) NOT NULL COMMENT '学院剩余推荐数目',
+  `third_prize_amt` int(3) NOT NULL COMMENT '学院自评三等奖数目',
+  CONSTRAINT `academy_competition_comp_id` FOREIGN KEY (`comp_id`) REFERENCES `aha_zjut`.`competition` (`comp_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `academy_competition_academy_id` FOREIGN KEY (`academy_id`) REFERENCES `aha_zjut`.`academy` (`academy_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+LOCK TABLES `competition_stage_status` WRITE;
+
+/*!40000 ALTER TABLE `competition_stage_status` DISABLE KEYS */;
+/*!40000 ALTER TABLE `competition_stage_status` ENABLE KEYS */;
+UNLOCK TABLES;
