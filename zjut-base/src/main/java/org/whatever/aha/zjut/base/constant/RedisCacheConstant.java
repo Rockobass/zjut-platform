@@ -1,0 +1,18 @@
+package org.whatever.aha.zjut.base.constant;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+public class RedisCacheConstant {
+    // 用户接收消息队列
+    public static final String USER_MSG_QUEUE = "u:{%d}:msg:in";
+    // 消息
+    public static final String MSG = "msg:{%s}";
+    // 用户已读消息
+    public static final String USER_READ_MSG = "u:{%d}:msg:read";
+    // 用户发送消息
+    public static final String USER_SENT_MSG = "u:{%d}:msg:out";
+
+    public static final List<Object> MESSAGE_OUTLINE_KEYS = Arrays.asList("sendTime", "title", "senderName");
+}
