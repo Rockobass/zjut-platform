@@ -28,7 +28,11 @@ management:
 
 spring:
   profiles:
-    active: debug
+    active: dev
+  redis:
+    database: 0
+    timeout: 3000
+    password: 8197zjut
 
 tencent-sms:
   appId: 1400552228

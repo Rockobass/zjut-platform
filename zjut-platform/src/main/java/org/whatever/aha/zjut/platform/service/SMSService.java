@@ -2,28 +2,31 @@ package org.whatever.aha.zjut.platform.service;
 
 import com.github.qcloudsms.SmsSingleSender;
 import com.github.qcloudsms.SmsSingleSenderResult;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.whatever.aha.zjut.base.config.SMSConfig;
 import org.whatever.aha.zjut.base.constant.ErrorCode;
 import org.whatever.aha.zjut.base.exception.AppException;
+
+import javax.annotation.PostConstruct;
 import java.util.Random;
 
 /**
  * @author Baby_mo
  */
 @Service
+@RequiredArgsConstructor
 public class SMSService {
 
     final SMSConfig smsConfig;
     final CacheManager caffeineCacheManager;
-    final Cache smsCache;
+    Cache smsCache;
 
-    public SMSService(SMSConfig smsConfig, CacheManager caffeineCacheManager) {
-        this.smsConfig = smsConfig;
-        this.caffeineCacheManager = caffeineCacheManager;
-        this.smsCache = caffeineCacheManager.getCache("SMS");
+    @PostConstruct
+    public void init() {
+        smsCache = caffeineCacheManager.getCache("SMS");
     }
 
     /**

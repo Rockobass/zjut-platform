@@ -19,7 +19,10 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/aha_zjut?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     username: root
-    password: ROOT_root123
+    password: 123456
+
+  redis:
+    host: 116.62.235.148
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

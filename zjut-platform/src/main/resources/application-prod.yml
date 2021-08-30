@@ -19,3 +19,5 @@ spring:
     url: jdbc:mysql://localhost:3306/aha_zjut?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     username: root
     password: ROOT_root123
+server:
+  port: 8089

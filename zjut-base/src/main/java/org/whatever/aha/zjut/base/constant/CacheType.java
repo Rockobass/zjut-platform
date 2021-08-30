@@ -12,9 +12,10 @@ import lombok.Getter;
 public enum CacheType {
     NoExpire(100, 3000, false,-1),
     ExpireOneMin(100, 1000, true, 60),
-    Captcha(100, 10000, true, 60),
-    SMS(100, 10000, true, 300),
-    Roles(100, 3000, false, -1);
+    Captcha(100, 3000, true, 60),
+    SMS(100, 3000, true, 300),
+    Roles(100, 3000, false, -1),
+    Message(1000, 10000, false, -1);
 
     private final int initialCapacity;
     private final int maximumSize;
