@@ -31,20 +31,11 @@ public class AsyncMethod {
     @Async
     public void loadMsgQueuePage(int userId, int page) {
         String key = cacheConstant.getKeyUserMsgQueue(userId);
-        int pageSize = 10;
-        int start = (page - 1) * pageSize;
-        int end = page * pageSize - 1;
-        Object[] userMsgIds = msgUtil.getUserMsgIds(userId, start, end);
-        Object[] values = msgUtil.getMsgOutline(userMsgIds);
 
         Map<Integer, List<Object>> cacheMap = new HashMap<>();
-        ArrayList<Object> result = msgUtil.convertToOutline(userMsgIds, values);
+        ArrayList<Object> result = msgUtil.getMsgOutline(userId, page, 0);
         cacheMap.put(page, result);
         localCache.put(key, cacheMap);
     }
 
-    @Async
-    public void rmUserMessageSentCacheLocal(int userId) {
-
-    }
 }

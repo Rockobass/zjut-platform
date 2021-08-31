@@ -27,6 +27,8 @@ public enum ErrorCode {
     STUDENT_NUMBER_REGISTERED(4001, "学号已被注册");
 
 
+
+
     private final Integer code;
     private final String message;
 

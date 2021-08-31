@@ -30,21 +30,18 @@ public class TestController {
     final UserService userService;
 
     @PostMapping("/1")
-    @ApiOperation(value = "登陆校管理员账号")
-    AjaxResult<Object> test(@RequestParam int a) {
-        StpUtil.login(11);
+    @ApiOperation(value = "登陆任意账号")
+    Object test(@RequestParam int userId) {
+        StpUtil.login(userId);
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
         return AjaxResult.SUCCESS(Map.of("token_name", tokenInfo.getTokenName(),
                 "token_value", tokenInfo.getTokenValue(), "login_device", tokenInfo.getLoginDevice()));
     }
 
     @PostMapping("/2")
-    @ApiOperation(value = "登陆学生账号")
-    public AjaxResult<Object> t() {
-        StpUtil.login(8);
-        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
-        return AjaxResult.SUCCESS(Map.of("token_name", tokenInfo.getTokenName(),
-                "token_value", tokenInfo.getTokenValue(), "login_device", tokenInfo.getLoginDevice()));
+    @ApiOperation(value = "获取所有账号信息")
+    public Object t() {
+        return userMapper.selectList(null);
     }
 
     @PostMapping("/sendSMS")

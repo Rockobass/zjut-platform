@@ -43,8 +43,8 @@ public class MessageService {
         String key1 = redisConstant.getKeyUserMsgQueue(receiverId);
         // 消息
         String key2 = redisConstant.getKeyMsg(mid);
-        // 用户已读消息
-        String key3 = redisConstant.getKeyUserMsgRead(receiverId);
+        // 用户未读消息
+        String key3 = redisConstant.getKeyUserMsgUnRead(receiverId);
         // 用户发送队列
         String key4 = redisConstant.getKeyUserMsgSent(senderId);
 
@@ -58,10 +58,19 @@ public class MessageService {
     }
 
 
+    /**
+     *
+     * @param type 0 接收队列 1 发送队列
+     */
+    public Object getUserOutlineMessages(int userId, int page, int type) {
+        String key;
+        switch (type) {
+            case 0: key = cacheConstant.getKeyUserMsgQueue(userId);break;
+            case 1: key = cacheConstant.getKeyUserMsgSent(userId);break;
+            default : return null;
+        }
 
-    public Object getUserMessages(int userId, int page) {
         Map<Integer, List<Object>> cacheMap;
-        String key = cacheConstant.getKeyUserMsgQueue(userId);
         Cache.ValueWrapper valueWrapper = localCache.get(key);
         if (valueWrapper == null) {
             cacheMap = new HashMap<>();
@@ -73,14 +82,7 @@ public class MessageService {
             return cacheMap.get(page);
         }
 
-        // TODO 异步再加载一页
-        int pageSize = 10;
-        int start = (page - 1) * pageSize;
-        int end = page * pageSize - 1;
-        Object[] userMsgIds = msgUtil.getUserMsgIds(userId, start, end);
-        Object[] values = msgUtil.getMsgOutline(userMsgIds);
-        ArrayList<Object> result = msgUtil.convertToOutline(userMsgIds, values);
-
+        ArrayList<Object> result = msgUtil.getMsgOutline(userId, page, type);
         cacheMap.put(page, result);
         localCache.put(key, cacheMap);
         return result;
