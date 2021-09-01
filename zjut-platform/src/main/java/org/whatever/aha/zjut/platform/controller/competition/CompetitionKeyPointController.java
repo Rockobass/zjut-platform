@@ -2,10 +2,7 @@ package org.whatever.aha.zjut.platform.controller.competition;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaMode;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -41,15 +38,15 @@ public class CompetitionKeyPointController {
      */
     @ApiOperation("创建新的比赛关键时间节点信息")
     @PostMapping("/addCompKeyPoint")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "comId", value = "竞赛id", dataTypeClass = Integer.class),
-            @ApiImplicitParam(name = "compKeyPointName", value = "竞赛关键点名称", dataTypeClass = String.class),
-            @ApiImplicitParam(name = "compSchoolEndTime", value = "竞赛关键点时间", dataTypeClass = Timestamp.class),
-            @ApiImplicitParam(name = "compUserType", value = "提醒用户类型", dataTypeClass = Integer.class),
-            @ApiImplicitParam(name = "compKeyPointOrder", value = "竞赛关键点顺序", dataTypeClass = Integer.class)
-    })
-    public Object addCompKeyPoint(@RequestParam(value = "compId") int compId,
-                                  @RequestBody @Validated CompetitionKeyPointDto competitionKeyPointDto){
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "comId", value = "竞赛id", dataTypeClass = Integer.class),
+//            @ApiImplicitParam(name = "compKeyPointName", value = "竞赛关键点名称", dataTypeClass = String.class),
+//            @ApiImplicitParam(name = "compSchoolEndTime", value = "竞赛关键点时间", dataTypeClass = Timestamp.class),
+//            @ApiImplicitParam(name = "compUserType", value = "提醒用户类型", dataTypeClass = Integer.class),
+//            @ApiImplicitParam(name = "compKeyPointOrder", value = "竞赛关键点顺序", dataTypeClass = Integer.class)
+//    })
+    public AjaxResult<Integer> addCompKeyPoint(@RequestParam(value = "compId") int compId,
+                                               @RequestBody @Validated CompetitionKeyPointDto competitionKeyPointDto){
         return AjaxResult.SUCCESS(competitionKeyPointService.addCompKeyPoint(compId,competitionKeyPointDto));
     }
 

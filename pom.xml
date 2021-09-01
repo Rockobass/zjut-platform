@@ -92,7 +92,7 @@
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>swagger-bootstrap-ui</artifactId>
-                <version>1.9.6</version>
+                <version>${lastVersion}</version>
             </dependency>
             <dependency>
                 <groupId>org.flywaydb</groupId>
