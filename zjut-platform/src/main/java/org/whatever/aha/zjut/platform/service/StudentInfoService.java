@@ -40,7 +40,7 @@ public class StudentInfoService {
     @Transactional(rollbackFor = Exception.class)
     public Integer insertStudent(String password, String realName, Integer sex, Integer degree, String grade,
                               int academyId, int majorId, String phoneNumber, String studentNumber) {
-        if (existStuNumber(null, studentNumber)) {
+        if (existStuNumber(studentNumber)) {
             throw new AppException(ErrorCode.STUDENT_NUMBER_REGISTERED);
         }
         User user = User.builder().phoneNumber(phoneNumber)
@@ -69,13 +69,10 @@ public class StudentInfoService {
         return rawInfo;
     }
 
-    @Cacheable(value = "ExpireOneMin", key = "'stu_num_existed_'+#studentNumber", condition = "#result==true")
-    public boolean existStuNumber(Integer userId, String studentNumber) {
-        int count = studentInfoMapper.selectCount(new QueryWrapper<StudentInfo>()
-                .ne(userId!=null, "user_id", userId)
-                .eq("student_number", studentNumber));
-        boolean result = count!=0;
-        return result;
+    @Cacheable(value = "ExpireOneMin", key = "'stu_num_existed'+#studentNumber")
+    public boolean existStuNumber(String studentNumber) {
+        int count = studentInfoMapper.selectCount(new QueryWrapper<StudentInfo>().eq("student_number", studentNumber));
+        return count != 0;
     }
 
 
@@ -101,9 +98,6 @@ public class StudentInfoService {
     public void updateInfo(int userId, String studentNumber, String realName, Integer sex,
                            Integer degree, String grade, Integer academyId, Integer majorId,
                            String birthday, String admissionTime, String schoolName, String className) throws ParseException {
-        if (existStuNumber(userId, studentNumber)) {
-            throw new AppException(ErrorCode.STUDENT_NUMBER_EXIST);
-        }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date admissionTimedt = admissionTime==null ? null : simpleDateFormat.parse(admissionTime);
         Date birthdaydt = birthday == null ? null : simpleDateFormat.parse(birthday);

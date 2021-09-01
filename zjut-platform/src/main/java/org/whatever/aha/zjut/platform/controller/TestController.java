@@ -8,15 +8,12 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.whatever.aha.zjut.base.config.ProfileConfig;
-import org.whatever.aha.zjut.base.constant.ErrorCode;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.platform.mapper.UserMapper;
 import org.whatever.aha.zjut.platform.service.SMSService;
 import org.whatever.aha.zjut.platform.service.UserService;
 
-import java.util.Arrays;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author Baby_mo
@@ -45,13 +42,6 @@ public class TestController {
     @ApiOperation(value = "获取所有账号信息")
     public Object t() {
         return userMapper.selectList(null);
-    }
-
-    @GetMapping("/3")
-    @ApiOperation(value = "获取所有错误code")
-    public Object getCode() {
-        ErrorCode[] values = ErrorCode.values();
-        return AjaxResult.SUCCESS(Arrays.stream(values).map(e->Map.of("code", e.getCode(), "message", e.getMessage())).collect(Collectors.toList()));
     }
 
     @PostMapping("/sendSMS")

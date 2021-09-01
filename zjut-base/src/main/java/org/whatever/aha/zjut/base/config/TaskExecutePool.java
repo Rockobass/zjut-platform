@@ -6,9 +6,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.ThreadPoolExecutor;
 
-/**
- * @author Baby_mo
- */
 @Configuration
 public class TaskExecutePool {
 
