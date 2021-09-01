@@ -52,6 +52,6 @@ public class SaExceptionHandler {
                     .message(e.getMessage())
                     .timestamp(Instant.now()).build();
         }
-        return errorDetail;
+        return AjaxResult.FAIL(errorDetail);
     }
 }

@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Caffeine缓存配置类
+ * @author Baby_mo
  */
 @Configuration
 public class CaffeineConfig {

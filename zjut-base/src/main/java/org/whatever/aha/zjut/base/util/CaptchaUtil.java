@@ -15,6 +15,7 @@ import java.util.Base64;
 
 /**
  * 验证码生成工具类
+ * @author Baby_mo
  */
 @Slf4j
 public class CaptchaUtil extends SpecCaptcha {
