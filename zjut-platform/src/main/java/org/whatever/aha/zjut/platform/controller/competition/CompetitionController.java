@@ -36,6 +36,11 @@ public class CompetitionController {
 
     /**
      * 分页获取竞赛粗略信息
+     *
+     * @param compType  竞赛类型|1
+     * @param pageNum   页数|1
+     * @param pageSize  页大小|10
+     * @return
      */
     @ApiOperation("分页获取竞赛粗略信息")
     @GetMapping("/")
@@ -52,6 +57,10 @@ public class CompetitionController {
 
     /**
      * 创建新的比赛全量信息
+     *
+     * @param compId    竞赛id
+     * @param competitionDetailDto  竞赛详细信息
+     * @return
      */
     @ApiOperation("创建新的比赛详细信息")
     @PostMapping("/createCompetition")
