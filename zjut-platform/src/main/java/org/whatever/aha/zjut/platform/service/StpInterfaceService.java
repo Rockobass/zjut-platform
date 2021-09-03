@@ -19,7 +19,7 @@ public class StpInterfaceService implements StpInterface {
 
     final UserMapper userMapper;
 
-    @Cacheable(value = "Permissions", key = "'permission_'+#loginId")
+//    @Cacheable(value = "Permissions", key = "'permission_'+#loginId")
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
         String[] permissions = userMapper.getPermissionById((String)loginId);

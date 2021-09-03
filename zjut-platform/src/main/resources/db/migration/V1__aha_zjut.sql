@@ -367,7 +367,6 @@ CREATE TABLE `aha_zjut`.`competition_key_point`  (
   `comp_key_time` datetime(0) NOT NULL COMMENT '关键时间节点',
   `comp_need_alert` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否需要消息提醒（0不需要 1需要）',
   `comp_user_type` int(1) NULL DEFAULT NULL COMMENT '提醒人员类型',
-  PRIMARY KEY (`comp_id`) USING BTREE,
   CONSTRAINT `competition_comp_id` FOREIGN KEY (`comp_id`) REFERENCES `aha_zjut`.`competition` (`comp_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
 LOCK TABLES `competition_static_tags` WRITE;

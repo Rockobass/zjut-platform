@@ -1,5 +1,7 @@
 package org.whatever.aha.zjut.platform.vo.competition;
 
+import lombok.Data;
+
 import java.util.List;
 
 /**
@@ -8,6 +10,7 @@ import java.util.List;
  * @Desc
  * @date 2021/08/28 9:57
  */
+@Data
 public class CompetitionDetailVo {
     int compId;
     int compType;

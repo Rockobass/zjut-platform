@@ -42,7 +42,7 @@ public class CompetitionKeyPointVo {
      */
     @ApiModelProperty("关联用户类型")
     @Nullable
-    Integer userType;
+    Integer compUserType;
     /**
      * 时间点顺序
      */
