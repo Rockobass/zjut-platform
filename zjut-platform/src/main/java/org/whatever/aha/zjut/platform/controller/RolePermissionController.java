@@ -9,6 +9,7 @@
 package org.whatever.aha.zjut.platform.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -34,7 +35,7 @@ import javax.validation.constraints.Min;
 @RequiredArgsConstructor
 @RestController
 @Validated
-@SaCheckPermission(value = {AuthConst.R_supper, AuthConst.ROLE_PERMISSION_LIST}, mode = SaMode.OR)
+@SaCheckRole(value = {AuthConst.R_supper, AuthConst.ROLE_PERMISSION_LIST}, mode = SaMode.OR)
 public class RolePermissionController {
     final RolePermissionService rolePermissionService;
 

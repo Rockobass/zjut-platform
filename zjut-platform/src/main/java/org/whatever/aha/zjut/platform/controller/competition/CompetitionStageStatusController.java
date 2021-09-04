@@ -1,6 +1,7 @@
 package org.whatever.aha.zjut.platform.controller.competition;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -27,7 +28,7 @@ import java.util.List;
 @RequestMapping("/v1/competitionStageStatus")
 @RequiredArgsConstructor
 @RestController
-@SaCheckPermission(value = {AuthConst.R_supper, AuthConst.R_school}, mode = SaMode.OR)
+@SaCheckRole(value = {AuthConst.R_supper, AuthConst.R_school}, mode = SaMode.OR)
 public class CompetitionStageStatusController {
     final CompetitionStageStatusService competitionStageStatusService;
 

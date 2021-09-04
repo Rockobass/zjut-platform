@@ -27,10 +27,11 @@ public class AcademyCompetitionService  {
      * 创建新的学院比赛信息
      */
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
-    public int addAcademyComp(int compId, AcademyCompetitionDto academyCompetitionDto){
+    public int addAcademyComp(int compId, int stageId, AcademyCompetitionDto academyCompetitionDto){
         AcademyCompetition academyCompetition = new AcademyCompetition();
         BeanUtils.copyProperties(academyCompetitionDto, academyCompetition);
         academyCompetition.setCompId(compId);
+        academyCompetition.setCompStageId(stageId);
         return academyCompetitionMapper.insert(academyCompetition);
     }
 
@@ -38,8 +39,8 @@ public class AcademyCompetitionService  {
      * 根据List创建新的学院比赛信息
      */
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
-    public int addAcademyCompByList(int compId, List<AcademyCompetitionDto> academyCompetitionDtoList){
-        academyCompetitionDtoList.forEach(competitionKeyPointDto->this.addAcademyComp(compId,competitionKeyPointDto));
+    public int addAcademyCompByList(int compId, int stageId, List<AcademyCompetitionDto> academyCompetitionDtoList){
+        academyCompetitionDtoList.forEach(competitionKeyPointDto->this.addAcademyComp(compId,stageId,competitionKeyPointDto));
         return academyCompetitionDtoList.size();
     }
 
@@ -47,18 +48,19 @@ public class AcademyCompetitionService  {
      * 删除一条学院比赛信息
      */
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
-    public int delAcademyComp(int compId, int academyId){
-        return academyCompetitionMapper.delete(new QueryWrapper<AcademyCompetition>().eq("comp_id",compId).eq("academy_id",academyId));
+    public int delAcademyComp(int compId, int stageId, int academyId){
+        return academyCompetitionMapper.delete(new QueryWrapper<AcademyCompetition>().eq("comp_id",compId).eq("stage_id",stageId).eq("academy_id",academyId));
     }
 
     /**
      * 更新学院剩余推荐数目
      */
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
-    public int updateRecAmt(int compId, int academyId, AcademyCompetitionDto academyCompetitionDto){
+    public int updateRecAmt(int compId, int stageId, int academyId, AcademyCompetitionDto academyCompetitionDto){
         AcademyCompetition academyCompetition = new AcademyCompetition();
         BeanUtils.copyProperties(academyCompetitionDto, academyCompetition);
         academyCompetition.setCompId(compId);
+        academyCompetition.setCompStageId(stageId);
         academyCompetition.setAcademyId(academyId);
         return academyCompetitionMapper.updateById(academyCompetition);
     }

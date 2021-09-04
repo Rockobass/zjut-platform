@@ -28,10 +28,11 @@ public class CompetitionTrackService {
      * 创建新的静态比赛映射信息
      */
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
-    public int addTrack(int compId, CompetitionTrackDto competitionTrackDto){
+    public int addTrack(int compId, int stageId, CompetitionTrackDto competitionTrackDto){
         CompetitionTrack competitionTrack = new CompetitionTrack();
         BeanUtils.copyProperties(competitionTrackDto,competitionTrack);
         competitionTrack.setCompId(compId);
+        competitionTrack.setStageId(stageId);
         return competitionTrackMapper.insert(competitionTrack);
     }
 
@@ -39,8 +40,8 @@ public class CompetitionTrackService {
      * 根据List创建新的赛事小阶段信息
      */
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
-    public int addTrackByList(int compId, List<CompetitionTrackDto> CompetitionTrackDtoList){
-        CompetitionTrackDtoList.forEach(competitionTrackDto->this.addTrack(compId,competitionTrackDto));
+    public int addTrackByList(int compId, int stageId, List<CompetitionTrackDto> CompetitionTrackDtoList){
+        CompetitionTrackDtoList.forEach(competitionTrackDto->this.addTrack(compId,stageId,competitionTrackDto));
         return CompetitionTrackDtoList.size();
     }
 
@@ -48,7 +49,7 @@ public class CompetitionTrackService {
      * 删除一条tag信息
      */
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
-    public int delTrack(int compId,String trackName){
-        return competitionTrackMapper.delete(new QueryWrapper<CompetitionTrack>().eq("comp_id", compId).eq("track_name",trackName));
+    public int delTrack(int compId, int stageId, String trackName){
+        return competitionTrackMapper.delete(new QueryWrapper<CompetitionTrack>().eq("comp_id", compId).eq("stage_id", stageId).eq("track_name",trackName));
     }
 }

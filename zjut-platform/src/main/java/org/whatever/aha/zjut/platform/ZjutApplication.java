@@ -30,6 +30,8 @@ public class ZjutApplication {
         log.info("启动成功：Sa-Token配置如下：" + SaManager.getConfig().toString());
     }
 
+
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

@@ -24,11 +24,11 @@ public class AuthConst {
 
     // --------------- 代表身份的权限 ---------------
 
-    public static final String R_student = "1"; 			 // 角色_id_学生 超级管理员
-    public static final String R_judge   = "2"; 	    	 // 角色_id 评委
-    public static final String R_academy = "3"; 	    	 // 角色_id 院级管理员
-    public static final String R_school = "4"; 	    	 // 角色_id 校级管理员
-    public static final String R_supper = "5";		         // 角色_id 超级管理员 进入后台权限，没有此权限无法进入后台管理
+    public static final String R_student = "student"; 			 // 角色_id_学生 超级管理员
+    public static final String R_judge   = "judge"; 	    	 // 角色_id 评委
+    public static final String R_academy = "admin_academy"; 	    	 // 角色_id 院级管理员
+    public static final String R_school = "admin_school"; 	    	 // 角色_id 校级管理员
+    public static final String R_supper = "super_admin";		         // 角色_id 超级管理员 进入后台权限，没有此权限无法进入后台管理
 
 
     // --------------- 所有权限码 ---------------

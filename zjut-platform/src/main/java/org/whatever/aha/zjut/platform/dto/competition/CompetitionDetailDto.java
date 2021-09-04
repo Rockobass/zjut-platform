@@ -21,21 +21,6 @@ public class CompetitionDetailDto {
     CompetitionDto competitionDto;
 
     @Valid
-    List<CompetitionKeyPointDto> competitionKeyPointDtoList;
-
-    @Valid
-    List<AcademyCompetitionDto> academyCompetitionDtoList;
-
-    @Valid
-    List<CompetitionStageAwardDto> competitionStageAwardDtoList;
-
-    @Valid
-    List<CompetitionStageDto> competitionStageDtoList;
-
-    @Valid
-    List<CompetitionStageStatusDto> competitionStageStatusDtoList;
-
-    @Valid
-    List<CompetitionTrackDto> competitionTrackDtoList;
+    List<CompetitionStageDetailDto> competitionStageDetailDtoList;
 
 }

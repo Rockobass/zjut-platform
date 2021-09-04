@@ -1,6 +1,7 @@
 package org.whatever.aha.zjut.platform.controller.competition;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -24,7 +25,7 @@ import org.whatever.aha.zjut.platform.service.competition.CompetitionStaticTagsS
 @RequiredArgsConstructor
 @RestController
 @Validated
-@SaCheckPermission(value = {AuthConst.R_supper, AuthConst.COMP_TAGS_LIST, AuthConst.R_school}, mode = SaMode.OR)
+@SaCheckRole(value = {AuthConst.R_supper, AuthConst.COMP_TAGS_LIST, AuthConst.R_school}, mode = SaMode.OR)
 public class CompetitionStaticTagsController {
     final CompetitionStaticTagsService competitionStaticTagsService;
 

@@ -16,6 +16,6 @@ import java.util.List;
  */
 
 public interface CompetitionKeyPointMapper extends BaseMapper<CompetitionKeyPoint> {
-    @Select("select * from competition_key_point where comp_id = #{comp_id}")
-    List<CompetitionKeyPointVo> getCompKeyPointVo(@Param("comp_id")int compId);
+    @Select("select * from competition_key_point where comp_id = #{comp_id} and stage_id = #{stage_id}")
+    List<CompetitionKeyPointVo> getCompKeyPointVo(@Param("comp_id")int compId, @Param("stage_id")int stageId);
 }

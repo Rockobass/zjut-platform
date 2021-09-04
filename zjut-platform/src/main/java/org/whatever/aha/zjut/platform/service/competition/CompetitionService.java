@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.platform.dto.competition.CompetitionDetailDto;
 import org.whatever.aha.zjut.platform.dto.competition.CompetitionDto;
 import org.whatever.aha.zjut.platform.entity.competition.AcademyCompetition;
@@ -39,15 +40,25 @@ public class CompetitionService {
     /**
      * 创建新的比赛详细信息
      */
+
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
-    public int addCompDetail(int compId, CompetitionDetailDto competitionDetailDto){
-        competitionKeyPointService.addCompKeyPointByList(compId, competitionDetailDto.getCompetitionKeyPointDtoList());
-        academyCompetitionService.addAcademyCompByList(compId, competitionDetailDto.getAcademyCompetitionDtoList());
-        competitionStageStatusService.addCompStageStatusByList(competitionDetailDto.getCompetitionStageStatusDtoList());
-        competitionStageAwardService.addCompStageAwardByList(compId, competitionDetailDto.getCompetitionStageAwardDtoList());
-        competitionStageService.addCompStageByList(compId, competitionDetailDto.getCompetitionStageDtoList());
-        competitionTrackService.addTrackByList(compId, competitionDetailDto.getCompetitionTrackDtoList());
-        return this.addCompInfo(competitionDetailDto.getCompetitionDto());
+    public String addCompDetail(CompetitionDetailDto competitionDetailDto){
+        // 首先加入竞赛基础信息
+        this.addCompInfo(competitionDetailDto.getCompetitionDto());
+        // 根据基础信息获取竞赛Id
+        int compId = this.getCompId(competitionDetailDto.getCompetitionDto().getCompType(),competitionDetailDto.getCompetitionDto().getCompTh());
+
+        competitionDetailDto.getCompetitionStageDetailDtoList().forEach(competitionStageDetailDto->{
+            competitionStageService.addCompStage(compId, competitionStageDetailDto.getCompetitionStageDto());
+        });
+//        competitionKeyPointService.addCompKeyPointByList(compId, competitionDetailDto.getCompetitionKeyPointDtoList());
+//        academyCompetitionService.addAcademyCompByList(compId, competitionDetailDto.getAcademyCompetitionDtoList());
+//        competitionStageStatusService.addCompStageStatusByList(competitionDetailDto.getCompetitionStageStatusDtoList());
+//        competitionStageAwardService.addCompStageAwardByList(compId, competitionDetailDto.getCompetitionStageAwardDtoList());
+//        competitionStageService.addCompStageByList(compId, competitionDetailDto.getCompetitionStageDtoList());
+
+//        competitionTrackService.addTrackByList(compId, competitionDetailDto.getCompetitionTrackDtoList());
+        return "创建竞赛成功！";
     }
 
     /**
@@ -66,6 +77,13 @@ public class CompetitionService {
         Competition comp = new Competition();
         BeanUtils.copyProperties(competitionDto, comp);
         return competitionMapper.insert(comp);
+    }
+
+    /**
+     * 根据比赛类型和届数获取比赛Id
+     */
+    public int getCompId(int compType, int compTh){
+        return competitionMapper.selectOne(new QueryWrapper<Competition>().eq("comp_type",compType).eq("comp_th",compTh)).getCompId();
     }
 
     /**

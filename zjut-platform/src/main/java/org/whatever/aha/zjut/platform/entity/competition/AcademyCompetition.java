@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
+
 /**
  * @author Vc
  * @version 1.0
@@ -23,6 +25,11 @@ public class AcademyCompetition {
      */
     int compId;
     /**
+     * 竞赛阶段id
+     */
+    @Min(1)
+    int compStageId;
+    /**
      * 学院id
      */
     int academyId;
@@ -30,6 +37,10 @@ public class AcademyCompetition {
      * 学院推荐进入下一阶段剩余数量
      */
     int academyRecAmt;
+    /**
+     * 学院直推省级数量
+     */
+    int academyProvinceRecAmt;
     /**
      * 院级自评三等奖数量
      */

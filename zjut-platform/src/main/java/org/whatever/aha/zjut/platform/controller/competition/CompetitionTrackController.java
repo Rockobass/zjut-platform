@@ -1,6 +1,7 @@
 package org.whatever.aha.zjut.platform.controller.competition;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -26,7 +27,7 @@ import org.whatever.aha.zjut.platform.service.competition.CompetitionTrackServic
 @RequiredArgsConstructor
 @RestController
 @Validated
-@SaCheckPermission(value = {AuthConst.R_supper, AuthConst.COMP_TAGS_LIST, AuthConst.R_school}, mode = SaMode.OR)
+@SaCheckRole(value = {AuthConst.R_supper, AuthConst.COMP_TAGS_LIST, AuthConst.R_school}, mode = SaMode.OR)
 public class CompetitionTrackController {
     final CompetitionTrackService competitionTrackService;
 
@@ -40,13 +41,15 @@ public class CompetitionTrackController {
     @PostMapping("/addCompInfo")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "compId", value = "竞赛id", dataTypeClass = Integer.class),
+            @ApiImplicitParam(name = "stageId", value = "竞赛阶段id", dataTypeClass = Integer.class),
 //            @ApiImplicitParam(name = "trackName", value = "竞赛通道名", dataTypeClass = String.class),
 //            @ApiImplicitParam(name = "trackDesc", value = "竞赛通道描述", dataTypeClass = String.class)
             @ApiImplicitParam(name = "competitionTrackDto", value = "竞赛通道信息", dataTypeClass = CompetitionTrackDto.class)
     })
     public Object addCompInfo(@RequestParam(value = "compId")int compId,
+                              @RequestParam(value = "stageId")int stageId,
                               @RequestBody @Validated CompetitionTrackDto competitionTrackDto){
-        return AjaxResult.SUCCESS(competitionTrackService.addTrack(compId, competitionTrackDto));
+        return AjaxResult.SUCCESS(competitionTrackService.addTrack(compId, stageId, competitionTrackDto));
     }
 
 
@@ -57,12 +60,13 @@ public class CompetitionTrackController {
      * @return
      */
     @ApiOperation("删除一条tag信息")
-    @DeleteMapping("/delTag/{compId}/{trackName}")
+    @DeleteMapping("/delTag/{compId}/{stageId}")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "compId", value = "竞赛id", dataTypeClass = Integer.class),
+            @ApiImplicitParam(name = "stageId", value = "竞赛阶段id", dataTypeClass = Integer.class),
             @ApiImplicitParam(name = "trackName", value = "通道名", dataTypeClass = String.class)
     })
-    public Object delTag(@PathVariable("compId")int compId,@PathVariable("trackName")String trackName){
-        return AjaxResult.SUCCESS(competitionTrackService.delTrack(compId, trackName));
+    public AjaxResult<Integer> delTag(@PathVariable("compId")int compId, @PathVariable("stageId")int stageId, @RequestParam("trackName")String trackName){
+        return AjaxResult.SUCCESS(competitionTrackService.delTrack(compId, stageId, trackName));
     }
 }

@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Vc
@@ -24,7 +25,14 @@ public class CompetitionTrack {
      * comp id
      */
     @Min(1)
+    @NotNull(message = "竞赛ID不能为空")
     int compId;
+    /**
+     * 阶段id
+     */
+    @Min (1)
+    @NotNull(message = "竞赛阶段ID不能为空")
+    Integer stageId;
     /**
      * 赛事通道id
      */

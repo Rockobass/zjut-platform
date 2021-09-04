@@ -1,6 +1,7 @@
 package org.whatever.aha.zjut.platform.controller.competition;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -14,6 +15,7 @@ import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.platform.dto.competition.CompetitionStageDto;
 import org.whatever.aha.zjut.platform.service.competition.CompetitionStageService;
 
+import javax.validation.constraints.Min;
 import java.util.List;
 
 /**
@@ -26,7 +28,7 @@ import java.util.List;
 @RequestMapping("/v1/competitionStage")
 @RequiredArgsConstructor
 @RestController
-@SaCheckPermission(value = {AuthConst.R_supper, AuthConst.R_school}, mode = SaMode.OR)
+@SaCheckRole(value = {AuthConst.R_supper, AuthConst.R_school}, mode = SaMode.OR)
 public class CompetitionStageController {
     final CompetitionStageService competitionStageService;
 
@@ -40,8 +42,10 @@ public class CompetitionStageController {
             @ApiImplicitParam(name = "competitionStageDto", value = "赛事阶段信息", dataTypeClass = CompetitionStageDto.class)
     })
     @PostMapping("/addCompStage")
-    public int addCompStage(@RequestParam(value = "compId")int compId,
-                            @RequestBody @Validated CompetitionStageDto competitionStageDto){
+    public int addCompStage(@RequestParam(value = "compId") int compId,
+                            @RequestBody CompetitionStageDto competitionStageDto){
+        System.out.println("compId");
+        System.out.println(competitionStageDto);
         return competitionStageService.addCompStage(compId,competitionStageDto);
     }
 
@@ -58,13 +62,12 @@ public class CompetitionStageController {
                                    @RequestParam(value = "compStageName")List<String> compStageName,
                                    @RequestParam(value = "nextStageNum")List<Integer> nextStageNum,
                                    @RequestParam(value = "compStageDesc")List<String> compStageDesc,
-                                   @RequestParam(value = "stageOrder")List<Integer> stageOrder){
-        return competitionStageService.addCompStageInBatch(compId,compStageName,nextStageNum,compStageDesc,stageOrder);
+            @RequestParam(value = "stageOrder")List<Integer> stageOrder){
+              return competitionStageService.addCompStageInBatch(compId,compStageName,nextStageNum,compStageDesc,stageOrder);
     }
 
-    /**
-     * 删除一条stage
-     * @param compId    竞赛Id
+     /**
+     *      * 删除一条stage
      * @param compStageId   竞赛阶段Id
      * @return
      */

@@ -15,7 +15,8 @@ public enum CacheType {
     Captcha(100, 3000, true, 60),
     SMS(100, 3000, true, 300),
     Roles(100, 3000, false, -1),
-    Message(1000, 10000, false, -1);
+    Message(1000, 10000, false, -1),
+    Permissions(100, 3000, false, -1);
 
     private final int initialCapacity;
     private final int maximumSize;

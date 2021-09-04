@@ -30,6 +30,12 @@ public class CompetitionKeyPoint {
     @NotNull(message = "外键 竞赛id不能为空")
     int compId;
     /**
+     * 外键 阶段id
+     */
+    @Min(1)
+    @NotNull(message = "外键 竞赛阶段id不能为空")
+    int stageId;
+    /**
      * 关键时间节点名
      */
     @NotNull(message = "关键时间节点名不能为空")

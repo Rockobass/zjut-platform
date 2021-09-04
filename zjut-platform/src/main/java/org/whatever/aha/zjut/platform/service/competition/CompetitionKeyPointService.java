@@ -30,10 +30,11 @@ public class CompetitionKeyPointService {
      * 创建新的比赛关键时间节点信息
      */
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
-    public int addCompKeyPoint(int compId, CompetitionKeyPointDto competitionKeyPointDto){
+    public int addCompKeyPoint(int compId, int stageId, CompetitionKeyPointDto competitionKeyPointDto){
         CompetitionKeyPoint competitionKeyPoint = new CompetitionKeyPoint();
         BeanUtils.copyProperties(competitionKeyPointDto, competitionKeyPoint);
         competitionKeyPoint.setCompId(compId);
+        competitionKeyPoint.setStageId(stageId);
         return competitionKeyPointMapper.insert(competitionKeyPoint);
     }
 
@@ -41,8 +42,8 @@ public class CompetitionKeyPointService {
      * 根据List创建新的比赛关键时间节点信息
      */
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
-    public int addCompKeyPointByList(int compId, List<CompetitionKeyPointDto> competitionKeyPointDtoList){
-        competitionKeyPointDtoList.forEach(competitionKeyPointDto->this.addCompKeyPoint(compId,competitionKeyPointDto));
+    public int addCompKeyPointByList(int compId, int stageId, List<CompetitionKeyPointDto> competitionKeyPointDtoList){
+        competitionKeyPointDtoList.forEach(competitionKeyPointDto->this.addCompKeyPoint(compId, stageId, competitionKeyPointDto));
         return competitionKeyPointDtoList.size();
     }
 
@@ -50,14 +51,16 @@ public class CompetitionKeyPointService {
      * 删除比赛关键时间节点信息
      */
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
-    public int delCompKeyPoint(int compId, String compKeyPointName){
-        return competitionKeyPointMapper.delete(new QueryWrapper<CompetitionKeyPoint>().eq("comp_id",compId).eq("comp_key_point_name",compKeyPointName));
+    public int delCompKeyPoint(int compId, int stageId, String compKeyPointName){
+        return competitionKeyPointMapper.delete(new QueryWrapper<CompetitionKeyPoint>().eq("comp_id",compId).eq("stage_id",stageId).eq("comp_key_point_name",compKeyPointName));
     }
 
     /**
-     * 获取某赛事对应的所有时间点信息
+     * 获取某赛事阶段对应的所有时间点信息
      */
-    public List<CompetitionKeyPointVo> getCompKeyPointVo(int compId){
-        return competitionKeyPointMapper.getCompKeyPointVo(compId);
+    public List<CompetitionKeyPointVo> getCompKeyPointVo(int compId, int stageId){
+        return competitionKeyPointMapper.getCompKeyPointVo(compId,stageId);
     }
+
+
 }

@@ -10,6 +10,7 @@ import org.springframework.boot.actuate.endpoint.OperationType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.whatever.aha.zjut.base.constant.AuthConst;
+import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.platform.annotation.OperationLog;
 import org.whatever.aha.zjut.platform.dto.competition.*;
 import org.whatever.aha.zjut.platform.entity.competition.CompetitionStageAward;
@@ -64,7 +65,6 @@ public class CompetitionController {
     /**
      * 创建新的比赛全量信息
      *
-     * @param compId    竞赛id
      * @param competitionDetailDto  竞赛详细信息
      * @return
      */
@@ -75,9 +75,8 @@ public class CompetitionController {
 //            @ApiImplicitParam(name = "comId", value = "竞赛id", dataTypeClass = Integer.class),
 //            @ApiImplicitParam(name = "competitionDetailDto", value = "竞赛详细信息", dataTypeClass = CompetitionDetailDto.class)
 //    })
-    public int createCompetition(@ApiParam(value = "竞赛id",required = true) @RequestParam(value = "compId")int compId,
-                                 @ApiParam(value = "竞赛详细信息",required = true) @RequestBody @Validated CompetitionDetailDto competitionDetailDto){
-        return competitionService.addCompDetail(compId, competitionDetailDto);
+    public AjaxResult<String> createCompetition(@ApiParam(value = "竞赛详细信息",required = true) @RequestBody @Validated CompetitionDetailDto competitionDetailDto){
+        return AjaxResult.SUCCESS(competitionService.addCompDetail(competitionDetailDto));
     }
 
     /**

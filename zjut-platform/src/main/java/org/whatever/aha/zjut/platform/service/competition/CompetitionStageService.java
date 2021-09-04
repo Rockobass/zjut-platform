@@ -27,7 +27,7 @@ public class CompetitionStageService {
     final CompetitionStageMapper competitionStageMapper;
 
     /**
-     * 创建新的赛事阶段信息
+     * 创建新的赛事阶段信息,返回插入成功的主键值
      */
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
     public int addCompStage(int compId, CompetitionStageDto competitionStageDto){
@@ -73,4 +73,5 @@ public class CompetitionStageService {
         int fianlOrder = competitionStageMapper.getFinalOrder(compId,compStageId);
         return fianlOrder> curStageOrder? curStageOrder+1: fianlOrder;
     }
+
 }

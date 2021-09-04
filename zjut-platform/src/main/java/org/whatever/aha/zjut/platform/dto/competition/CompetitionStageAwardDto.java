@@ -32,7 +32,7 @@ public class CompetitionStageAwardDto {
      * 奖项百分比
      */
     @ApiModelProperty("奖项百分比")
-    int awardPercent;
+    Integer awardPercent;
     /**
      * 奖项数量
      */
