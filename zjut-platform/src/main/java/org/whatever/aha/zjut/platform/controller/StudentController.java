@@ -37,7 +37,7 @@ public class StudentController {
     @SaCheckRole("student")
     @PostMapping("/info")
     public Object modifyStudentInfo(
-            @Pattern(regexp = RegexPattern.STUDENT_NUMBER) @RequestParam(required = false)  String studentNumber,
+            @RequestParam(required = false)  String studentNumber,
             @RequestParam(required = false) String realName, @RequestParam(required = false) @Range(min = 0, max = 1) Integer sex,
             @RequestParam(required = false) @Range(min = 0, max = 1) Integer degree,
             @RequestParam(required = false) @Pattern(regexp = RegexPattern.GRADE) String grade,
