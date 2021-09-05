@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 
 /**
  * @author Baby_mo
@@ -20,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @SpringBootApplication(scanBasePackages = "org.whatever.aha.zjut.platform")
 @ComponentScan(value = {"org.whatever.aha.zjut.platform", "org.whatever.aha.zjut.base"})
 @EnableAsync
+@EnableOpenApi
 @MapperScan("org.whatever.aha.zjut.platform.mapper")
 public class ZjutApplication {
     public static void main(String[] args) {

@@ -1,5 +1,7 @@
 package org.whatever.aha.zjut.platform.dto.competition;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.whatever.aha.zjut.platform.entity.competition.CompetitionStage;
 
@@ -13,23 +15,28 @@ import javax.validation.constraints.NotNull;
  * @date 2021/08/30 21:59
  */
 @Data
+@ApiModel("竞赛阶段信息Dto")
 public class CompetitionStageDto {
     /**
      * 阶段名字
      */
+    @ApiModelProperty("阶段名字")
     @NotNull(message = "阶段名不能为空！")
     String stageName;
     /**
      * 推荐下一阶段数量
      */
+    @ApiModelProperty("推荐下一阶段数量")
     Integer nextStageNum;
     /**
      * 阶段描述
      */
+    @ApiModelProperty("阶段描述")
     String stageDes;
     /**
      * 阶段顺序
      */
+    @ApiModelProperty("阶段顺序")
     @Min(1)
     @NotNull(message = "阶段顺序不能为空！")
     int stageOrder;

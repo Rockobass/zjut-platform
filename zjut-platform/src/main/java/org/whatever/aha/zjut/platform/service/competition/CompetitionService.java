@@ -53,10 +53,8 @@ public class CompetitionService {
     /**
      * 根据比赛类型分页获取比赛粗略信息
      */
-    public List<CompetitionRoughVo> getCompetitionRoughPageable(int compType, Page<CompetitionRoughVo> page){
-//        IPage<CompetitionRoughVo> compRoughVoIPage = competitionMapper.selectPage(page, new QueryWrapper<CompetitionRoughVo>().eq("comp_type",compType).orderByDesc("comp_th"));
-        //return compRoughVoIPage.getRecords();
-        return null;
+    public List<CompetitionRoughVo> getCompetitionRoughPageable(int compType, int offset, int pageSize){
+        return competitionMapper.getCompetitionRoughInfoPageable(compType, offset, pageSize);
     }
 
 
