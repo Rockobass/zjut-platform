@@ -703,7 +703,7 @@ CREATE TABLE `aha_zjut`.`canal_cup_cf_info`  (
   `show_way` text NULL COMMENT '作品展示形式',
   `review` text NULL COMMENT '研究综述',
   PRIMARY KEY (`project_id`),
-  CONSTRAINT `canal_cup_project_id` FOREIGN KEY (`project_id`) REFERENCES `aha_zjut`.`project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `canal_cup_cf_project_id` FOREIGN KEY (`project_id`) REFERENCES `aha_zjut`.`project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 LOCK TABLES `canal_cup_cf_info` WRITE;
 
@@ -717,17 +717,64 @@ CREATE TABLE `aha_zjut`.`canal_cup_sp_info`  (
   `project_id` int(11) NOT NULL COMMENT '项目ID/编号',
   `type` tinyint(1) NOT NULL COMMENT ' 0:A类 1:B类',
   `summary` text NOT NULL COMMENT '作品摘要 富文本',
-  `logic` text NOT NULL COMMENT '作品思路',
-  `uniq` text NOT NULL COMMENT '作品独特性',
-  `apply` text NOT NULL COMMENT '作品应用',
+  `meaning` text NOT NULL COMMENT '作品意义',
+  `target` text NOT NULL COMMENT '作品目标进度',
+  `condition` text NOT NULL COMMENT '作品相关条件',
   `award_info` text NULL COMMENT '作品奖励',
-  `research_way` text NULL COMMENT '作品调查方式',
-  `tech_trans` text NULL COMMENT ' 作品转让方式',
-  `show_way` text NULL COMMENT '作品展示形式',
-  `review` text NULL COMMENT '研究综述',
+  `res` text NULL COMMENT '作品预期成果',
+  `equipment_fee` int(6) NULL COMMENT '设备费',
+  `material_fee` int(6) NULL COMMENT '材料费',
+  `document_fee` int(6) NULL COMMENT '资料费',
+  `other_fee` int(6) NULL COMMENT '其他费',
+  `apply_fee` int(6) NULL COMMENT '申请经费',
+  `other_fee_source` text NULL COMMENT ' 其他经费来源',
   PRIMARY KEY (`project_id`),
-  CONSTRAINT `canal_cup_project_id` FOREIGN KEY (`project_id`) REFERENCES `aha_zjut`.`project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `canal_cup_sp_project_id` FOREIGN KEY (`project_id`) REFERENCES `aha_zjut`.`project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 LOCK TABLES `canal_cup_sp_info` WRITE;
+
+UNLOCK TABLES;
+
+
+
+DROP TABLE IF EXISTS `seed_cup_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `aha_zjut`.`seed_cup_info`  (
+  `project_id` int(11) NOT NULL COMMENT '项目ID/编号',
+  `type` int(1) NOT NULL COMMENT '1:科技创新 2:成果推广 3:创业孵化',
+  `industry` varchar(255) NOT NULL COMMENT '作品行业',
+  `school_name` varchar(255) NOT NULL COMMENT '作品学校名',
+  `subject` varchar(255) NOT NULL COMMENT '作品依托学科',
+  `handle_time` datetime NOT NULL COMMENT '作品申报日期',
+  `project_type` tinyint NULL COMMENT '作品类别（0:个人项目、1:团体）',
+  PRIMARY KEY (`project_id`),
+  CONSTRAINT `seed_cup_project_id` FOREIGN KEY (`project_id`) REFERENCES `aha_zjut`.`project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE
+)ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+LOCK TABLES `seed_cup_info` WRITE;
+
+UNLOCK TABLES;
+
+
+DROP TABLE IF EXISTS `challenge_cup_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `aha_zjut`.`challenge_cup_info`  (
+  `project_id` int(11) NOT NULL COMMENT '项目ID/编号',
+  `type` int(1) NOT NULL COMMENT '1:自然 2:哲学 3:科技发明',
+  `school_year` int(1) NOT NULL COMMENT '学制',
+  `gra_design_name` text NOT NULL COMMENT '毕设题目',
+  `addr` varchar(255) NOT NULL COMMENT '通信地址',
+  `post` int(6) NOT NULL COMMENT '通信邮编',
+  `phone` varchar(11) NULL COMMENT ' 通信电话',
+  `live_addr` varchar(255) NULL COMMENT ' 常住地址',
+  `live_post` int(6) NULL COMMENT '常住邮编',
+  `live_phone` varchar(11) NULL COMMENT '常住电话',
+  `review` text NULL COMMENT '研究综述',
+  `project_type` tinyint NULL COMMENT '作品类别（0:个人项目、1:团体）',
+  PRIMARY KEY (`project_id`),
+  CONSTRAINT `challenge_cup_project_id` FOREIGN KEY (`project_id`) REFERENCES `aha_zjut`.`project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE
+)ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+LOCK TABLES `challenge_cup_info` WRITE;
 
 UNLOCK TABLES;

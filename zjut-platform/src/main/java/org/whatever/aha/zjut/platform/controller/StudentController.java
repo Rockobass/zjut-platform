@@ -37,7 +37,7 @@ public class StudentController {
     @SaCheckRole("student")
     @PostMapping("/info")
     public Object modifyStudentInfo(
-            @Pattern(regexp = RegexPattern.STUDENT_NUMBER) @RequestParam(required = false)  String studentNumber,
+            @RequestParam(required = false)  String studentNumber,
             @RequestParam(required = false) String realName, @RequestParam(required = false) @Range(min = 0, max = 1) Integer sex,
             @RequestParam(required = false) @Range(min = 0, max = 1) Integer degree,
             @RequestParam(required = false) @Pattern(regexp = RegexPattern.GRADE) String grade,
@@ -46,9 +46,16 @@ public class StudentController {
             @RequestParam(required = false) @Pattern(regexp = RegexPattern.DATE) String admissionTime,
             @RequestParam(required = false) String schoolName,
             @RequestParam(required = false) String className
-            ) throws ParseException {
+    ) throws ParseException {
         int userId = StpUtil.getLoginIdAsInt();
         studentInfoService.updateInfo(userId, studentNumber, realName, sex, degree, grade, academyId, majorId, birthday, admissionTime, schoolName, className);
         return AjaxResult.SUCCESS();
+    }
+
+    @ApiOperation(value = "检测学号是否存在", notes = "修改学号时调用")
+    @PostMapping("/existStuId")
+    public Object existStuId(@RequestParam String studentNumber) {
+        int userId = StpUtil.getLoginIdAsInt();
+        return AjaxResult.SUCCESS(studentInfoService.existStuNumber(userId, studentNumber));
     }
 }
