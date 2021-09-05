@@ -18,19 +18,7 @@ public interface CompetitionMapper extends BaseMapper<Competition> {
     @Update("update competition set comp_status = #{compStatus} where comp_id = #{compId}")
     int setCompStatus(@Param("compStatus") int compStatus, @Param("compId") int compId);
 
-    @Select("<script>"
-            +"select * from Competition where 1=1"
-            +"<if test='compType != null'>"
-            +"and comp_type = #{compType}"
-            +"</if>"
-            +"<if test='compStatus != null'>"
-            +"and comp_status = #{compStatus}"
-            +"</if>"
-            +"<if test='compYear != null'>"
-            +"and comp_year = #{compYear}"
-            +"</if>"
-            +" order by comp_year DESC limit #{offset}, #{pageSize}"
-            +"</script>")
+    @Select("select * from Competition where comp_type=#{compType} order by comp_th DESC limit #{offset}, #{pageSize}")
     @Results({
             @Result(column="comp_id",property="compId"),
             @Result(column="comp_id",property="keyPoints",
@@ -39,5 +27,5 @@ public interface CompetitionMapper extends BaseMapper<Competition> {
                     )
             )
     })
-    List<CompetitionRoughVo> getCompetitionRoughInfoPageable(@Param("compType") Integer compType, @Param("compStatus") Integer compStatus, @Param("compYear") Integer compYear, @Param("offset") int offset, @Param("pageSize") int pageSize);
+    List<CompetitionRoughVo> getCompetitionRoughInfoPageable(@Param("compType") int compType, @Param("offset") Integer offset, @Param("pageSize") Integer pageSize);
 }
