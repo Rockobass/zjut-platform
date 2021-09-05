@@ -660,3 +660,74 @@ CREATE TABLE `aha_zjut`.`project_resource`  (
 LOCK TABLES `project_resource` WRITE;
 
 UNLOCK TABLES;
+
+
+DROP TABLE IF EXISTS `project_score`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `aha_zjut`.`project_score`  (
+  `project_id` int(11) NOT NULL COMMENT '项目id',
+  `stage_id` int(11) NOT NULL COMMENT '阶段id',
+  `score` decimal(8, 0) NULL DEFAULT NULL COMMENT '分数',
+  `rank` int(3) NULL DEFAULT NULL COMMENT '排名',
+  `judge_id` int(11) NOT NULL COMMENT '评委id',
+  `judge_name` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL COMMENT '评委的名字',
+  `judge_comment` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL COMMENT '评委评论',
+  `update_time` datetime(6) NULL DEFAULT NULL COMMENT '更新时间',
+  INDEX `project_score_project_id`(`project_id`) USING BTREE,
+  INDEX `project_score_comp_stage`(`stage_id`) USING BTREE,
+  INDEX `project_score_judge_id`(`judge_id`) USING BTREE,
+  CONSTRAINT `project_score_comp_stage` FOREIGN KEY (`stage_id`) REFERENCES `aha_zjut`.`competition_stage` (`stage_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `project_score_judge_id` FOREIGN KEY (`judge_id`) REFERENCES `aha_zjut`.`judge_info` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `project_score_project_id` FOREIGN KEY (`project_id`) REFERENCES `aha_zjut`.`project` (`project_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+)ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+LOCK TABLES `project_score` WRITE;
+
+UNLOCK TABLES;
+
+
+DROP TABLE IF EXISTS `canal_cup_cf_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `aha_zjut`.`canal_cup_cf_info`  (
+  `project_id` int(11) NOT NULL COMMENT '项目ID/编号',
+  `type` tinyint(1) NOT NULL COMMENT ' 0:A类 1:B类',
+  `summary` text NOT NULL COMMENT '作品摘要 富文本',
+  `logic` text NOT NULL COMMENT '作品思路',
+  `uniq` text NOT NULL COMMENT '作品独特性',
+  `apply` text NOT NULL COMMENT '作品应用',
+  `award_info` text NULL COMMENT '作品奖励',
+  `research_way` text NULL COMMENT '作品调查方式',
+  `tech_trans` text NULL COMMENT ' 作品转让方式',
+  `show_way` text NULL COMMENT '作品展示形式',
+  `review` text NULL COMMENT '研究综述',
+  PRIMARY KEY (`project_id`),
+  CONSTRAINT `canal_cup_project_id` FOREIGN KEY (`project_id`) REFERENCES `aha_zjut`.`project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE
+)ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+LOCK TABLES `canal_cup_cf_info` WRITE;
+
+UNLOCK TABLES;
+
+
+DROP TABLE IF EXISTS `canal_cup_sp_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `aha_zjut`.`canal_cup_sp_info`  (
+  `project_id` int(11) NOT NULL COMMENT '项目ID/编号',
+  `type` tinyint(1) NOT NULL COMMENT ' 0:A类 1:B类',
+  `summary` text NOT NULL COMMENT '作品摘要 富文本',
+  `logic` text NOT NULL COMMENT '作品思路',
+  `uniq` text NOT NULL COMMENT '作品独特性',
+  `apply` text NOT NULL COMMENT '作品应用',
+  `award_info` text NULL COMMENT '作品奖励',
+  `research_way` text NULL COMMENT '作品调查方式',
+  `tech_trans` text NULL COMMENT ' 作品转让方式',
+  `show_way` text NULL COMMENT '作品展示形式',
+  `review` text NULL COMMENT '研究综述',
+  PRIMARY KEY (`project_id`),
+  CONSTRAINT `canal_cup_project_id` FOREIGN KEY (`project_id`) REFERENCES `aha_zjut`.`project` (`project_id`) ON DELETE CASCADE ON UPDATE CASCADE
+)ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+LOCK TABLES `canal_cup_sp_info` WRITE;
+
+UNLOCK TABLES;

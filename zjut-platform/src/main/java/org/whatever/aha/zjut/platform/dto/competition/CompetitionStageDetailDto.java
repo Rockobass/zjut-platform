@@ -16,8 +16,8 @@ public class CompetitionStageDetailDto {
     @Valid
     CompetitionStageDto competitionStageDto;
 
-    @Valid
-    List<CompetitionTrackDto> competitionTrackDtoList;
+//    @Valid
+//    List<CompetitionTrackDto> competitionTrackDtoList;
 
     @Valid
     List<CompetitionStageAwardDto> competitionStageAwardDtoList;
@@ -27,4 +27,7 @@ public class CompetitionStageDetailDto {
 
     @Valid
     List<CompetitionKeyPointDto> competitionKeyPointDtoList;
+
+    @Valid
+    List<CompetitionStageStatusDto> competitionStageStatusDtoList;
 }

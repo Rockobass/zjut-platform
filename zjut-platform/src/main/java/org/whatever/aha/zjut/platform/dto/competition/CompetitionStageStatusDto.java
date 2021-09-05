@@ -21,12 +21,6 @@ import java.util.Date;
 @ApiModel(description = "竞赛阶段状态信息Dto")
 public class CompetitionStageStatusDto {
     /**
-     * 竞赛阶段状态id
-     */
-    @ApiModelProperty(value = "竞赛阶段状态id", name = "compStageId", required = true )
-    @NotNull(message = "关键时间节点不能为空")
-    int compStageId;
-    /**
      * 竞赛阶段状态的名字
      */
     @ApiModelProperty(value = "竞赛阶段状态的名字", name = "compStageStatusName", required = true )

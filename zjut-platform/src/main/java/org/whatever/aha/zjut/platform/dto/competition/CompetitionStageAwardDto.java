@@ -17,12 +17,6 @@ import javax.validation.constraints.NotNull;
 @ApiModel("竞赛阶段奖励信息Dto")
 public class CompetitionStageAwardDto {
     /**
-     * 阶段id
-     */
-    @ApiModelProperty("阶段id")
-    @NotNull(message = "阶段Id不能为空")
-    int stageId;
-    /**
      * 奖项名称
      */
     @ApiModelProperty("奖项名称")

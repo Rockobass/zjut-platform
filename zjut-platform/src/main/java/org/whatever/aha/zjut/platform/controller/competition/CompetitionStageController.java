@@ -44,8 +44,6 @@ public class CompetitionStageController {
     @PostMapping("/addCompStage")
     public int addCompStage(@RequestParam(value = "compId") int compId,
                             @RequestBody CompetitionStageDto competitionStageDto){
-        System.out.println("compId");
-        System.out.println(competitionStageDto);
         return competitionStageService.addCompStage(compId,competitionStageDto);
     }
 

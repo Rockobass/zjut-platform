@@ -34,7 +34,8 @@ public class CompetitionStageService {
         CompetitionStage competitionStage = new CompetitionStage();
         BeanUtils.copyProperties(competitionStageDto,competitionStage);
         competitionStage.setCompId(compId);
-        return competitionStageMapper.insert(competitionStage);
+        competitionStageMapper.insert(competitionStage);
+        return competitionStage.getStageId();
     }
 
     /**

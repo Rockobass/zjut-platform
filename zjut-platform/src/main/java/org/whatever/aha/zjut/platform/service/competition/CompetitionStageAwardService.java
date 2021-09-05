@@ -27,10 +27,11 @@ public class CompetitionStageAwardService {
      * 创建新的比赛阶段奖项信息
      */
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
-    public int addCompStageAward(int compId, CompetitionStageAwardDto competitionStageAwardDto){
+    public int addCompStageAward(int compId, int stageId, CompetitionStageAwardDto competitionStageAwardDto){
         CompetitionStageAward competitionStageAward = new CompetitionStageAward();
         BeanUtils.copyProperties(competitionStageAwardDto, competitionStageAward);
         competitionStageAward.setCompId(compId);
+        competitionStageAward.setStageId(stageId);
         return competitionStageAwardMapper.insert(competitionStageAward);
     }
 
@@ -38,8 +39,8 @@ public class CompetitionStageAwardService {
      * 根据List创建新的比赛阶段奖项信息
      */
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
-    public int addCompStageAwardByList(int compId, List<CompetitionStageAwardDto> competitionStageAwardDtoList){
-        competitionStageAwardDtoList.forEach(competitionStageAwardDto->this.addCompStageAward(compId,competitionStageAwardDto));
+    public int addCompStageAwardByList(int compId, int stageId, List<CompetitionStageAwardDto> competitionStageAwardDtoList){
+        competitionStageAwardDtoList.forEach(competitionStageAwardDto->this.addCompStageAward(compId, stageId, competitionStageAwardDto));
         return competitionStageAwardDtoList.size();
     }
 

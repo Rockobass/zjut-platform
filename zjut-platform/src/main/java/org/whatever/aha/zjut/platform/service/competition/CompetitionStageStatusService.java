@@ -30,9 +30,10 @@ public class CompetitionStageStatusService {
      * 创建新的赛事小阶段信息
      */
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
-    public int addCompStageStatus(CompetitionStageStatusDto competitionStageStatusDto){
+    public int addCompStageStatus(int stageId, CompetitionStageStatusDto competitionStageStatusDto){
         CompetitionStageStatus competitionStageStatus = new CompetitionStageStatus();
         BeanUtils.copyProperties(competitionStageStatusDto,competitionStageStatus);
+        competitionStageStatus.setCompStageId(stageId);
         return competitionStageStatusMapper.insert(competitionStageStatus);
     }
 
@@ -40,8 +41,8 @@ public class CompetitionStageStatusService {
      * 根据List创建新的赛事小阶段信息
      */
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
-    public int addCompStageStatusByList(List<CompetitionStageStatusDto> CompetitionStageStatusDtoList){
-        CompetitionStageStatusDtoList.forEach(competitionStageStatusDto->this.addCompStageStatus(competitionStageStatusDto));
+    public int addCompStageStatusByList(int stageId, List<CompetitionStageStatusDto> CompetitionStageStatusDtoList){
+        CompetitionStageStatusDtoList.forEach(competitionStageStatusDto->this.addCompStageStatus(stageId, competitionStageStatusDto));
         return CompetitionStageStatusDtoList.size();
     }
 

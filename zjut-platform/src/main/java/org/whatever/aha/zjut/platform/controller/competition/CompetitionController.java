@@ -71,10 +71,10 @@ public class CompetitionController {
     @SaCheckRole(value = {AuthConst.R_supper, AuthConst.R_school}, mode = SaMode.OR)
     @ApiOperation("创建新的比赛详细信息")
     @PostMapping("/createCompetition")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "comId", value = "竞赛id", dataTypeClass = Integer.class),
-//            @ApiImplicitParam(name = "competitionDetailDto", value = "竞赛详细信息", dataTypeClass = CompetitionDetailDto.class)
-//    })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "comId", value = "竞赛id", dataTypeClass = Integer.class),
+            @ApiImplicitParam(name = "competitionDetailDto", value = "竞赛详细信息", dataTypeClass = CompetitionDetailDto.class)
+    })
     public AjaxResult<String> createCompetition(@ApiParam(value = "竞赛详细信息",required = true) @RequestBody @Validated CompetitionDetailDto competitionDetailDto){
         return AjaxResult.SUCCESS(competitionService.addCompDetail(competitionDetailDto));
     }

@@ -43,21 +43,18 @@ public class CompetitionService {
 
     @Transactional(rollbackFor = Exception.class, propagation= Propagation.REQUIRED)
     public String addCompDetail(CompetitionDetailDto competitionDetailDto){
-        // 首先加入竞赛基础信息
-        this.addCompInfo(competitionDetailDto.getCompetitionDto());
-        // 根据基础信息获取竞赛Id
-        int compId = this.getCompId(competitionDetailDto.getCompetitionDto().getCompType(),competitionDetailDto.getCompetitionDto().getCompTh());
 
+        // 首先加入竞赛基础信息并获取竞赛Id
+        int compId = this.addCompInfo(competitionDetailDto.getCompetitionDto());
+        //加入每个竞赛阶段信息
         competitionDetailDto.getCompetitionStageDetailDtoList().forEach(competitionStageDetailDto->{
-            competitionStageService.addCompStage(compId, competitionStageDetailDto.getCompetitionStageDto());
-        });
-//        competitionKeyPointService.addCompKeyPointByList(compId, competitionDetailDto.getCompetitionKeyPointDtoList());
-//        academyCompetitionService.addAcademyCompByList(compId, competitionDetailDto.getAcademyCompetitionDtoList());
-//        competitionStageStatusService.addCompStageStatusByList(competitionDetailDto.getCompetitionStageStatusDtoList());
-//        competitionStageAwardService.addCompStageAwardByList(compId, competitionDetailDto.getCompetitionStageAwardDtoList());
-//        competitionStageService.addCompStageByList(compId, competitionDetailDto.getCompetitionStageDtoList());
+            int stageId = competitionStageService.addCompStage(compId, competitionStageDetailDto.getCompetitionStageDto());
 
-//        competitionTrackService.addTrackByList(compId, competitionDetailDto.getCompetitionTrackDtoList());
+            competitionKeyPointService.addCompKeyPointByList(compId, stageId, competitionStageDetailDto.getCompetitionKeyPointDtoList());
+            academyCompetitionService.addAcademyCompByList(compId, stageId, competitionStageDetailDto.getAcademyCompetitionDtoList());
+            competitionStageStatusService.addCompStageStatusByList(stageId, competitionStageDetailDto.getCompetitionStageStatusDtoList());
+            competitionStageAwardService.addCompStageAwardByList(compId, stageId, competitionStageDetailDto.getCompetitionStageAwardDtoList());
+        });
         return "创建竞赛成功！";
     }
 
@@ -76,7 +73,8 @@ public class CompetitionService {
     public int addCompInfo(CompetitionDto competitionDto){
         Competition comp = new Competition();
         BeanUtils.copyProperties(competitionDto, comp);
-        return competitionMapper.insert(comp);
+        competitionMapper.insert(comp);
+        return comp.getCompId();
     }
 
     /**
