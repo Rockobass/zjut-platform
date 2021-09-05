@@ -40,7 +40,7 @@ public class StudentInfoService {
     @Transactional(rollbackFor = Exception.class)
     public Integer insertStudent(String password, String realName, Integer sex, Integer degree, String grade,
                               int academyId, int majorId, String phoneNumber, String studentNumber) {
-        if (existStuNumber(studentNumber)) {
+        if (existStuNumber(null, studentNumber)) {
             throw new AppException(ErrorCode.STUDENT_NUMBER_REGISTERED);
         }
         User user = User.builder().phoneNumber(phoneNumber)
@@ -69,10 +69,13 @@ public class StudentInfoService {
         return rawInfo;
     }
 
-    @Cacheable(value = "ExpireOneMin", key = "'stu_num_existed'+#studentNumber")
-    public boolean existStuNumber(String studentNumber) {
-        int count = studentInfoMapper.selectCount(new QueryWrapper<StudentInfo>().eq("student_number", studentNumber));
-        return count != 0;
+    @Cacheable(value = "ExpireOneMin", key = "'stu_num_existed_'+#studentNumber", condition = "#result==true")
+    public boolean existStuNumber(Integer userId, String studentNumber) {
+        int count = studentInfoMapper.selectCount(new QueryWrapper<StudentInfo>()
+                .ne(userId!=null, "user_id", userId)
+                .eq("student_number", studentNumber));
+        boolean result = count!=0;
+        return result;
     }
 
 

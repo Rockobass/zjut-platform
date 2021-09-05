@@ -51,4 +51,11 @@ public class StudentController {
         studentInfoService.updateInfo(userId, studentNumber, realName, sex, degree, grade, academyId, majorId, birthday, admissionTime, schoolName, className);
         return AjaxResult.SUCCESS();
     }
+
+    @ApiOperation(value = "检测学号是否存在", notes = "修改学号时调用")
+    @PostMapping("/existStuId")
+    public Object existStuId(@RequestParam String studentNumber) {
+        int userId = StpUtil.getLoginIdAsInt();
+        return AjaxResult.SUCCESS(studentInfoService.existStuNumber(userId, studentNumber));
+    }
 }
