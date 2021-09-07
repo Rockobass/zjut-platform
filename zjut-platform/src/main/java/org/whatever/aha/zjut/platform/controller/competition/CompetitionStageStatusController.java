@@ -43,7 +43,7 @@ public class CompetitionStageStatusController {
     })
     @PostMapping("/addCompStageStatus")
     public int addCompStageStatus(@RequestBody @Validated CompetitionStageStatusDto competitionStageStatusDto){
-        return competitionStageStatusService.addCompStageStatus(competitionStageStatusDto);
+        return competitionStageStatusService.addCompStageStatus(1, competitionStageStatusDto);
     }
 
     @ApiOperation("批量创建新的赛事阶段信息")

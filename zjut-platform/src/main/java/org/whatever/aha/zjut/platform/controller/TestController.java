@@ -11,11 +11,16 @@ import org.whatever.aha.zjut.base.config.ProfileConfig;
 import org.whatever.aha.zjut.base.constant.ErrorCode;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
 import org.whatever.aha.zjut.platform.mapper.UserMapper;
+import org.whatever.aha.zjut.platform.message.MessageService;
 import org.whatever.aha.zjut.platform.service.SMSService;
 import org.whatever.aha.zjut.platform.service.UserService;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 /**
@@ -31,6 +36,7 @@ public class TestController {
     final UserMapper userMapper;
     final SMSService smsService;
     final UserService userService;
+    final MessageService messageService;
 
     @PostMapping("/1")
     @ApiOperation(value = "登陆任意账号")
@@ -66,4 +72,20 @@ public class TestController {
         System.out.println(token);
         return AjaxResult.SUCCESS();
     }
+
+    @GetMapping("/5")
+    @ApiOperation("lua测试添加")
+    public Object ttt(){
+        SimpleDateFormat s=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String utc = s.format(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime());
+        messageService.createUserMessage(100, 101, utc, "测试标题", "测试内容", "杨归一");
+        return null;
+    }
+
+    @GetMapping("/6")
+    @ApiOperation("lua测试")
+    public Object ttt1(){
+        return messageService.getMsgContent(101, "30a17831-2b3");
+    }
+
 }

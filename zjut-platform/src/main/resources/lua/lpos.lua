@@ -1,0 +1,1 @@
+return redis.call("lpos", KEYS[1], ARGV[1])
