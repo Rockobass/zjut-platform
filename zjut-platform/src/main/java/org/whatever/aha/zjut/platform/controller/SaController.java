@@ -259,7 +259,7 @@ public class SaController {
     @PostMapping("/reset/password")
     public Object resetByPassword(@RequestParam String oldPassword, @RequestParam String newPassword) {
         User user = userService.getLoginUser();
-        if (passwordEncoder.matches(oldPassword, user.getPassword())) {
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
             throw new InvalidCredentialException();
         }
         userService.resetPassword(user, newPassword);
