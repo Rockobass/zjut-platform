@@ -47,6 +47,7 @@ public class AsyncMethod {
     @Async
     public void readMessage(int userId, String mid) {
         String key2 = redisConstant.getKeyUserMsgUnRead(userId);
+        // count等于1表示消息未读
         Long count = redisTemplate.opsForList().remove(key2, 1, mid);
         if (count <= 0) {
             return;
@@ -63,6 +64,19 @@ public class AsyncMethod {
 
         String key = cacheConstant.getKeyUserMsgQueue(userId);
         localCache.evict(key);
+
+        refreshMsgCountLocalCache(redisConstant.getKeyUserMsgUnReadCount(userId), -1L);
     }
 
+    /**
+     * 更新本地缓存中队列的长度
+     */
+    public void refreshMsgCountLocalCache(String key, Long num) {
+        Cache.ValueWrapper valueWrapper = localCache.get(key);
+        if (valueWrapper != null) {
+            Long count = (Long) valueWrapper.get();
+            count += num;
+            localCache.put(key, count);
+        }
+    }
 }

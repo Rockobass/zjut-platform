@@ -2,10 +2,14 @@ package org.whatever.aha.zjut.platform.message;
 
 import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.whatever.aha.zjut.base.constant.ErrorCode;
+import org.whatever.aha.zjut.base.constant.RedisCacheConstant;
 import org.whatever.aha.zjut.base.dto.AjaxResult;
+import org.whatever.aha.zjut.base.exception.AppException;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,6 +27,7 @@ import java.util.TimeZone;
 @RequiredArgsConstructor
 public class MessageController {
     final MessageService messageService;
+    final RedisCacheConstant redisConstant;
 
     @ApiOperation(value = "获取用户消息通知", notes = "一页10条")
     @GetMapping("/userReceive")
@@ -30,6 +35,8 @@ public class MessageController {
         int userId = StpUtil.getLoginIdAsInt();
         return AjaxResult.SUCCESS(messageService.getUserOutlineMessages(userId, page, 0));
     }
+
+
 
     @ApiOperation(value = "获取用户未读消息通知", notes = "一页10条")
     @GetMapping("/userUnread")
@@ -61,5 +68,20 @@ public class MessageController {
         int userId = StpUtil.getLoginIdAsInt();
         Object msgContent = messageService.getMsgContent(userId, mid);
         return AjaxResult.SUCCESS(Map.of("content", msgContent));
+    }
+
+    @ApiOperation(value = "查看消息条数")
+    @ApiImplicitParam(name = "type", value = "0,1 全部，未读")
+    @PostMapping("/count")
+    public Object getMessageCount(@RequestParam int type){
+        int userId = StpUtil.getLoginIdAsInt();
+
+        String key;
+        switch (type) {
+            case 0: key = redisConstant.getKeyUserMsgQueueCount(userId);break;
+            case 1: key = redisConstant.getKeyUserMsgUnReadCount(userId);break;
+            default: throw new AppException(ErrorCode.ILLEGAL_REQUEST);
+        }
+        return AjaxResult.SUCCESS(Map.of("count", messageService.getQueueSize(key)));
     }
 }

@@ -65,7 +65,9 @@ public class MessageUtil {
         return redisTemplate.opsForList().range(key, start, end).toArray();
     }
 
-    // 传入msgId数组，pipeline批量获取结果
+    /**
+     * 传入msgId数组，pipeline批量获取结果
+     **/
     public Object[] getMsgOutlineInRedis(Object[] msgIds) {
         return redisTemplate.executePipelined((RedisCallback<Object>) connection -> {
             connection.openPipeline();
@@ -86,6 +88,9 @@ public class MessageUtil {
         return result;
     }
 
+    /**
+     * 获取消息概况
+     */
     public List<Object> getMsgOutline(int userId, int page, int type) {
         int pageSize = 10;
         int start = (page - 1) * pageSize;
@@ -95,8 +100,11 @@ public class MessageUtil {
         return convertToOutline(userMsgIds, values);
     }
 
+    /**
+     * 创建一条点对点消息
+     */
     public void createMsg(List<String> keys, Object[] args) {
-        redisTemplate.getConnectionFactory().getConnection().evalSha(SHA_CREATE_MSG, ReturnType.fromJavaType(Object.class), 4, keysAndArgs(keys, args));
+        redisTemplate.getConnectionFactory().getConnection().evalSha(SHA_CREATE_MSG, ReturnType.fromJavaType(Object.class), 6, keysAndArgs(keys, args));
     }
 
     /**
@@ -129,6 +137,13 @@ public class MessageUtil {
             keysAndArgs[i++] = argsSerializer.serialize(arg);
         }
         return keysAndArgs;
+    }
+
+    /**
+     * 获取队列长度
+     */
+    public Long getQueueSize(String key) {
+        return redisTemplate.opsForList().size(key);
     }
 
 }

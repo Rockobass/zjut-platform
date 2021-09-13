@@ -44,13 +44,19 @@ public class MessageService {
         String key3 = redisConstant.getKeyUserMsgUnRead(receiverId);
         // 用户发送队列
         String key4 = redisConstant.getKeyUserMsgSent(senderId);
+        // 用户消息队列长度
+        String key5 = redisConstant.getKeyUserMsgQueueCount(receiverId);
+        // 用户未读队列长度
+        String key6 = redisConstant.getKeyUserMsgUnReadCount(receiverId);
 
-        List<String> keys = Arrays.asList(key1, key2, key3, key4);
+        List<String> keys = Arrays.asList(key1, key2, key3, key4, key5, key6);
         Object[] args = new Object[]{mid, senderId, receiverId, sendTime, title, content, senderName, ""};
         msgUtil.createMsg(keys, args);
 
         localCache.evict(cacheConstant.getKeyUserMsgQueue(receiverId));
         localCache.evict(cacheConstant.getKeyUserMsgSent(senderId));
+        asyncMethod.refreshMsgCountLocalCache(redisConstant.getKeyUserMsgQueueCount(receiverId), 1L);
+        asyncMethod.refreshMsgCountLocalCache(redisConstant.getKeyUserMsgUnReadCount(receiverId), 1L);
         asyncMethod.loadMsgQueuePage(receiverId, 1);
     }
 
@@ -98,4 +104,19 @@ public class MessageService {
         asyncMethod.readMessage(userId, messageId);
         return msgContent;
     }
+
+    /**
+     * 获取队列长度
+     */
+    public Long getQueueSize(String key){
+        Cache.ValueWrapper valueWrapper = localCache.get(key);
+        if (valueWrapper != null) {
+            return (Long) valueWrapper.get();
+        } else {
+            Long count = msgUtil.getQueueSize(key.substring(0, key.length()-3));
+            localCache.put(key, count);
+            return count;
+        }
+    }
+
 }

@@ -18,6 +18,10 @@ public class RedisCacheConstant {
     public static final String USER_UNREAD_MSG = "u:{%d}:m:ur";
     // 用户发送消息
     public static final String USER_SENT_MSG = "u:{%d}:m:out";
+    // 用户消息队列长度
+    public static final String USER_MSG_QUEUE_COUNT = "u:{%d}:m:in:ct";
+    // 用户未读队列长度
+    public static final String USER_UNREAD_MSG_COUNT = "u:{%d}:m:ur:ct";
 
     public static final List<Object> MESSAGE_OUTLINE_KEYS = Arrays.asList("sendTime", "title", "senderName");
 
@@ -40,4 +44,14 @@ public class RedisCacheConstant {
     public String getKeyUserMsgSent(int userId) {
         return String.format(USER_SENT_MSG, userId);
     }
+
+    public String getKeyUserMsgUnReadCount(int userId) {
+        return String.format(USER_UNREAD_MSG_COUNT, userId);
+    }
+
+    public String getKeyUserMsgQueueCount(int receiverId) {
+        return String.format(USER_MSG_QUEUE_COUNT, receiverId);
+    }
+
+
 }
